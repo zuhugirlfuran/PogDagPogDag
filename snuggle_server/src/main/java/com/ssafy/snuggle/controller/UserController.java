@@ -69,9 +69,9 @@ public class UserController {
 	@PostMapping("/login")
 	@Operation(summary = "로그인 처리 후 성공적으로 로그인 되었다면 loginId라는 쿠키를 내려보낸다.")
 	public User login(@RequestBody User user, HttpServletResponse response) throws UnsupportedEncodingException {
-		User selected = uService.login(user.getEmail(), user.getPassword());
+		User selected = uService.login(user.getUserId(), user.getPassword());
 		if (selected != null) {
-			Cookie cookie = new Cookie("loginId", URLEncoder.encode(selected.getEmail(), "utf-8"));
+			Cookie cookie = new Cookie("loginId", URLEncoder.encode(selected.getUserId(), "utf-8"));
 
 			cookie.setMaxAge(60 * 60 * 24 * 30); // 30일
 			response.addCookie(cookie);
@@ -117,7 +117,7 @@ public class UserController {
 		} else {
 			Map<String, Object> info = new HashMap<>();
 			info.put("userW", selected);
-			List<Order> orders = oService.getOrderByUser(selected.getEmail());
+			List<Order> orders = oService.getOrderByUser(selected.getUserId());
 			info.put("order", orders);
 			return info;
 		}

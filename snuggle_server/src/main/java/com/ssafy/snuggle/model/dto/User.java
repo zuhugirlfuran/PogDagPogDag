@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-	private String userId; // 사용자 ID (Primary Key)
-	private String email; // 이메일
+	private String userId; // 사용자 이메일 ID (Primary Key)
 	private String password; // 비밀번호
 	private String nickname; // 닉네임
 	private int age; // 나이
@@ -21,10 +20,9 @@ public class User {
 	}
 
 	// 매개변수 생성자
-	public User(String userId, String email, String password, String nickname, int age, String gender, String path,
+	public User(String userId, String password, String nickname, int age, String gender, String path,
 			String token, String img, Integer stamps, List<Stamp> stampList) {
 		this.userId = userId;
-		this.email = email;
 		this.password = password;
 		this.nickname = nickname;
 		this.age = age;
@@ -44,14 +42,6 @@ public class User {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getPassword() {
@@ -128,7 +118,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User {" + "userId=" + userId + ", email='" + email + '\'' + ", password='" + password + '\''
+		return "User {" + "userId=" + userId + ", password='" + password + '\''
 				+ ", nickname='" + nickname + '\'' + ", age=" + age + ", gender='" + gender + '\'' + ", path='" + path
 				+ '\'' + ", token='" + token + '\'' + ", img='" + img + '\'' + ", stamps=" + stamps + ", stampList="
 				+ stampList + '}';

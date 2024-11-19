@@ -7,8 +7,7 @@
 	<!-- INSERT -->
 	<insert id="insert" parameterType="User">
 		INSERT INTO t_user (
-		    user_id, 
-		    email, 
+		    user_id,
 		    password, 
 		    nickname, 
 		    age, 
@@ -19,8 +18,7 @@
 		    stamps
 		)
 		VALUES (
-		    #{userId}, 
-		    #{email}, 
+		    #{userId},
 		    #{password}, 
 		    #{nickname}, 
 		    #{age}, 
@@ -44,7 +42,6 @@
 	<select id="selectById" parameterType="string" resultType="User">
 		SELECT 
 		    user_id AS userId, 
-		    email, 
 		    password, 
 		    nickname, 
 		    age, 
