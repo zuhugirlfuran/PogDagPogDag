@@ -4,7 +4,7 @@ import java.util.List;
 
 public class OrderInfo {
     private int orderId;         // 주문 ID (Primary Key)
-    private int userId;          // 사용자 ID (Foreign Key)
+    private String userId;          // 사용자 ID (Foreign Key)
     private double totalPrice;   // 총 가격
     private String name;         // 주문자 이름
     private String address;      // 배송 주소
@@ -16,7 +16,7 @@ public class OrderInfo {
     public OrderInfo() {}
 
     // 매개변수 생성자
-    public OrderInfo(int orderId, int userId, double totalPrice, String name, String address, String phone, String userName, List<OrderDetail> orderDetails) {
+    public OrderInfo(int orderId, String userId, double totalPrice, String name, String address, String phone, String userName, List<OrderDetail> orderDetails) {
         this.orderId = orderId;
         this.userId = userId;
         this.totalPrice = totalPrice;
@@ -37,11 +37,11 @@ public class OrderInfo {
         this.orderId = orderId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

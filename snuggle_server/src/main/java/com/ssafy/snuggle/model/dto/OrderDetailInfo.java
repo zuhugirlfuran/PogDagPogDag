@@ -4,7 +4,7 @@ public class OrderDetailInfo {
 	
     private int dId;             // 주문 상세 ID (Primary Key)
     private int orderId;         // 주문 ID (Foreign Key)
-    private int userId;          // 사용자 ID (Foreign Key)
+    private String userId;          // 사용자 ID (Foreign Key)
     private String userName;     // 사용자 이름 (추가 정보)
     private String orderTime;    // 주문 시간 (TIMESTAMP)
     private String completed;    // 완료 여부 ('Y' or 'N')
@@ -16,7 +16,7 @@ public class OrderDetailInfo {
     public OrderDetailInfo() {}
 
     // 매개변수 생성자
-    public OrderDetailInfo(int dId, int orderId, int userId, String userName, String orderTime, String completed, String productName, int quantity, double productPrice) {
+    public OrderDetailInfo(int dId, int orderId, String userId, String userName, String orderTime, String completed, String productName, int quantity, double productPrice) {
         this.dId = dId;
         this.orderId = orderId;
         this.userId = userId;
@@ -46,11 +46,11 @@ public class OrderDetailInfo {
         this.orderId = orderId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-	private int userId; // 사용자 ID (Primary Key)
+	private String userId; // 사용자 ID (Primary Key)
 	private String email; // 이메일
 	private String password; // 비밀번호
 	private String nickname; // 닉네임
@@ -21,7 +21,7 @@ public class User {
 	}
 
 	// 매개변수 생성자
-	public User(int userId, String email, String password, String nickname, int age, String gender, String path,
+	public User(String userId, String email, String password, String nickname, int age, String gender, String path,
 			String token, String img, Integer stamps, List<Stamp> stampList) {
 		this.userId = userId;
 		this.email = email;
@@ -38,11 +38,11 @@ public class User {
 
 	// Getter and Setter methods
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

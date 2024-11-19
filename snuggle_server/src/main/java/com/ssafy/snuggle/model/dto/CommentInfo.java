@@ -5,7 +5,7 @@ public class CommentInfo {
 	
     private int commentId;      // 댓글 ID (Primary Key)
     private int productId;      // 상품 ID (Foreign Key)
-    private int userId;         // 사용자 ID (Foreign Key)
+    private String userId;         // 사용자 ID (Foreign Key)
     private String comment;     // 댓글 내용
     private double rating;      // 상품에 대한 평점
     private String userName;    // 댓글 작성자의 이름
@@ -14,7 +14,7 @@ public class CommentInfo {
     public CommentInfo() {}
 
     // 매개변수 생성자 (모든 필드 초기화)
-    public CommentInfo(int commentId, int productId, int userId, String comment, double rating, String userName) {
+    public CommentInfo(int commentId, int productId, String userId, String comment, double rating, String userName) {
         this.commentId = commentId;
         this.productId = productId;
         this.userId = userId;
@@ -39,11 +39,11 @@ public class CommentInfo {
         this.productId = productId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

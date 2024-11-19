@@ -2,7 +2,7 @@ package com.ssafy.snuggle.model.dto;
 
 public class Stamp {
     private int sId;            // 스탬프 ID (Primary Key)
-    private int userId;         // 사용자 ID (Foreign Key)
+    private String userId;         // 사용자 ID (Foreign Key)
     private int orderId;        // 주문 ID (Foreign Key)
     private int quantity;       // 스탬프 개수
 
@@ -10,7 +10,7 @@ public class Stamp {
     public Stamp() {}
 
     // 매개변수 생성자
-    public Stamp(int sId, int userId, int orderId, int quantity) {
+    public Stamp(int sId, String userId, int orderId, int quantity) {
         this.sId = sId;
         this.userId = userId;
         this.orderId = orderId;
@@ -27,11 +27,11 @@ public class Stamp {
         this.sId = sId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

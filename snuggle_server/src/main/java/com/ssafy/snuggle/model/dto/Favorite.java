@@ -2,7 +2,7 @@ package com.ssafy.snuggle.model.dto;
 
 public class Favorite {
 	 private int bookmarkId;     // 즐겨찾기 ID (Primary Key)
-	    private int userId;         // 사용자 ID (Foreign Key)
+	    private String userId;         // 사용자 ID (Foreign Key)
 	    private int taggingId;      // 태깅 ID (Foreign Key)
 	    private String isValid;     // 유효 여부 ('Y' or 'N')
 
@@ -10,7 +10,7 @@ public class Favorite {
 	    public Favorite() {}
 
 	    // 매개변수 생성자
-	    public Favorite(int bookmarkId, int userId, int taggingId, String isValid) {
+	    public Favorite(int bookmarkId, String userId, int taggingId, String isValid) {
 	        this.bookmarkId = bookmarkId;
 	        this.userId = userId;
 	        this.taggingId = taggingId;
@@ -27,11 +27,11 @@ public class Favorite {
 	        this.bookmarkId = bookmarkId;
 	    }
 
-	    public int getUserId() {
+	    public String getUserId() {
 	        return userId;
 	    }
 
-	    public void setUserId(int userId) {
+	    public void setUserId(String userId) {
 	        this.userId = userId;
 	    }
 

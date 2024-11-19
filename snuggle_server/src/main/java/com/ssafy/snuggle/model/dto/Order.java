@@ -2,7 +2,7 @@ package com.ssafy.snuggle.model.dto;
 
 public class Order {
 	  private int orderId;        // 주문 ID (Primary Key)
-	    private int userId;         // 사용자 ID (Foreign Key)
+	    private String userId;         // 사용자 ID (Foreign Key)
 	    private double totalPrice;  // 총 가격
 	    private String name;        // 주문자 이름
 	    private String address;     // 배송 주소
@@ -12,7 +12,7 @@ public class Order {
 	    public Order() {}
 
 	    // 매개변수 생성자
-	    public Order(int orderId, int userId, double totalPrice, String name, String address, String phone) {
+	    public Order(int orderId, String userId, double totalPrice, String name, String address, String phone) {
 	        this.orderId = orderId;
 	        this.userId = userId;
 	        this.totalPrice = totalPrice;
@@ -31,11 +31,11 @@ public class Order {
 	        this.orderId = orderId;
 	    }
 
-	    public int getUserId() {
+	    public String getUserId() {
 	        return userId;
 	    }
 
-	    public void setUserId(int userId) {
+	    public void setUserId(String userId) {
 	        this.userId = userId;
 	    }
 

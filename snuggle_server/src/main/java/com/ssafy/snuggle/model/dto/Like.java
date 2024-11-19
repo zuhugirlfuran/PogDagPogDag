@@ -2,7 +2,7 @@ package com.ssafy.snuggle.model.dto;
 
 public class Like {
     private int likeId;         // 좋아요 ID (Primary Key)
-    private int userId;         // 사용자 ID (Foreign Key)
+    private String userId;         // 사용자 ID (Foreign Key)
     private int productId;      // 상품 ID (Foreign Key)
     private String likeTime;    // 좋아요 시간 (TIMESTAMP)
 
@@ -10,7 +10,7 @@ public class Like {
     public Like() {}
 
     // 매개변수 생성자
-    public Like(int likeId, int userId, int productId, String likeTime) {
+    public Like(int likeId, String userId, int productId, String likeTime) {
         this.likeId = likeId;
         this.userId = userId;
         this.productId = productId;
@@ -27,11 +27,11 @@ public class Like {
         this.likeId = likeId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
