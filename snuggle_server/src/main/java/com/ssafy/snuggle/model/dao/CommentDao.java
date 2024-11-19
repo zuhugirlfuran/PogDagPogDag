@@ -3,7 +3,7 @@ package com.ssafy.snuggle.model.dao;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.snuggle.model.dto.Comment;
-
+import com.ssafy.snuggle.model.dto.CommentInfo;
 
 public interface CommentDao {
 	
@@ -42,6 +42,6 @@ public interface CommentDao {
      * @param productId
      * @return
      */
-	List<CommentWithInfo> selectByProduct(Integer productId);
+	List<CommentInfo> selectByProduct(Integer productId);
 	
 }

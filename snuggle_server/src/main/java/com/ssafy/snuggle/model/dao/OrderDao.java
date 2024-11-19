@@ -3,7 +3,7 @@ package com.ssafy.snuggle.model.dao;
 import java.util.List;
 
 import com.ssafy.snuggle.model.dto.Order;
-import com.ssafy.snuggle.model.dto.OrderWithInfo;
+import com.ssafy.snuggle.model.dto.OrderInfo;
 
 public interface OrderDao {
 	/**
@@ -43,7 +43,7 @@ public interface OrderDao {
      * @param id
      * @return
      */
-    OrderWithInfo selectOrderWithInfo(int id); 
+    OrderInfo selectOrderWithInfo(int id); 
     
     /**
      * 사용자가 주문한 최근 1개월의 주문 주문번호 내림차순으로 조회된다. 
@@ -53,7 +53,7 @@ public interface OrderDao {
      * @param id
      * @return
      */
-    List<OrderWithInfo> getLastMonthOrder(String id);    
+    List<OrderInfo> getLastMonthOrder(String id);    
     
     /**
      * 사용자가 주문한 최근 6개월의 주문 주문번호 내림차순으로 조회된다. 
@@ -63,5 +63,5 @@ public interface OrderDao {
      * @param id
      * @return
      */
-    List<OrderWithInfo> getLast6MonthOrder(String id);   
+    List<OrderInfo> getLast6MonthOrder(String id);   
 }

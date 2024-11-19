@@ -3,7 +3,7 @@ package com.ssafy.snuggle.model.dao;
 import java.util.List;
 
 import com.ssafy.snuggle.model.dto.OrderDetail;
-import com.ssafy.snuggle.model.dto.OrderDetailWithInfo;
+import com.ssafy.snuggle.model.dto.OrderDetailInfo;
 
 
 
@@ -16,5 +16,5 @@ public interface OrderDetailDao {
      */
     int insert(OrderDetail detail);
     
-    OrderDetailWithInfo select(Integer id);
+    OrderDetailInfo select(Integer id);
 }
