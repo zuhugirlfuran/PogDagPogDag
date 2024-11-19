@@ -1,5 +1,20 @@
 package com.ssafy.snuggle.model.service;
 
-public class StampServiceImpl {
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.ssafy.snuggle.model.dao.StampDao;
+import com.ssafy.snuggle.model.dto.Stamp;
+
+public class StampServiceImpl implements StampService{
+
+	@Autowired
+    StampDao sDao;
+	
+	@Override
+	public List<Stamp> selectByUser(String id) {
+		return null;
+	}
 
 }
