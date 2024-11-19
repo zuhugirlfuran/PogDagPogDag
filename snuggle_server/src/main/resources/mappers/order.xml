@@ -38,13 +38,32 @@
 	<select id="selectOrderInfo" parameterType="int" resultMap="OrderResult">
 		SELECT *
 		FROM t_order
-		WHERE order_id = 
+		WHERE order_id = #{orderId}
 	</select>
 	
 	 <resultMap id="OrderResult" type="OrderInfo">
         <collection property="details" javaType="ArrayList" column="order_id" ofType="OrderDetailInfo" 
          select="getOrderDetailInfo"/>
     </resultMap>
+    
+    <select id="getOrderDetailInfo" parameterType="int" resultType="OrderDetailInfo">
+       select 
+            d.d_id as id
+            , o.o_id as order_id
+            , p.id as product_id
+            , d.quantity
+            , p.name
+            , p.price as unit_price
+            , d.quantity*p.price as sum_price
+            , p.type
+            , p.img
+        from t_order o 
+        join t_order_detail d on o.o_id = d.order_id
+        join t_product p on d.product_id = p.id
+        where o_id = #{order_id}
+        order by d.d_id asc;
+    </select>
+    
 	
 	
 </mapper>

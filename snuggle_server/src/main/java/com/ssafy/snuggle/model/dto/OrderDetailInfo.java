@@ -1,119 +1,133 @@
 package com.ssafy.snuggle.model.dto;
 
 public class OrderDetailInfo {
-	
-    private int dId;             // 주문 상세 ID (Primary Key)
-    private int orderId;         // 주문 ID (Foreign Key)
-    private String userId;          // 사용자 ID (Foreign Key)
-    private String userName;     // 사용자 이름 (추가 정보)
-    private String orderTime;    // 주문 시간 (TIMESTAMP)
-    private String completed;    // 완료 여부 ('Y' or 'N')
-    private String productName;  // 상품 이름 (추가 정보)
-    private int quantity;        // 주문 수량 (추가 정보)
-    private double productPrice; // 상품 가격 (추가 정보)
 
-    // 기본 생성자
-    public OrderDetailInfo() {}
+	private int dId; // 주문 상세 ID (Primary Key)
+	private int orderId; // 주문 ID (Foreign Key)
+	private int productId; // 상품 ID
+	private int quantity;
+	private String orderTime; // 주문 시간 (TIMESTAMP)
+	private String completed; // 완료 여부 ('Y' or 'N')
 
-    // 매개변수 생성자
-    public OrderDetailInfo(int dId, int orderId, String userId, String userName, String orderTime, String completed, String productName, int quantity, double productPrice) {
-        this.dId = dId;
-        this.orderId = orderId;
-        this.userId = userId;
-        this.userName = userName;
-        this.orderTime = orderTime;
-        this.completed = completed;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.productPrice = productPrice;
-    }
+	private String img; // 상품 이미지
+	private int cId; // 카테고리 ID (Foreign Key)
+	private int likeCount; // 좋아요 수
+	private String productName; // 상품 이름
+	private double productPrice; // 상품 가격
 
-    // Getter and Setter methods
+	// 기본 생성자
+	public OrderDetailInfo() {
+	}
 
-    public int getDId() {
-        return dId;
-    }
+	public OrderDetailInfo(int dId, int orderId, int productId, int quantity, String orderTime, String completed,
+			String img, int cId, int likeCount, String productName, double productPrice) {
+		super();
+		this.dId = dId;
+		this.orderId = orderId;
+		this.productId = productId;
+		this.quantity = quantity;
+		this.orderTime = orderTime;
+		this.completed = completed;
+		this.img = img;
+		this.cId = cId;
+		this.likeCount = likeCount;
+		this.productName = productName;
+		this.productPrice = productPrice;
+	}
 
-    public void setDId(int dId) {
-        this.dId = dId;
-    }
+	public int getdId() {
+		return dId;
+	}
 
-    public int getOrderId() {
-        return orderId;
-    }
+	public void setdId(int dId) {
+		this.dId = dId;
+	}
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
+	public int getOrderId() {
+		return orderId;
+	}
 
-    public String getUserId() {
-        return userId;
-    }
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+	public int getProductId() {
+		return productId;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public String getOrderTime() {
-        return orderTime;
-    }
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
-    }
+	public String getOrderTime() {
+		return orderTime;
+	}
 
-    public String getCompleted() {
-        return completed;
-    }
+	public void setOrderTime(String orderTime) {
+		this.orderTime = orderTime;
+	}
 
-    public void setCompleted(String completed) {
-        this.completed = completed;
-    }
+	public String getCompleted() {
+		return completed;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public void setCompleted(String completed) {
+		this.completed = completed;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public String getImg() {
+		return img;
+	}
 
-    public int getQuantity() {
-        return quantity;
-    }
+	public void setImg(String img) {
+		this.img = img;
+	}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+	public int getcId() {
+		return cId;
+	}
 
-    public double getProductPrice() {
-        return productPrice;
-    }
+	public void setcId(int cId) {
+		this.cId = cId;
+	}
 
-    public void setProductPrice(double productPrice) {
-        this.productPrice = productPrice;
-    }
+	public int getLikeCount() {
+		return likeCount;
+	}
 
-    @Override
-    public String toString() {
-        return "OrderDetailInfo {" +
-                "dId=" + dId +
-                ", orderId=" + orderId +
-                ", userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", orderTime='" + orderTime + '\'' +
-                ", completed='" + completed + '\'' +
-                ", productName='" + productName + '\'' +
-                ", quantity=" + quantity +
-                ", productPrice=" + productPrice +
-                '}';
-    }
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public double getProductPrice() {
+		return productPrice;
+	}
+
+	public void setProductPrice(double productPrice) {
+		this.productPrice = productPrice;
+	}
+
+	@Override
+	public String toString() {
+		return "OrderDetailInfo [dId=" + dId + ", orderId=" + orderId + ", productId=" + productId + ", quantity="
+				+ quantity + ", orderTime=" + orderTime + ", completed=" + completed + ", img=" + img + ", cId=" + cId
+				+ ", likeCount=" + likeCount + ", productName=" + productName + ", productPrice=" + productPrice + "]";
+	}
+
 }
