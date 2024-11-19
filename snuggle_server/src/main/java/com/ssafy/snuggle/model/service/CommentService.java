@@ -17,13 +17,13 @@ public interface CommentService {
      * @param commentId
      * @return
      */
-    Comment selectComment(Integer commentId);
+    Comment selectComment(int commentId);
     
     /**
      * commentId에 해당하는 Comment를 삭제한다.
      * @param commentId
      */
-    int removeComment(Integer commentId);
+    int removeComment(int commentId);
     
    /**
     * Comment를 수정한다. 수정 내용은 rating과 comment이다.
@@ -36,5 +36,5 @@ public interface CommentService {
      * @param productId
      * @return
      */
-    List<CommentInfo> selectByProduct(Integer productId);
+    List<CommentInfo> selectByProduct(int productId);
 }

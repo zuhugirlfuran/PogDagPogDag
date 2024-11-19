@@ -21,12 +21,12 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment selectComment(Integer commentId) {
+	public Comment selectComment(int commentId) {
 		return commentDao.select(commentId);
 	}
 
 	@Override
-	public int removeComment(Integer commentId) {
+	public int removeComment(int commentId) {
 		return commentDao.delete(commentId);
 	}
 
@@ -36,7 +36,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<CommentInfo> selectByProduct(Integer productId) {
+	public List<CommentInfo> selectByProduct(int productId) {
 		return commentDao.selectByProduct(productId);
 	}
 
