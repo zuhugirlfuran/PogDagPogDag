@@ -1,1 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.snuggle.model.dao.ProductDao">
+
+
+	<!-- 모든 상품 조회 -->
+	<select id="selectAll" resultType="Product">
+		select * from t_product order by id asc
+	</select>
+
+	<!-- ID에 해당하는 상품의 comment 갯수, 평점평균, 전체 판매량 정보를 함께 반환 -->
+	<select id="selectWithInfo" parameterType="int"
+		resultMap="productResult">
+		select * from t_product
+		where product_id = #{productId};
+	</select>
+
+	<!-- Category 에 해당하는 상품들만 출력 -->
+	<select id="selectWithInfo" parameterType="int"
+		resultMap="productResult">
+		select * from t_product
+		where c_id = #{cId};
+	</select>
+
+	<resultMap id="productResult" type="ProductWithComment">
+		<collection property="comments" javaType="ArrayList"
+			column="id_key" ofType="comment" select="selectByProduct" />
+	</resultMap>
+	
+	<!-- 상품에 댓글들 출력 -->
+	<select id="selectByProduct" parameterType="int"
+		resultType="CommentInfo">
+		select * from t_comment where product_id = #{productId}
+	</select>
+
+</mapper>

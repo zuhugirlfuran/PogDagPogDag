@@ -40,9 +40,9 @@
 		SELECT c.comment_id, c.user_id, c.product_id, c.comment,
 		u.name AS
 		userName
-		FROM t_comment c JOIN t_user u ON c.user_id = u.id
+		FROM t_comment c JOIN t_user u ON c.user_id = u.user_id
 		WHERE c.product_id = #{productId}
-		ORDER BY c.id DESC
+		ORDER BY c.comment_id DESC
 	</select>
 
 

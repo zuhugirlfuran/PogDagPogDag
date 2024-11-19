@@ -1,1 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.snuggle.model.dao.OrderDetailDao">
+
+	<resultMap id="OrderResult" type="OrderDetailInfo">
+        <collection property="details" javaType="ArrayList" column="id" ofType="OrderDetailInfo" 
+         select="select"/>
+    </resultMap>
+    
+    <insert id="insert">
+		INSERT INTO t_order_detail (order_id, user_id, order_time, completed)
+		VALUES (#{orderId}, #{userId}, #{orderTime}, #{completed})
+	</insert>
+
+	<select id="select" parameterType="int" resultType="OrderDetailInfo">
+		select d.d_id, d.order_id as id, d.user_id, d.order_time, d.completed, p.product_id, p.product_name, p.price, p.img, p.like_count
+		from t_order_detail d join t_product p
+		on d.product_id = p.product_id
+		where d.order_id = #{dId}
+	</select>
+	
+</mapper>
