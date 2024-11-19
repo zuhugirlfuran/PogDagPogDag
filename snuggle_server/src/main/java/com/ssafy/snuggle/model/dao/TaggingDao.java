@@ -12,6 +12,4 @@ public interface TaggingDao {
      */
     Tagging selectByTaggingId(String taggingId);
     
-   
-    
 }

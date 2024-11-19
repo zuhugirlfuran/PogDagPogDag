@@ -3,6 +3,7 @@ package com.ssafy.snuggle.model.dao;
 import java.util.List;
 
 import com.ssafy.snuggle.model.dto.Order;
+import com.ssafy.snuggle.model.dto.OrderDetailInfo;
 import com.ssafy.snuggle.model.dto.OrderInfo;
 
 public interface OrderDao {
@@ -36,32 +37,25 @@ public interface OrderDao {
     
 
     /**
-     * 사용자가 주문한 최근 1개월의 주문 주문번호 내림차순으로 조회된다. 
-     * 주문번호의 상세내용은 detail id의 오름차순으로 조회된다. 
-     * 관통 6단계에서 사용된다. 
+     * orderId에 대한 Order와 OrderDetail에 대한 내용까지 반환한다.
+     * 그리고, 추가적으로 토탈금액, 상품명 등의 추가적인 정보가 담긴 
+     * OrderInfo객체를 리턴한다. 
+     * OrderDetail의 내용은 detail id의 오름차순으로 조회한다.
      * 
      * @param id
      * @return
      */
-    OrderInfo selectOrderWithInfo(int id); 
+    OrderInfo selectOrderInfo(int orderId); 
     
     /**
-     * 사용자가 주문한 최근 1개월의 주문 주문번호 내림차순으로 조회된다. 
-     * 주문번호의 상세내용은 detail id의 오름차순으로 조회된다. 
-     * 관통 6단계에서 사용된다. 
+     * orderId에 해당하는 주문 상세 정보를 조회한다. 
+     * 주문상세는 detail id의 오름차순으로 정렬한다. 
      * 
-     * @param id
+     * @param orderId
      * @return
      */
-    List<OrderInfo> getLastMonthOrder(String id);    
+    List<OrderDetailInfo> getOrderDetailInfo(int orderId);
     
-    /**
-     * 사용자가 주문한 최근 6개월의 주문 주문번호 내림차순으로 조회된다. 
-     * 주문번호의 상세내용은 detail id의 오름차순으로 조회된다. 
-     * 관통 6단계에서 사용된다. 
-     * 
-     * @param id
-     * @return
-     */
-    List<OrderInfo> getLast6MonthOrder(String id);   
+    
+    
 }
