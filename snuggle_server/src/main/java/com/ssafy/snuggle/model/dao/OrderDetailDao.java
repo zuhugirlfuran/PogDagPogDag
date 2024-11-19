@@ -16,5 +16,5 @@ public interface OrderDetailDao {
      */
     int insert(OrderDetail detail);
     
-    OrderDetailInfo select(Integer id);
+    OrderDetailInfo select(Integer dId);
 }

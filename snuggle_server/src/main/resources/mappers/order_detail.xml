@@ -4,7 +4,7 @@
 <mapper namespace="com.ssafy.snuggle.model.dao.OrderDetailDao">
 
 	<resultMap id="OrderResult" type="OrderDetailInfo">
-        <collection property="details" javaType="ArrayList" column="id" ofType="OrderDetailInfo" 
+        <collection property="details" javaType="ArrayList" column="order_id" ofType="OrderDetailInfo" 
          select="select"/>
     </resultMap>
     
@@ -14,10 +14,20 @@
 	</insert>
 
 	<select id="select" parameterType="int" resultType="OrderDetailInfo">
-		select d.d_id, d.order_id as id, d.user_id, d.order_time, d.completed, p.product_id, p.product_name, p.price, p.img, p.like_count
-		from t_order_detail d join t_product p
-		on d.product_id = p.product_id
-		where d.order_id = #{dId}
-	</select>
+        SELECT 
+            d.d_id AS dId, 
+            d.order_id AS orderId, 
+            d.user_id AS userId, 
+            d.order_time AS orderTime, 
+            d.completed AS completed, 
+            p.product_id AS productId, 
+            p.product_name AS productName, 
+            p.price, 
+            p.img, 
+            p.like_count AS likeCount
+        FROM t_order_detail d
+        JOIN t_product p ON d.product_id = p.product_id
+        WHERE d.order_id = #{order_id}
+    </select>
 	
 </mapper>
