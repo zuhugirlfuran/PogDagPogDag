@@ -25,7 +25,7 @@ public interface OrderService {
      * @param orderId
      * @return
      */
-    public Order getOrderWithDetails(Integer orderId);
+    public Order getOrderWithDetails(int orderId);
     
     /**
      * id에 해당하는 사용자의 Order 목록을 주문 번호의 내림차순으로 반환한다.
@@ -34,17 +34,6 @@ public interface OrderService {
      * @return
      */
     public List<Order> getOrderByUser(int orderId);
-    
-    /**
-     * orderId에 대한 Order와 OrderDetail에 대한 내용까지 반환한다.
-     * 그리고, 추가적으로 토탈금액, 상품명 등의 추가적인 정보가 담긴 
-     * OrderWithInfo객체를 리턴한다. 
-     * OrderDetail의 내용은 detail id의 오름차순으로 조회한다.
-     * 
-     * @param id
-     * @return
-     */
-    OrderInfo selectOrderWithInfo(int orderId); 
     
     /**
      * 주문 정보를 수정한다. - 주문의 상태만 변경된다.
@@ -60,6 +49,6 @@ public interface OrderService {
      * @param orderId
      * @return
      */
-    public OrderInfo getOrderWithInfo(Integer orderId);
+    public OrderInfo getOrderWithInfo(int orderId);
     
 }
