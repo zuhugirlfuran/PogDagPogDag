@@ -33,7 +33,7 @@ public interface OrderService {
      * @param id
      * @return
      */
-    public List<Order> getOrderByUser(int orderId);
+    public List<Order> getOrderByUser(String userId);
     
     /**
      * 주문 정보를 수정한다. - 주문의 상태만 변경된다.
