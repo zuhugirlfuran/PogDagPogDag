@@ -14,11 +14,11 @@ public interface UserService {
 	/**
 	 * id, pass에 해당하는 User 정보를 반환한다.
 	 * 
-	 * @param user_id
+	 * @param userId
 	 * @param password
 	 * @return 조회된 User 정보를 반환한다.
 	 */
-	public User login(String user_id, String password);
+	public User login(String userId, String password);
 
 	/**
 	 * 해당 아이디가 이미 사용 중인지를 반환한다.
@@ -26,7 +26,7 @@ public interface UserService {
 	 * @param user_id
 	 * @return
 	 */
-	public boolean isUsedId(String user_id);
+	public boolean isUsedId(String userId);
 
 	/**
 	 * id 에 해당하는 User 정보를 반환한다.
@@ -34,6 +34,6 @@ public interface UserService {
 	 * @param user_id
 	 * @return 조회된 User 정보를 반환한다.
 	 */
-	public User selectUser(String user_id);
+	public User selectUser(String userId);
 
 }

@@ -16,6 +16,13 @@ public class Stamp {
         this.orderId = orderId;
         this.quantity = quantity;
     }
+    
+ // 매개변수 생성자
+    public Stamp(String userId, int orderId, int quantity) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.quantity = quantity;
+    }
 
     // Getter and Setter methods
 

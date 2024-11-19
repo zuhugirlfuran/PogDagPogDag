@@ -1,11 +1,15 @@
 package com.ssafy.snuggle.model.dto;
 
+import java.util.List;
+
 public class Order {
 
 	private int orderId; // 주문 ID (Primary Key)
 	private String userId; // 사용자 ID (Foreign Key)
 	private int addressId;
 	private double totalPrice; // 총 가격
+	
+	private List<OrderDetail> details ;
 
 	// 기본 생성자
 	public Order() {
@@ -43,6 +47,14 @@ public class Order {
 
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+	
+	public List<OrderDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<OrderDetail> details) {
+		this.details = details;
 	}
 
 	@Override

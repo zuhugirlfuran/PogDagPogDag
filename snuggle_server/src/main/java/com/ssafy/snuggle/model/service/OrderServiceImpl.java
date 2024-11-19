@@ -41,13 +41,13 @@ public class OrderServiceImpl implements OrderService {
 			// OrderDetail 추가
 			int quantity = 0;
 			for (OrderDetail detail : order.getDetails()) {
-				detail.setOrderId(order.getId());
+				detail.setOrderId(order.getOrderId());
 				dDao.insert(detail);
 				quantity += detail.getQuantity();
 			}
 
 			// stamp에 추가
-			sDao.insert(new Stamp(order.getUserId(), order.getId(), quantity));
+			sDao.insert(new Stamp(order.getUserId(), order.getOrderId(), quantity));
 
 			User user = uDao.selectById(order.getUserId());
 			user.setStamps(user.getStamps() + quantity);
@@ -59,13 +59,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order getOrderWithDetails(int orderId) {
+	public Order getOrderWithDetails(int order_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<Order> getOrderByUser(int orderId) {
+	public List<Order> getOrderByUser(int order_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderInfo getOrderWithInfo(int orderId) {
+	public OrderInfo getOrderWithInfo(int order_id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

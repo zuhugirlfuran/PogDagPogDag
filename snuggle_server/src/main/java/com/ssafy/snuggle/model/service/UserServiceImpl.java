@@ -16,8 +16,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User login(String user_id, String password) {
-		User user = userDao.selectById(user_id);
+	public User login(String userId, String password) {
+		User user = userDao.selectById(userId);
     	if (user.getPassword().equals(password)) {  // 비밀번호와 아이디가 일치할때
     		return user;
     	}
@@ -25,8 +25,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public boolean isUsedId(String user_id) {
-		User user = userDao.selectById(user_id);
+	public boolean isUsedId(String userId) {
+		User user = userDao.selectById(userId);
     	if (user != null) {
     		return true;
     	}
@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User selectUser(String user_id) {
-		return userDao.selectById(user_id);
+	public User selectUser(String userId) {
+		return userDao.selectById(userId);
 	}
 
 }

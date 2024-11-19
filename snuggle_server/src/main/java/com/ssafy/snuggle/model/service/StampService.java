@@ -10,5 +10,5 @@ public interface StampService {
      * @param id
      * @return
      */
-    List<Stamp> selectByUser(String id);
+    List<Stamp> selectByUser(String sId);
 }

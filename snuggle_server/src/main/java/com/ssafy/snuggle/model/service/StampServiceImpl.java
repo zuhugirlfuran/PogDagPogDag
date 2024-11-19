@@ -13,7 +13,7 @@ public class StampServiceImpl implements StampService{
     StampDao sDao;
 	
 	@Override
-	public List<Stamp> selectByUser(String id) {
+	public List<Stamp> selectByUser(String sId) {
 		return null;
 	}
 
