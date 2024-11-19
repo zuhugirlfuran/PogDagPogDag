@@ -16,15 +16,7 @@
 		select * from t_product
 		where product_id = #{productId};
 	</select>
-
-	<!-- Category 에 해당하는 상품들만 출력 -->
-	<select id="selectWithInfo" parameterType="int"
-		resultMap="productResult">
-		select p.product_id, p.product_name, p.price, p.img, p.like_count, c.category_name
-		from t_product p join t_category c on p.c_id = c.c_id
-		where p.c_id = #{cId};
-	</select>
-
+	
 	<resultMap id="productResult" type="ProductWithComment">
 		<collection property="comments" javaType="ArrayList"
 			column="id_key" ofType="comment" select="selectByProduct" />
@@ -35,5 +27,15 @@
 		resultType="CommentInfo">
 		select * from t_comment where product_id = #{productId}
 	</select>
+
+	<!-- Category 에 해당하는 상품들만 출력 
+	<select id="selectByCategory" parameterType="int"
+		resultMap="productResult">
+		select p.product_id, p.product_name, p.price, p.img, p.like_count, c.category_name
+		from t_product p join t_category c on p.c_id = c.c_id
+		where p.c_id = #{cId};
+	</select>
+
+	-->
 
 </mapper>

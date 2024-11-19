@@ -51,7 +51,7 @@
          select="getOrderDetailInfo"/>
     </resultMap>
     
-    <select id="getOrderDetailInfo" parameterType="int" resultType="com.ssafy.snuggle.model.dto.OrderDetailInfo">
+    <select id="getOrderDetailInfo" parameterType="int" resultType="OrderDetailInfo">
 	    SELECT 
 	        d.d_id AS dId,                  
 	        d.order_id AS orderId,         

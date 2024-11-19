@@ -11,7 +11,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.ssafy.cafe.model.dao")
+@MapperScan(basePackages = "com.ssafy.snuggle.model.dao")
 public class SnuggleServerApplication {
 
 

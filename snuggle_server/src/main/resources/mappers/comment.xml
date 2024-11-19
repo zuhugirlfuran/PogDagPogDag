@@ -36,7 +36,7 @@
 
 
 	<select id="selectByProduct" parameterType="int"
-		resultType="CommentWithInfo">
+		resultType="CommentInfo">
 		SELECT c.comment_id, c.user_id, c.product_id, c.comment,
 		u.name AS
 		userName
