@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrderByUser(int order_id) {
+	public List<Order> getOrderByUser(String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
