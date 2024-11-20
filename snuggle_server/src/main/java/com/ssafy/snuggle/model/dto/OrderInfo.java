@@ -10,13 +10,13 @@ public class OrderInfo {
     private String address;      // 배송 주소
     private String phone;        // 연락처
     private String userName;     // 사용자 이름 (추가 정보)
-    private List<OrderDetail> orderDetails; // 주문 상세 목록
+    private List<OrderDetail> details; // 주문 상세 목록
 
     // 기본 생성자
     public OrderInfo() {}
 
     // 매개변수 생성자
-    public OrderInfo(int orderId, String userId, double totalPrice, String name, String address, String phone, String userName, List<OrderDetail> orderDetails) {
+    public OrderInfo(int orderId, String userId, double totalPrice, String name, String address, String phone, String userName, List<OrderDetail> details) {
         this.orderId = orderId;
         this.userId = userId;
         this.totalPrice = totalPrice;
@@ -24,7 +24,7 @@ public class OrderInfo {
         this.address = address;
         this.phone = phone;
         this.userName = userName;
-        this.orderDetails = orderDetails;
+        this.details = details;
     }
 
     // Getter and Setter methods
@@ -85,15 +85,17 @@ public class OrderInfo {
         this.userName = userName;
     }
 
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
+   
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
+    public List<OrderDetail> getDetails() {
+		return details;
+	}
 
-    // toString() method for debugging
+	public void setDetails(List<OrderDetail> details) {
+		this.details = details;
+	}
+
+	// toString() method for debugging
     @Override
     public String toString() {
         return "OrderInfo {" +
@@ -104,7 +106,7 @@ public class OrderInfo {
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", userName='" + userName + '\'' +
-                ", orderDetails=" + orderDetails +
+                ", orderDetails=" + details +
                 '}';
     }
 }

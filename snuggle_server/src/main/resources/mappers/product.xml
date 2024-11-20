@@ -7,7 +7,8 @@
 
 	<!-- 모든 상품 조회 -->
 	<select id="selectAll" resultType="Product">
-		select * from t_product order by id asc
+		select * from t_product 
+		order by product_id
 	</select>
 
 	<!-- ID에 해당하는 상품의 comment 갯수, 평점평균, 전체 판매량 정보를 함께 반환 -->
@@ -19,7 +20,7 @@
 	
 	<resultMap id="productResult" type="ProductWithComment">
 		<collection property="comments" javaType="ArrayList"
-			column="id_key" ofType="comment" select="selectByProduct" />
+			column="product_id" ofType="CommentInfo" select="selectByProduct" />
 	</resultMap>
 	
 	<!-- 상품에 댓글들 출력 -->

@@ -37,10 +37,9 @@
 
 	<select id="selectByProduct" parameterType="int"
 		resultType="CommentInfo">
-		SELECT c.comment_id, c.user_id, c.product_id, c.comment,
-		u.name AS
-		userName
-		FROM t_comment c JOIN t_user u ON c.user_id = u.user_id
+		SELECT c.comment_id, c.user_id, c.product_id, c.comment
+		FROM t_comment c 
+		JOIN t_user u ON c.user_id = u.user_id
 		WHERE c.product_id = #{productId}
 		ORDER BY c.comment_id DESC
 	</select>

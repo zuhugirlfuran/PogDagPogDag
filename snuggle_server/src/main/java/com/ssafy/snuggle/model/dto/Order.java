@@ -9,7 +9,7 @@ public class Order {
 	private int addressId;
 	private double totalPrice; // 총 가격
 	
-	private List<OrderDetail> details ;
+	private List<OrderDetail> details;
 
 	// 기본 생성자
 	public Order() {

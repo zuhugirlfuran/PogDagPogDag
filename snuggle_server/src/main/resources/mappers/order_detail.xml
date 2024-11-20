@@ -5,11 +5,15 @@
 
 
 
-	<insert id="insert">
-		INSERT INTO t_order_detail (order_id, user_id,
-		order_time, completed)
-		VALUES (#{orderId}, #{userId}, #{orderTime},
-		#{completed})
+	<insert id="insert" parameterType="OrderDetail" useGeneratedKeys="true" keyProperty="dId">
+		INSERT INTO t_order_detail (
+			order_id,
+			product_id,
+			quantity,
+			order_time, 
+			completed
+		)
+		VALUES (#{orderId}, #{productId}, #{quantity}, #{orderTime}, #{completed})
 	</insert>
 
 	<resultMap id="OrderResult" type="OrderDetailInfo">
@@ -22,8 +26,9 @@
 		SELECT
 		d.d_id AS dId,
 		d.order_id AS orderId,
-		d.user_id AS userId,
+		d.product_id AS productId,
 		d.order_time AS orderTime,
+		d.quantity,
 		d.completed AS completed,
 		p.product_id AS productId,
 		p.product_name AS productName,
@@ -31,7 +36,8 @@
 		p.img,
 		p.like_count AS likeCount
 		FROM t_order_detail d
-		JOIN t_product p ON d.product_id = p.product_id
+		JOIN t_product p 
+		ON d.product_id = p.product_id
 		WHERE d.order_id = #{order_id}
 	</select>
 
