@@ -168,8 +168,8 @@ CREATE TABLE `t_tagging` (
 );
 
 
-INSERT INTO t_tagging (video_src, video_title, video_content) VALUES ('video src 01', 'video title 01', 'video content 01');
-INSERT INTO t_tagging (video_src, video_title, video_content) VALUES ('video src 02', 'video title 02', 'video content 02');
+INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content) VALUES ('taggin id 01', 'video src 01', 'video title 01', 'video content 01');
+INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content) VALUES ('taggin id 02', 'video src 02', 'video title 02', 'video content 02');
 
 
 -- 즐겨찾기 테이블
@@ -183,8 +183,8 @@ CREATE TABLE `t_favorite` (
 );
 
 
-INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 1, 'Y');
-INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 1, 'Y');
+INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 'taggin id 01', 'Y');
+INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 'taggin id 02', 'Y');
 
 
 -- 좋아요 테이블
