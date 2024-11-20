@@ -60,7 +60,7 @@ CREATE TABLE `t_address` (
     `user_id` VARCHAR(100) NOT NULL,
     `address` VARCHAR(255) NOT NULL,
     `phone` VARCHAR(15) NOT NULL,
-    `is_default` ENUM('Y', 'N') NOT NULL,
+    `is_default` ENUM('Y', 'N') DEFAULT 'Y',
     FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`)
 );
 
@@ -90,7 +90,7 @@ CREATE TABLE `t_order_detail` (
     `product_id` INT NOT NULL,
     `quantity` INT DEFAULT 1 NOT NULL,
     `order_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `completed` ENUM('Y', 'N') NOT NULL,
+    `completed` ENUM('Y', 'N') DEFAULT 'N',
     FOREIGN KEY (`order_id`) REFERENCES `t_order`(`order_id`),
     FOREIGN KEY (`product_id`) REFERENCES `t_product`(`product_id`)
 );
@@ -177,7 +177,7 @@ CREATE TABLE `t_favorite` (
     `bookmark_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` VARCHAR(100) NOT NULL,
     `tagging_id` VARCHAR(100) NOT NULL,
-    `is_valid` CHAR(1) CHECK (is_valid IN ('Y', 'N')) DEFAULT 'N',
+    `is_valid` ENUM('Y', 'N') DEFAULT 'N',
     FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`),
     FOREIGN KEY (`tagging_id`) REFERENCES `t_tagging`(`tagging_id`)
 );
