@@ -11,7 +11,7 @@ public interface FavoriteDao {
 	/**
      * favorite 테이블에 정보를 추가한다. 
      * 좋아요를 누르면 해당 userId와 tagging_id를 받아 t_favorite에 추가한다.
-     *   
+     * 그리고 해당 상품의 likeCount를 1 증가시킨다.
      * @param favorite
      * @return
      */
@@ -26,7 +26,8 @@ public interface FavoriteDao {
     boolean isFavorite(String userId, String taggingId);
 
     /**
-     * favorite 삭제
+     * favorite 삭제한다.
+     * 그리고 해당 상품의 likeCount를 1 감소시킨다.
      * @param userId, taggingId
      * @return
      */

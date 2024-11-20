@@ -18,7 +18,11 @@ CREATE TABLE `t_user` (
 
 
 INSERT INTO t_user (user_id, password, nickname, age, gender, path, token, img, stamps) VALUES ('id 01', 'pass 01', 'name 01', 25, 'F', 'SSAFY', 'token', 'img', 0);
+INSERT INTO t_user (user_id, password, nickname, age, gender, path, token, img, stamps) VALUES ('id 02', 'pass 02', 'name 02', 22, 'F', 'SSAFY', 'token2', 'img', 10);
 
+UPDATE t_user SET token = "token_modi" WHERE user_id="id 01";
+select * from t_user;
+-- select * from t_notification;
 
 -- 카테고리 테이블
 CREATE TABLE `t_category` (
@@ -36,13 +40,15 @@ INSERT INTO t_category (category_name) VALUES ('키링');
 INSERT INTO t_category (category_name) VALUES ('부자재');
 INSERT INTO t_category (category_name) VALUES ('DIY 키트');
 
+select * from t_category;
 
 -- 상품 테이블
 CREATE TABLE `t_product` (
     `product_id` INT AUTO_INCREMENT PRIMARY KEY,
     `c_id` INT NOT NULL,
     `product_name` VARCHAR(255) NOT NULL,
-    `price` DECIMAL(10, 2) NOT NULL,
+   `price` INT NOT NULL,
+   `content` VARCHAR(255),
     `img` VARCHAR(255),
     `like_count` INT DEFAULT 0 NOT NULL,
     FOREIGN KEY (`c_id`) REFERENCES `t_category`(`c_id`)
@@ -164,20 +170,21 @@ CREATE TABLE `t_tagging` (
     `tagging_id` VARCHAR(100) PRIMARY KEY,
     `video_src` VARCHAR(255) NOT NULL,
     `video_title` VARCHAR(255) NOT NULL,
-    `video_content` TEXT NOT NULL
+    `video_content` TEXT NOT NULL,
+    `video_like` INT DEFAULT 0
 );
 
 
-INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content) VALUES ('taggin id 01', 'video src 01', 'video title 01', 'video content 01');
-INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content) VALUES ('taggin id 02', 'video src 02', 'video title 02', 'video content 02');
-
+INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content, video_like) VALUES ('taggin id 01', 'video src 01', 'video title 01', 'video content 01', 5);
+INSERT INTO t_tagging (tagging_id, video_src, video_title, video_content, video_like) VALUES ('taggin id 02', 'video src 02', 'video title 02', 'video content 02', 10);
+select * from t_tagging;
 
 -- 즐겨찾기 테이블
 CREATE TABLE `t_favorite` (
-    `bookmark_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `favorite_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` VARCHAR(100) NOT NULL,
     `tagging_id` VARCHAR(100) NOT NULL,
-    `is_valid` ENUM('Y', 'N') DEFAULT 'N',
+    `is_valid` ENUM('Y', 'N') DEFAULT 'Y',
     FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`),
     FOREIGN KEY (`tagging_id`) REFERENCES `t_tagging`(`tagging_id`)
 );
@@ -185,7 +192,7 @@ CREATE TABLE `t_favorite` (
 
 INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 'taggin id 01', 'Y');
 INSERT INTO t_favorite (user_id, tagging_id, is_valid) VALUES ('id 01', 'taggin id 02', 'Y');
-
+select * from t_favorite;
 
 -- 좋아요 테이블
 CREATE TABLE `t_like` (
