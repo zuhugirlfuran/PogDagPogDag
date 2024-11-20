@@ -9,7 +9,7 @@ CREATE TABLE `t_user` (
     `password` VARCHAR(255) NOT NULL,
     `nickname` VARCHAR(50) NOT NULL,
     `age` INT NOT NULL,
-    `gender` CHAR(1) NOT NULL CHECK (gender IN ('Y', 'N')),
+    `gender` ENUM('Y', 'N') NOT NULL,
     `path` VARCHAR(255),
     `token` VARCHAR(255),
     `img` VARCHAR(255),
@@ -33,27 +33,38 @@ CREATE TABLE `t_product` (
     FOREIGN KEY (`c_id`) REFERENCES `t_category`(`c_id`)
 );
 
+-- 배송 주소 테이블
+CREATE TABLE `t_address` (
+    `address_id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(100) NOT NULL,
+    `address` VARCHAR(255) NOT NULL,
+    `phone` VARCHAR(15) NOT NULL,
+    `is_default` ENUM('Y', 'N') NOT NULL,
+    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`)
+);
+
 -- 주문 테이블
 CREATE TABLE `t_order` (
     `order_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` VARCHAR(100) NOT NULL,
+    `address_id` INT NOT NULL,
     `total_price` DECIMAL(10, 2) NOT NULL,
-    `name` VARCHAR(255) NOT NULL,
-    `address` VARCHAR(255) NOT NULL,
-    `phone` VARCHAR(15) NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`)
+    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`),
+    FOREIGN KEY (`address_id`) REFERENCES `t_address`(`address_id`)
 );
 
 -- 주문 상세 테이블
 CREATE TABLE `t_order_detail` (
     `d_id` INT AUTO_INCREMENT PRIMARY KEY,
     `order_id` INT NOT NULL,
-    `user_id` VARCHAR(100) NOT NULL,
+    `product_id` INT NOT NULL,
+    `quantity` INT DEFAULT 1 NOT NULL,
     `order_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `completed` CHAR(1) CHECK (completed IN ('Y', 'N')) DEFAULT 'N',
+    `completed` ENUM('Y', 'N') NOT NULL,
     FOREIGN KEY (`order_id`) REFERENCES `t_order`(`order_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`)
+    FOREIGN KEY (`product_id`) REFERENCES `t_product`(`product_id`)
 );
+
 
 -- 스탬프 테이블
 CREATE TABLE `t_stamp` (
@@ -96,7 +107,7 @@ CREATE TABLE `t_payment` (
 
 -- 태깅 테이블
 CREATE TABLE `t_tagging` (
-    `tagging_id` VARCHAR(100) AUTO_INCREMENT PRIMARY KEY,
+    `tagging_id` VARCHAR(100) PRIMARY KEY,
     `video_src` VARCHAR(255) NOT NULL,
     `video_title` VARCHAR(255) NOT NULL,
     `video_content` TEXT NOT NULL
@@ -106,7 +117,7 @@ CREATE TABLE `t_tagging` (
 CREATE TABLE `t_favorite` (
     `bookmark_id` INT AUTO_INCREMENT PRIMARY KEY,
     `user_id` VARCHAR(100) NOT NULL,
-    `tagging_id` INT NOT NULL,
+    `tagging_id` VARCHAR(100) NOT NULL,
     `is_valid` CHAR(1) CHECK (is_valid IN ('Y', 'N')) DEFAULT 'N',
     FOREIGN KEY (`user_id`) REFERENCES `t_user`(`user_id`),
 	FOREIGN KEY (`tagging_id`) REFERENCES `t_tagging`(`tagging_id`)
