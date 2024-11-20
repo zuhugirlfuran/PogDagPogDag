@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.ssafy.snuggle_mobile"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ssafy.snuggle_mobile"
