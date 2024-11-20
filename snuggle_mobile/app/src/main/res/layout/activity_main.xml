@@ -6,26 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
-    <include
-        layout="@layout/app_bar"/>
+    <include layout="@layout/app_bar" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <SS
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        app:menu="@menu/navigation_menu"
         app:itemIconTint="#9DB2CE"
         app:itemTextColor="#9DB2CE"
-        app:labelVisibilityMode="labeled"/>
-
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/navigation_menu" />
 
 
 </LinearLayout>

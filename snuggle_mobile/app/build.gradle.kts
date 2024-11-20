@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.storage.CacheResetOnProcessCanceled.enabled
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -58,5 +56,4 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // 네비게이션바 라이브러리
-    implementation(name: 'ss-custom-bottom-navigation', ext: 'aar')
 }
