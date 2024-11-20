@@ -3,97 +3,103 @@ package com.ssafy.snuggle.model.dto;
 import java.util.List;
 
 public class ProductWithComment {
-    private int productId;               // 상품 ID (Primary Key)
-    private int cId;                     // 카테고리 ID
-    private String productName;          // 상품 이름
-    private double price;                // 상품 가격
-    private String img;                  // 상품 이미지
-    private int likeCount;               // 좋아요 수
 
-    private List<CommentInfo> comments;  // 댓글 리스트
+	private int productId; // 상품 ID (Primary Key)
+	private int cId; // 카테고리 ID
+	private String productName; // 상품 이름
+	private double price; // 상품 가격
+	private String content; // 상품 설명
+	private String img; // 상품 이미지
+	private int likeCount; // 좋아요 수
 
-    // 기본 생성자
-    public ProductWithComment() {}
+	private List<CommentInfo> comments; // 댓글 리스트
 
-    // Product 기반 생성자
-    public ProductWithComment(Product product) {
-        this.productId = product.getProductId();
-        this.cId = product.getCId();
-        this.productName = product.getProductName();
-        this.price = product.getPrice();
-        this.img = product.getImg();
-        this.likeCount = product.getLikeCount();
-    }
+	// 기본 생성자
+	public ProductWithComment() {
+	}
 
-    // Getter and Setter methods
+	// Product 기반 생성자
+	public ProductWithComment(Product product) {
+		this.productId = product.getProductId();
+		this.cId = product.getcId();
+		this.productName = product.getProductName();
+		this.price = product.getPrice();
+		this.content = product.getContent();
+		this.img = product.getImg();
+		this.likeCount = product.getLikeCount();
+	}
 
-    public int getProductId() {
-        return productId;
-    }
+	// Getter and Setter methods
 
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
+	public int getProductId() {
+		return productId;
+	}
 
-    public int getCId() {
-        return cId;
-    }
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
 
-    public void setCId(int cId) {
-        this.cId = cId;
-    }
+	public int getcId() {
+		return cId;
+	}
 
-    public String getProductName() {
-        return productName;
-    }
+	public void setcId(int cId) {
+		this.cId = cId;
+	}
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public String getProductName() {
+		return productName;
+	}
 
-    public String getImg() {
-        return img;
-    }
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
 
-    public void setImg(String img) {
-        this.img = img;
-    }
+	public double getPrice() {
+		return price;
+	}
 
-    public int getLikeCount() {
-        return likeCount;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
-    }
+	public String getImg() {
+		return img;
+	}
 
-    public List<CommentInfo> getComments() {
-        return comments;
-    }
+	public void setImg(String img) {
+		this.img = img;
+	}
 
-    public void setComments(List<CommentInfo> comments) {
-        this.comments = comments;
-    }
+	public int getLikeCount() {
+		return likeCount;
+	}
 
-    // toString() method for debugging
-    @Override
-    public String toString() {
-        return "ProductWithComment{" +
-                "productId=" + productId +
-                ", cId=" + cId +
-                ", productName='" + productName + '\'' +
-                ", price=" + price +
-                ", img='" + img + '\'' +
-                ", likeCount=" + likeCount +
-                ", comments=" + comments +
-                '}';
-    }
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
+	public List<CommentInfo> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<CommentInfo> comments) {
+		this.comments = comments;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductWithComment [productId=" + productId + ", cId=" + cId + ", productName=" + productName
+				+ ", price=" + price + ", content=" + content + ", img=" + img + ", likeCount=" + likeCount
+				+ ", comments=" + comments + "]";
+	}
+
 }

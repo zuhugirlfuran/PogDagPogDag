@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.Operation;
 @CrossOrigin("*")
 public class ProductController {
 //Logger logger = LoggerFactory.getLogger(ProductController.class);
-	
+
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -37,9 +37,9 @@ public class ProductController {
 	// 상품 목록
 	@GetMapping()
 	@Operation(summary = "전체 상품의 목록을 반환한다.") // swagger
-	 public ResponseEntity<List<Product>> getProductList(){
-        return new ResponseEntity<List<Product>>(productService.getProductList(), HttpStatus.OK);
-    }
+	public ResponseEntity<List<Product>> getProductList() {
+		return new ResponseEntity<List<Product>>(productService.getProductList(), HttpStatus.OK);
+	}
 
 	// productId에 해당하는 상품 정보를 comment와 함께 반환
 	@GetMapping("/{productId}")
@@ -49,19 +49,19 @@ public class ProductController {
 		Map<String, Object> map = new HashMap<>();
 		// comment정보
 		List<CommentInfo> selectByProduct = commentService.selectByProduct(productId);
-		
+
 		// product 정보
 		ProductWithComment product = productService.selectWithComment(productId);
-		
-		
+
 		if (product == null) {
 			throw new RuntimeException("상품을 찾을 수 없습니다. productId: " + productId);
 		}
 
-		// logger.debug("product 정보 : {}", product.getImg());
 		map.put("name", product.getProductName());
 		map.put("price", product.getPrice());
+		map.put("content", product.getContent());
 		map.put("img", product.getImg());
+		map.put("likeCount", product.getLikeCount());
 		map.put("comments", selectByProduct);
 
 		return map;

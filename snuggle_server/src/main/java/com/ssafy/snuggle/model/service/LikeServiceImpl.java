@@ -35,7 +35,7 @@ public class LikeServiceImpl implements LikeService {
 
 		// 좋아요 추가 또는 삭제 후, 상품의 like_count를 갱신
 //		if (result > 0 || exists) {
-		System.out.println("갱신");
+		System.out.println("Updating like_count for product_id: " + productId);
 		lDao.updateLikeCount(productId); // 최신 like_count로 갱신
 //		}
 

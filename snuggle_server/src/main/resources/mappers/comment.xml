@@ -29,7 +29,7 @@
 	<!-- Comment 단건 조회 -->
 	<select id="select" parameterType="int" resultType="Comment">
 		SELECT comment_id,
-		user_id, product_id, comment
+		user_id, product_id, comment, nickname
 		FROM t_comment
 		WHERE comment_id = #{commentId}
 	</select>
@@ -37,7 +37,7 @@
 
 	<select id="selectByProduct" parameterType="int"
 		resultType="CommentInfo">
-		SELECT c.comment_id, c.user_id, c.product_id, c.comment
+		SELECT c.comment_id, c.user_id, c.product_id, c.comment, u.nickname
 		FROM t_comment c 
 		JOIN t_user u ON c.user_id = u.user_id
 		WHERE c.product_id = #{productId}

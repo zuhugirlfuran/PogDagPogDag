@@ -20,6 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	private CommentDao cDao;
+
 	@Autowired
 	private StampDao sDao;
 
@@ -30,25 +31,16 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductWithComment selectWithComment(int productId) {
+		
 		// comment 정보
 		List<CommentInfo> comments = cDao.selectByProduct(productId);
+		ProductWithComment product = pDao.selectWithInfo(productId);
 
 		// 총주문량, 평가횟수, 평균평점 계산
-		int commentCnt = comments.size(); // 총 평가횟수
-		int totalSells = sDao.selectTotalQuantityAll(); // 총 주문량
-		Double averageStars = 0.0;
-		if (commentCnt > 0) {
-			for (CommentInfo comment : comments) {
-				averageStars += comment.getRating();
-			}
-			averageStars /= commentCnt;
-		}
+//		int commentCnt = comments.size(); // 총 평가횟수
+//		int totalSells = sDao.selectTotalQuantityAll(); // 총 주문량
 
-		// setting
-		ProductWithComment product = pDao.selectWithInfo(productId);
-		
 //		product.setCommentCount(commentCnt);
-//		product.setAverageStars(averageStars);
 //		product.setTotalSells(totalSells);
 
 		return product;

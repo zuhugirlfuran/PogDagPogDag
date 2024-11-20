@@ -22,6 +22,7 @@
 			p.product_id AS productId,
 			p.product_name AS productName,
 			p.price,
+			p.content,
 			p.img,
 			p.like_count AS likeCount
 		FROM

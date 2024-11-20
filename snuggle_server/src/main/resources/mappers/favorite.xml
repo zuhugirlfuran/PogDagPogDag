@@ -54,10 +54,18 @@
 	
 	<!-- Tagging의 likeCount 감소  -->
 	<update id="decreaseLikeCount" parameterType="String">
-		  UPDATE t_tagging
+		UPDATE t_tagging
         SET video_like = CASE
             WHEN video_like > 0 THEN video_like - 1
             ELSE video_like END
         WHERE tagging_id = #{taggingId}
 	</update>
+	
+	<!-- Tagging의 likeCount 갱신 -->
+	<update id="updateLikeCount" parameterType="String">
+		UPDATE t_tagging
+		SET video_like = (SELECT COUNT(*) FROM t_favorite WHERE tagging_id = #{taggingId})
+		WHERE tagging_id = #{taggingId};
+	</update>
+	
 </mapper>

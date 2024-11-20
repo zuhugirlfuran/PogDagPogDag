@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.snuggle.model.dao.FavoriteDao;
 import com.ssafy.snuggle.model.dto.Favorite;
@@ -16,12 +17,12 @@ public class FavoriteServiceImpl implements FavoriteService {
 	private FavoriteDao fDao;
 
 	@Override
+	@Transactional
 	public int addFavorite(Favorite favorite) {
 
 		String userId = favorite.getUserId();
 		String taggingId = favorite.getTaggingId();
 		String isValid = favorite.getIsValid();
-//		int favoriteId = favorite.getfavoriteId();
 		int result = 0;
 
 		// userId와 taggingId로 중복 확인 + 이미 Y인지
@@ -43,6 +44,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 		if (result > 0) {
 			fDao.increaseLikeCount(taggingId); // Tagging의 likeCount 증가
 		}
+		
+		fDao.updateLikeCount(taggingId);
 
 		return result;
 	}
