@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.snuggle.model.dao.FavoriteDao">
+
+
+	<!-- userId와 taggingId로 중복 좋아요 체크 (isValid = 'Y'인 레코드 확인) -->
+	<select id="isFavorite" resultType="boolean">
+		SELECT COUNT(*)
+		FROM
+		t_favorite
+		WHERE user_id = #{userId}
+		AND tagging_id = #{taggingId}
+		AND
+		is_valid = 'Y'
+	</select>
+
+	<!-- 좋아요 추가 (isValid는 'Y'로 설정) -->
+	<insert id="insert" parameterType="Favorite">
+
+		INSERT INTO
+		t_favorite(user_id, tagging_id, is_valid)
+		VALUES (#{userId},
+		#{taggingId}, "Y")
+
+	</insert>
+
+	<!-- 좋아요 제거 -->
+	<delete id="delete">
+		DELETE FROM t_favorite
+		WHERE user_id = #{userId} AND
+		tagging_id = #{taggingId} AND is_valid = 'Y'
+	</delete>
+
+	<!-- 사용자가 좋아요한 tagging 리스트 조회 -->
+	<select id="selectByUser" parameterType="String"
+		resultType="Tagging">
+		SELECT t.tagging_id, t.video_src, t.video_title, t.video_content,
+		t.video_like
+		FROM t_favorite f
+		JOIN t_tagging t ON f.tagging_id = t.tagging_id
+		WHERE f.user_id = #{userId} AND f.is_valid = 'Y';
+	</select>
+
+
+	<!-- Tagging의 likeCount 증가 -->
+	<update id="increaseLikeCount" parameterType="String">
+		UPDATE t_tagging
+		SET video_like = video_like + 1
+		WHERE tagging_id = #{taggingId}
+	</update>
+	
+	<!-- Tagging의 likeCount 감소  -->
+	<update id="decreaseLikeCount" parameterType="String">
+		  UPDATE t_tagging
+        SET video_like = CASE
+            WHEN video_like > 0 THEN video_like - 1
+            ELSE video_like END
+        WHERE tagging_id = #{taggingId}
+	</update>
+</mapper>

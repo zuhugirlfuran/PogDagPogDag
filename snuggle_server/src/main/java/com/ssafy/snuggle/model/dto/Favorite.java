@@ -1,17 +1,17 @@
 package com.ssafy.snuggle.model.dto;
 
 public class Favorite {
-	 private int bookmarkId;     // 즐겨찾기 ID (Primary Key)
+	 private int favoriteId;     // 즐겨찾기 ID (Primary Key)
 	    private String userId;         // 사용자 ID (Foreign Key)
-	    private int taggingId;      // 태깅 ID (Foreign Key)
+	    private String taggingId;      // 태깅 ID (Foreign Key)
 	    private String isValid;     // 유효 여부 ('Y' or 'N')
 
 	    // 기본 생성자
 	    public Favorite() {}
 
 	    // 매개변수 생성자
-	    public Favorite(int bookmarkId, String userId, int taggingId, String isValid) {
-	        this.bookmarkId = bookmarkId;
+	    public Favorite(int favoriteId, String userId, String taggingId, String isValid) {
+	        this.favoriteId = favoriteId;
 	        this.userId = userId;
 	        this.taggingId = taggingId;
 	        this.isValid = isValid;
@@ -19,12 +19,12 @@ public class Favorite {
 
 	    // Getter and Setter methods
 
-	    public int getBookmarkId() {
-	        return bookmarkId;
+	    public int getfavoriteId() {
+	        return favoriteId;
 	    }
 
-	    public void setBookmarkId(int bookmarkId) {
-	        this.bookmarkId = bookmarkId;
+	    public void setfavoriteId(int favoriteId) {
+	        this.favoriteId = favoriteId;
 	    }
 
 	    public String getUserId() {
@@ -35,11 +35,11 @@ public class Favorite {
 	        this.userId = userId;
 	    }
 
-	    public int getTaggingId() {
+	    public String getTaggingId() {
 	        return taggingId;
 	    }
 
-	    public void setTaggingId(int taggingId) {
+	    public void setTaggingId(String taggingId) {
 	        this.taggingId = taggingId;
 	    }
 
@@ -54,7 +54,7 @@ public class Favorite {
 	    @Override
 	    public String toString() {
 	        return "Favorite{" +
-	                "bookmarkId=" + bookmarkId +
+	                "favoriteId=" + favoriteId +
 	                ", userId=" + userId +
 	                ", taggingId=" + taggingId +
 	                ", isValid='" + isValid + '\'' +
