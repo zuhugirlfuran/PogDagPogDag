@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.snuggle_mobile.R
 
-class BestProductRecyclerViewAdapter(
-    private val itemList: List<BestProduct>
-) : RecyclerView.Adapter<BestProductRecyclerViewAdapter.BestProductViewHolder>() {
+class NewProductRecyclerViewAdapter(
+    private val itemList: MutableList<NewProduct>
+) : RecyclerView.Adapter<NewProductRecyclerViewAdapter.BestProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BestProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_horizontal_recycler_item, parent, false)

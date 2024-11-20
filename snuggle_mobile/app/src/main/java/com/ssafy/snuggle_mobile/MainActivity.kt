@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(MainFragment())
 
         val bottomNavigation = binding.bottomNavigation
+        bottomNavigation.selectedItemId = R.id.home
 
         bottomNavigation.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
