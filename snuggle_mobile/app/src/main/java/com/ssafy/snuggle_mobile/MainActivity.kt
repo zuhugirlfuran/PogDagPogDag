@@ -14,6 +14,26 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 초기 프래그먼트 설정 (MainFragment)
+        replaceFragment(MainFragment())
+
         val bottomNavigation = binding.bottomNavigation
+
+        bottomNavigation.setOnItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.home -> {
+                    replaceFragment(MainFragment())
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    private fun replaceFragment(mainFragment: MainFragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, mainFragment)
+            .commit()
     }
 }

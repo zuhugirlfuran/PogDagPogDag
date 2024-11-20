@@ -56,4 +56,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // 네비게이션바 라이브러리
+    //implementation("com.github.simformsolutions:SSCustomBottomNavigation:3.6")
 }
