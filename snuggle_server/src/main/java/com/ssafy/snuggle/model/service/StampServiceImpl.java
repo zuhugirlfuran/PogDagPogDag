@@ -15,7 +15,7 @@ public class StampServiceImpl implements StampService{
 	
 	@Override
 	public List<Stamp> selectByUser(String sId) {
-		return null;
+		return sDao.selectByUserId(sId);
 	}
 
 }

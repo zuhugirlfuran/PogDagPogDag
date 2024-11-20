@@ -7,6 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +37,9 @@ public class ProductController {
 	// 상품 목록
 	@GetMapping()
 	@Operation(summary = "전체 상품의 목록을 반환한다.") // swagger
-	public List<Product> getList() {
-
-		return productService.getProductList();
-
-	}
+	 public ResponseEntity<List<Product>> getProductList(){
+        return new ResponseEntity<List<Product>>(productService.getProductList(), HttpStatus.OK);
+    }
 
 	// productId에 해당하는 상품 정보를 comment와 함께 반환
 	@GetMapping("/{productId}")
@@ -61,9 +61,6 @@ public class ProductController {
 		// logger.debug("product 정보 : {}", product.getImg());
 		map.put("name", product.getProductName());
 		map.put("price", product.getPrice());
-//		map.put("totalSells", product.getTotalSells());
-//		map.put("commentCount", product.getCommentCount());
-//		map.put("averageStars", product.getAverageStars());
 		map.put("img", product.getImg());
 		map.put("comments", selectByProduct);
 

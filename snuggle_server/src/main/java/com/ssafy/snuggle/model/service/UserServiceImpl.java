@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User login(String userId, String password) {
 		User user = userDao.selectById(userId);
-    	if (user.getPassword().equals(password)) {  // 비밀번호와 아이디가 일치할때
+    	if (user != null && user.getPassword().equals(password)) {  // 비밀번호와 아이디가 일치할때
     		return user;
     	}
         return null;
@@ -29,11 +29,8 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public boolean isUsedId(String userId) {
-		User user = userDao.selectById(userId);
-    	if (user != null) {
-    		return true;
-    	}
-        return false;
+
+        return userDao.selectById(userId) != null;
 	}
 
 	@Override

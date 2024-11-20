@@ -26,7 +26,7 @@ public class CommentController {
 	private CommentService commentService;
 
 	@PutMapping()
-	@Operation(summary = "Comment 객체를 수정한다. 성공하면 true를 리턴한다. 평점은 1.0 ~ 5.0만 허용. 벗어나면 false를 리턴한다.")
+	@Operation(summary = "Comment 객체를 수정한다. 성공하면 true를 리턴한다. 벗어나면 false를 리턴한다.")
 	public ResponseEntity<?> updateComment(@RequestBody Comment comment) {
 
 		int result = -1;
@@ -41,7 +41,7 @@ public class CommentController {
 	}
 	
 	@PostMapping()
-	@Operation(summary = "Comment 객체를 추가한다. 성공하면 true를 리턴한다. 평점은 1.0 ~ 5.0만 허용. 벗어나면 false를 리턴한다.")
+	@Operation(summary = "Comment 객체를 추가한다. 성공하면 true를 리턴한다. 벗어나면 false를 리턴한다.")
 	public ResponseEntity<?> addComment(@RequestBody Comment comment) {
 
 		int result = commentService.addComment(comment);

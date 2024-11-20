@@ -59,25 +59,24 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order getOrderWithDetails(int order_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Order> getOrderByUser(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return oDao.selectByUser(userId);
 	}
 
 	@Override
 	public void updateOrder(Order order) {
-		// TODO Auto-generated method stub
-
+		
+		oDao.update(order);
 	}
 
 	@Override
 	public OrderInfo getOrderWithInfo(int order_id) {
+		
+		return oDao.selectOrderInfo(order_id);
+	}
+
+	@Override
+	public Order getOrderWithDetails(int orderId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

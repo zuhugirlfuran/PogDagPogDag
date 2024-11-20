@@ -3,31 +3,36 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.snuggle.model.dao.OrderDetailDao">
 
-	<resultMap id="OrderResult" type="OrderDetailInfo">
-        <collection property="details" javaType="ArrayList" column="order_id" ofType="OrderDetailInfo" 
-         select="select"/>
-    </resultMap>
-    
-    <insert id="insert">
-		INSERT INTO t_order_detail (order_id, user_id, order_time, completed)
-		VALUES (#{orderId}, #{userId}, #{orderTime}, #{completed})
+
+
+	<insert id="insert">
+		INSERT INTO t_order_detail (order_id, user_id,
+		order_time, completed)
+		VALUES (#{orderId}, #{userId}, #{orderTime},
+		#{completed})
 	</insert>
 
-	<select id="select" parameterType="int" resultType="OrderDetailInfo">
-        SELECT 
-            d.d_id AS dId, 
-            d.order_id AS orderId, 
-            d.user_id AS userId, 
-            d.order_time AS orderTime, 
-            d.completed AS completed, 
-            p.product_id AS productId, 
-            p.product_name AS productName, 
-            p.price, 
-            p.img, 
-            p.like_count AS likeCount
-        FROM t_order_detail d
-        JOIN t_product p ON d.product_id = p.product_id
-        WHERE d.order_id = #{order_id}
-    </select>
-	
+	<resultMap id="OrderResult" type="OrderDetailInfo">
+		<collection property="details" javaType="ArrayList"
+			column="order_id" ofType="OrderDetailInfo" select="select" />
+	</resultMap>
+
+	<select id="select" parameterType="int"
+		resultType="OrderDetailInfo">
+		SELECT
+		d.d_id AS dId,
+		d.order_id AS orderId,
+		d.user_id AS userId,
+		d.order_time AS orderTime,
+		d.completed AS completed,
+		p.product_id AS productId,
+		p.product_name AS productName,
+		p.price,
+		p.img,
+		p.like_count AS likeCount
+		FROM t_order_detail d
+		JOIN t_product p ON d.product_id = p.product_id
+		WHERE d.order_id = #{order_id}
+	</select>
+
 </mapper>
