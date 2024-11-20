@@ -5,7 +5,7 @@ public class Product {
     private int productId;      // 상품 ID (Primary Key)
     private int cId;            // 카테고리 ID (Foreign Key)
     private String productName; // 상품 이름
-    private double price;       // 상품 가격
+    private int price;       // 상품 가격
     private String img;         // 상품 이미지
     private int likeCount;      // 좋아요 수
 
@@ -13,7 +13,7 @@ public class Product {
     public Product() {}
 
     // 매개변수 생성자
-    public Product(int productId, int cId, String productName, double price, String img, int likeCount) {
+    public Product(int productId, int cId, String productName, int price, String img, int likeCount) {
         this.productId = productId;
         this.cId = cId;
         this.productName = productName;
@@ -48,11 +48,11 @@ public class Product {
         this.productName = productName;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

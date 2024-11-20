@@ -5,16 +5,18 @@ public class Tagging {
     private String videoSrc;    // 비디오 경로
     private String videoTitle;  // 비디오 제목
     private String videoContent;// 비디오 내용
+    private int videoLike = 0;  // 비디오 좋아요 수
 
     // 기본 생성자
     public Tagging() {}
 
     // 매개변수 생성자
-    public Tagging(String taggingId, String videoSrc, String videoTitle, String videoContent) {
+    public Tagging(String taggingId, String videoSrc, String videoTitle, String videoContent, int videoLike) {
         this.taggingId = taggingId;
         this.videoSrc = videoSrc;
         this.videoTitle = videoTitle;
         this.videoContent = videoContent;
+        this.videoLike = videoLike;
     }
 
     public String getTaggingId() {
@@ -48,15 +50,21 @@ public class Tagging {
     public void setVideoContent(String videoContent) {
         this.videoContent = videoContent;
     }
+    
+    
+    public int getVideoLike() {
+		return videoLike;
+	}
 
-    // toString() method for debugging
-    @Override
-    public String toString() {
-        return "Tagging{" +
-                "taggingId=" + taggingId +
-                ", videoSrc='" + videoSrc + '\'' +
-                ", videoTitle='" + videoTitle + '\'' +
-                ", videoContent='" + videoContent + '\'' +
-                '}';
-    }
+	public void setVideoLike(int videoLike) {
+		this.videoLike = videoLike;
+	}
+
+	@Override
+	public String toString() {
+		return "Tagging [taggingId=" + taggingId + ", videoSrc=" + videoSrc + ", videoTitle=" + videoTitle
+				+ ", videoContent=" + videoContent + ", videoLike=" + videoLike + "]";
+	}
+
+	
 }

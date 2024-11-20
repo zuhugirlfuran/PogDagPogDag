@@ -23,7 +23,7 @@ public interface CommentDao {
 	
 	/**
      * comment 삭제
-     * @param comment
+     * @param commentId
      * @return
      */
 	int delete(Integer commentId);

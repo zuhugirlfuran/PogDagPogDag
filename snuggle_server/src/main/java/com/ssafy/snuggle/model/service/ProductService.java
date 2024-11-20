@@ -14,7 +14,6 @@ public interface ProductService {
     List<Product> getProductList();
     
     /**
-     * backend 관통 과정에서 추가됨
      * 상품의 정보, 판매량, 평점 정보를 함께 반환
      * @param productId
      * @return

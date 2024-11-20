@@ -29,23 +29,4 @@
 		select * from t_comment where product_id = #{productId}
 	</select>
 
-	<!-- Category 에 해당하는 상품리스트 출력 -->
-	<select id="selectProductsByCategory" parameterType="int" resultType="Product">
-        SELECT 
-            p.product_id AS productId,
-            p.product_name AS productName,
-            p.price,
-            p.img,
-            p.like_count AS likeCount
-        FROM 
-            t_product p
-        INNER JOIN 
-            t_category c 
-        ON p.c_id = c.c_id
-        WHERE 
-            c.c_id = #{cId};
-    </select>
-
-
-
 </mapper>

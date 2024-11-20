@@ -32,5 +32,11 @@ public interface UserDao {
      */
     User selectByUser(User user);
     
+    /**
+     * 사용자 token 정보로 userId 찾기
+     * @param token
+     * @return
+     */
+    String findUserIdByToken(String token);
     
 }
