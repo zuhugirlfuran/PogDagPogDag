@@ -6,13 +6,12 @@ use ssafyfinal;
 -- 유저 테이블
 CREATE TABLE `t_user` (
     `user_id` VARCHAR(100) primary key,
-    `email` VARCHAR(255) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `nickname` VARCHAR(50) NOT NULL,
     `age` INT NOT NULL,
-    `gender` CHAR(1) CHECK (gender IN ('Y', 'N')) NOT NULL,
+    `gender` CHAR(1) NOT NULL CHECK (gender IN ('Y', 'N')),
     `path` VARCHAR(255),
-    `token` VARCHAR(255) NOT NULL,
+    `token` VARCHAR(255),
     `img` VARCHAR(255),
     `stamps` INT DEFAULT 0 
 );

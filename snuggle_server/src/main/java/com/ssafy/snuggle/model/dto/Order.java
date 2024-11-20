@@ -57,6 +57,14 @@ public class Order {
 		this.details = details;
 	}
 
+	public int getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(int addressId) {
+		this.addressId = addressId;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", userId=" + userId + ", addressId=" + addressId + ", totalPrice="

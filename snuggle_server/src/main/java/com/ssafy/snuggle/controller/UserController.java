@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,6 @@ import com.ssafy.snuggle.model.service.OrderService;
 import com.ssafy.snuggle.model.service.UserService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,6 +45,7 @@ public class UserController {
 	@Operation(summary = "사용자 정보를 추가한다. 성공하면 true 리턴")
 	public Boolean insert(@RequestBody User user) {
 
+		logger.info("Received User data: {}", user);
 		int result = 0;
 
 		try {
@@ -67,7 +68,13 @@ public class UserController {
 	}
 
 	@PostMapping("/login")
-	@Operation(summary = "로그인 처리 후 성공적으로 로그인 되었다면 loginId라는 쿠키를 내려보낸다.")
+	@Operation(summary = "로그인 처리 후 성공적으로 로그인 되었다면 loginId라는 쿠키를 내려보낸다."  
+	, description = "<pre>userId와 password 두개만 넘겨도 정상동작한다. \n 아래는 id, pass만 입력한 샘플코드\n"
+    		+ "{\r\n"
+    		+ "  \"userId\": \"aa12\",\r\n"
+    		+ "  \"password\": \"aa12\"\r\n"
+    		+ "}"
+    		+ "</pre>")
 	public User login(@RequestBody User user, HttpServletResponse response) throws UnsupportedEncodingException {
 		User selected = uService.login(user.getUserId(), user.getPassword());
 		if (selected != null) {

@@ -4,61 +4,84 @@
 
 <mapper namespace="com.ssafy.snuggle.model.dao.UserDao">
 
-	<!-- INSERT -->
-	<insert id="insert" parameterType="User">
-		INSERT INTO t_user (
-		    user_id,
-		    password, 
-		    nickname, 
-		    age, 
-		    gender, 
-		    path, 
-		    token, 
-		    img, 
-		    stamps
-		)
-		VALUES (
-		    #{userId},
-		    #{password}, 
-		    #{nickname}, 
-		    #{age}, 
-		    #{gender}, 
-		    #{path}, 
-		    #{token}, 
-		    #{img}, 
-		    #{stamps}
-		)
-	</insert>
+    <!-- INSERT -->
+    <insert id="insert" parameterType="User">
+        INSERT INTO t_user (
+            user_id,
+            password, 
+            nickname, 
+            age, 
+            gender, 
+            path, 
+            token, 
+            img, 
+            stamps
+        )
+        VALUES (
+            #{userId},
+            #{password}, 
+            #{nickname}, 
+            #{age}, 
+            #{gender}, 
+            #{path}, 
+            #{token}, 
+            #{img}, 
+            #{stamps}
+        )
+    </insert>
 
-	<!-- UPDATE -->
-	<update id="updateStamp" parameterType="User">
+    <!-- UPDATE -->
+    <update id="updateStamp" parameterType="User">
         UPDATE t_user
         SET
             stamps = stamps + #{stamps}
         WHERE user_id = #{userId}
     </update>
-    
-	<!-- SELECT BY USER_ID -->
-	<select id="selectById" parameterType="string" resultType="User">
-		SELECT 
-		    user_id AS userId, 
-		    password, 
-		    nickname, 
-		    age, 
-		    gender, 
-		    path, 
-		    token, 
-		    img, 
-		    stamps 
-		FROM t_user
-		WHERE user_id = #{userId}
-	</select>
 
-    <select id="selectByUser" parameterType="User" resultType="User">
-        SELECT *
+    <!-- ResultMap for SELECT -->
+    <resultMap id="userResultMap" type="User">
+        <result property="userId" column="user_id" />
+        <result property="password" column="password" />
+        <result property="nickname" column="nickname" />
+        <result property="age" column="age" />
+        <result property="gender" column="gender" />
+        <result property="path" column="path" />
+        <result property="token" column="token" />
+        <result property="img" column="img" />
+        <result property="stamps" column="stamps" />
+    </resultMap>
+
+    <!-- SELECT BY USER_ID -->
+    <select id="selectById" parameterType="string" resultMap="userResultMap">
+        SELECT 
+            user_id, 
+            password, 
+            nickname, 
+            age, 
+            gender, 
+            path, 
+            token, 
+            img, 
+            stamps
+        FROM t_user
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- SELECT BY USER -->
+    <select id="selectByUser" parameterType="User" resultMap="userResultMap">
+        SELECT 
+            user_id, 
+            password, 
+            nickname, 
+            age, 
+            gender, 
+            path, 
+            token, 
+            img, 
+            stamps
         FROM t_user
         WHERE user_id = #{userId} 
         AND password = #{password}
     </select>
-    
+
 </mapper>

@@ -17,6 +17,9 @@ public class User {
 
 	// 기본 생성자
 	public User() {
+	    this.stamps = 0; 
+	    this.path = "";  
+	    this.img = ""; 
 	}
 
 	// 매개변수 생성자

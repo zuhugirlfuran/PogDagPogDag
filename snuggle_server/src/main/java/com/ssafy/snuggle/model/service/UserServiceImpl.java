@@ -14,6 +14,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	public int join(User user) {
+//		System.out.println(user.toString());
 		return userDao.insert(user);
 	}
 
