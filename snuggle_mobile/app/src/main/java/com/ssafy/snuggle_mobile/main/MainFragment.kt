@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_mobile
+package com.ssafy.snuggle_mobile.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ssafy.snuggle_mobile.MainActivity
+import com.ssafy.snuggle_mobile.R
 import com.ssafy.snuggle_mobile.databinding.FragmentMainBinding
-import com.ssafy.snuggle_mobile.main.BestProduct
-import com.ssafy.snuggle_mobile.main.BestProductRecyclerViewAdapter
-import com.ssafy.snuggle_mobile.main.NewProduct
-import com.ssafy.snuggle_mobile.main.NewProductRecyclerViewAdapter
 
 class MainFragment : Fragment() {
 
@@ -42,7 +40,7 @@ class MainFragment : Fragment() {
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
-        /* BestProduct */
+        /* ==== BestProduct ==== */
         // 상품 아이템 목록 초기화
         bestProductList = mutableListOf(
             BestProduct(R.drawable.item01, "푸딩거북이", "5,000원"),
@@ -58,7 +56,7 @@ class MainFragment : Fragment() {
         bestAdapter = BestProductRecyclerViewAdapter(bestProductList)
         bestRecyclerView.adapter = bestAdapter
 
-        /* NewProduct */
+        /* ==== NewProduct ==== */
         // 상품 아이템 목록 초기화
         newProductList = mutableListOf(
             NewProduct(R.drawable.item02, "푸딩거북이", "5,000원"),

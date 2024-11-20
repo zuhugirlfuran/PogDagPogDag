@@ -3,6 +3,7 @@ package com.ssafy.snuggle_mobile
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.snuggle_mobile.databinding.ActivityMainBinding
+import com.ssafy.snuggle_mobile.main.MainFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
