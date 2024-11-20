@@ -4,7 +4,13 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="android:windowBackground"> @color/basic_backgound</item>
+
+        <!-- 상태바 없애기 -->
+        <item name="android:statusBarColor">@color/basic_backgound</item>
+
+
     </style>
 
     <style name="Theme.Snuggle_mobile" parent="Base.Theme.Snuggle_mobile" />
+
 </resources>
