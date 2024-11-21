@@ -2,9 +2,11 @@ package com.ssafy.snuggle_final_app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
+import com.ssafy.snuggle_final_app.product.ProductFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,15 +29,18 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(MainFragment())
                     true
                 }
-
+                R.id.product -> {
+                    replaceFragment(ProductFragment())
+                    true
+                }
                 else -> false
             }
         }
     }
 
-    private fun replaceFragment(mainFragment: MainFragment) {
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frameLayout, mainFragment)
+            .replace(R.id.main_frameLayout, fragment)
             .commit()
     }
 }

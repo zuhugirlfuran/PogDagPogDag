@@ -38,10 +38,10 @@ class ProductFragment : Fragment() {
     private fun initAdapter() {
 
         val productList = mutableListOf(
-            Product(1, "푸딩거북이", "5000", R.drawable.product_btn_search),
-            Product(2, "상어인형", "8000",R.drawable.product_btn_search),
-            Product(3, "토끼인형", "7000",R.drawable.product_btn_search),
-            Product(4, "곰인형", "10000",R.drawable.product_btn_search)
+            Product(1, "푸딩거북이", "5000", R.drawable.item02),
+            Product(2, "상어인형", "8000",R.drawable.item01),
+            Product(3, "토끼인형", "7000",R.drawable.item03),
+            Product(4, "곰인형", "10000",R.drawable.item04)
         )
 
 
