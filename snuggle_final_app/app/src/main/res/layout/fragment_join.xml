@@ -1,14 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".login.JoinFragment">
 
-    <TextView
+    <ImageView
+        android:layout_marginLeft="27dp"
+        android:layout_width="122dp"
+        android:layout_height="68dp"
+        android:src="@drawable/logo" />
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="회원가입 화면" />
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp"
+        android:orientation="vertical"
+        android:background="@drawable/join_white_background">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Join"
+            android:textColor="#000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_et_id"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/join_et_id"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="ID"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="60dp"
+                android:paddingRight="16dp"
+                android:background="@android:color/transparent"
+                android:ellipsize="end" />
+
+            <ImageView
+                android:id="@+id/join_check_id"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/join_checkbox_id_blank"
+                android:contentDescription="Toggle password visibility" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/login_et_pw"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/join_et_pw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="PW"
+                android:inputType="textPassword"
+                android:paddingLeft="60dp"
+                android:paddingRight="16dp"
+                android:background="@android:color/transparent"
+                android:ellipsize="end" />
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/join_uncheck_pw"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/login_pw_check"
+                android:contentDescription="Toggle password visibility" />
+
+            <ImageView
+                android:id="@+id/join_check_pw"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/login_pw_uncheck"
+                android:contentDescription="Toggle password visibility" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/join_et_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/join_et_nickname"
+            android:hint="NickName"
+            android:inputType="text"
+            android:paddingLeft="60dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp" />
+
+        <EditText
+            android:layout_marginTop="20dp"
+            android:id="@+id/join_et_age"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/login_et_id"
+            android:hint="Age"
+            android:inputType="number"
+            android:paddingLeft="60dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp" />
+
+        <EditText
+            android:id="@+id/join_et_gender"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/login_et_pw"
+            android:hint="Gender"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:paddingLeft="60dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp" />
+
+        <EditText
+            android:id="@+id/join_et_path"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/join_et_nickname"
+            android:hint="Sgin up path"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:paddingLeft="60dp"
+            android:paddingTop="3dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="3dp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginTop="30dp">
+
+            <!-- ImageButton (Background 버튼) -->
+            <ImageButton
+                android:id="@+id/join_btn_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/login_button_background"
+                android:scaleType="centerCrop" />
+
+            <!-- 텍스트 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Sign Up"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Already have an account?" />
+
+            <Button
+                android:id="@+id/join_btn_signIp"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:text="Sign In"
+                android:textColor="#E70000" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
