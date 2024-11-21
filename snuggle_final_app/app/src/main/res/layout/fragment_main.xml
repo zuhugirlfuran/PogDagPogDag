@@ -2,25 +2,23 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFAE6"
-    >
+    android:background="#FFFAE6">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <!-- 검색창 -->
         <LinearLayout
-            android:paddingTop="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="16dp"
+            android:paddingTop="8dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
 
             <LinearLayout
                 android:layout_width="335dp"
@@ -56,30 +54,71 @@
 
         <!-- 배너 -->
         <LinearLayout
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:background="@drawable/banner"
-            android:orientation="vertical"
             android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/main_banner1_background"
+            android:orientation="vertical"
             android:padding="16dp">
+
 
             <!-- FrameLayout을 사용하여 자식 뷰의 절대 위치 설정 -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <!-- 이미지 버튼을 FrameLayout에 절대 위치로 배치 -->
-                <ImageButton
-                    android:id="@+id/banner_detail_btn"
-                    android:layout_width="83dp"
-                    android:layout_height="31dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/banner_button"
-                    android:scaleType="centerInside" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="폭닥폭닥 오프라인 매장 안내"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:text="귀여운 도안을 직접 구경해보세요!"
+                            android:textSize="12sp" />
+
+                        <!-- 이미지 버튼을 FrameLayout에 절대 위치로 배치 -->
+                        <ImageButton
+                            android:id="@+id/banner_detail_btn"
+                            android:layout_width="83dp"
+                            android:layout_height="31dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/banner_button"
+                            android:scaleType="centerInside" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/main_banner1_img" />
+
+
+                </LinearLayout>
+
 
             </FrameLayout>
 
@@ -87,22 +126,22 @@
 
 
         <LinearLayout
-            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <!-- BEST PRODUCT -->
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
                 android:text="BEST PRODUCT"
-                android:textStyle="bold"
                 android:textColor="#000"
                 android:textSize="18sp"
-                android:layout_marginBottom="16dp" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/best_product_recycler_view"
@@ -115,11 +154,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:text="NEW PRODUCT"
-                android:textStyle="bold"
                 android:textColor="#000"
                 android:textSize="18sp"
-                android:layout_marginBottom="16dp" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/new_product_recycler_view"
@@ -133,9 +172,6 @@
 
 
     </LinearLayout>
-
-
-
 
 
 </ScrollView>
