@@ -1,21 +1,16 @@
 package com.ssafy.snuggle_final_app.product
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.Product
+import com.ssafy.snuggle_final_app.dto.Product
 import com.ssafy.snuggle_final_app.databinding.ItemProductListBinding
 
 class ProductAdapter(
-
     private val productList: MutableList<Product>,
     private val onItemClick: (Product) -> Unit
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
