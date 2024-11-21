@@ -9,6 +9,7 @@
         <!-- 상태바 없애기 -->
         <item name="android:statusBarColor">@color/basic_backgound</item>
 
+
     </style>
 
     <style name="Theme.Snuggle_final_app" parent="Base.Theme.Snuggle_final_app" />
