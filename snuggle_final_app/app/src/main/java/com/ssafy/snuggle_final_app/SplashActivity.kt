@@ -44,7 +44,7 @@ class SplashActivity : Activity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
             finish() // 스플래시 종료
-        }, 3000) // 3000ms (3초)
+        }, 2000) // 3000ms (3초)
 
     }
 }

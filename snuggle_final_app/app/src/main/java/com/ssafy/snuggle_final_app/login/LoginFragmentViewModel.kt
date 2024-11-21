@@ -17,18 +17,19 @@ class LoginFragmentViewModel: ViewModel() {
     private val _isAvailableId = MutableLiveData<Boolean>()
     val isAvailableId: LiveData<Boolean> get() = _isAvailableId
 
+    private val _joinStatus = MutableLiveData<Boolean>()
+    val joinStatus: LiveData<Boolean> get() = _joinStatus
+
     // 로그인 처리 함수
     fun login(id: String, pass: String) {
         viewModelScope.launch {
-            safeApiCall({
+            runCatching {
                 RetrofitUtil.userService.login(User(id, pass))
-            }, { user ->
-                _user.value = user
-                Log.d("Login", "로그인 성공: ${user.userId}")
-            }, {
+            }.onSuccess {
+                _user.value = it
+            }.onFailure {
                 _user.value = User()
-                Log.e("Login", "로그인 실패: ${it.message}")
-            })
+            }
         }
     }
 
@@ -39,6 +40,7 @@ class LoginFragmentViewModel: ViewModel() {
                 RetrofitUtil.userService.isUsedId(id)
             }, { isUsed ->
                 _isAvailableId.value = !isUsed
+                Log.e("ID Check", "ID 중복: $isUsed")
             }, {
                 _isAvailableId.value = false
                 Log.e("ID Check", "ID 중복 확인 실패: ${it.message}")
@@ -47,13 +49,15 @@ class LoginFragmentViewModel: ViewModel() {
     }
 
     // 회원가입 함수
-    fun join(id: String, name: String, pass: String) {
+    fun join(user: User) {
         viewModelScope.launch {
             safeApiCall({
-                RetrofitUtil.userService.insert(User(id, name, pass))
-            }, {
+                RetrofitUtil.userService.insert(user)
+            }, { isInserted ->
                 Log.d("Join", "회원가입 성공")
+                _joinStatus.value = isInserted // 성공 여부 저장
             }, {
+                _joinStatus.value = false
                 Log.e("Join", "회원가입 실패: ${it.message}")
             })
         }
