@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
+import com.ssafy.snuggle_final_app.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.product.ProductFragment
 
 class MainActivity : AppCompatActivity() {
@@ -31,6 +32,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.product -> {
                     replaceFragment(ProductFragment())
+                    true
+                }
+                R.id.mypage -> {
+                    replaceFragment(MypageFragment())
                     true
                 }
                 else -> false
