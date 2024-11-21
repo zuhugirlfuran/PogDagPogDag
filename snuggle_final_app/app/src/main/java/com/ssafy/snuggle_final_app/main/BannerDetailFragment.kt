@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.databinding.FragmentBannerDetailBinding
 
 
 class BannerDetailFragment : Fragment() {
 
+    private var _binding: FragmentBannerDetailBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +24,8 @@ class BannerDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentBannerDetailBinding.inflate(inflater, container, false)
+
         return inflater.inflate(R.layout.fragment_banner_detail, container, false)
     }
 
@@ -30,6 +35,8 @@ class BannerDetailFragment : Fragment() {
         // 툴바 숨기기
         val toolbar = activity?.findViewById<Toolbar>(R.id.app_bar)
         toolbar?.visibility = View.GONE
+
+
     }
 
 }
