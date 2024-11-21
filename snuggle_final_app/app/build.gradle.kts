@@ -63,4 +63,8 @@ dependencies {
     //framework ktx dependency 추가
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
 
+    // splash
+    implementation (libs.androidx.core.splashscreen)
+
+
 }
