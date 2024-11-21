@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="android:windowBackground">@color/basic_backgound</item>
-
+        <item name="android:windowIsTranslucent">true</item>
         <!-- 상태바 없애기 -->
         <item name="android:statusBarColor">@color/basic_backgound</item>
 
@@ -21,9 +21,9 @@
 <!--        <item name="postSplashScreenTheme">@style/Theme.Snuggle_final_app</item> &lt;!&ndash; 스플래시 이후 테마 &ndash;&gt;-->
 <!--    </style>-->
 
-    <style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/basic_backgound</item>
-    </style>
+<!--    <style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">-->
+<!--        <item name="android:windowBackground">@color/basic_backgound</item>-->
+<!--    </style>-->
 
 <!--    <style name="SplashTheme2" parent="Theme.SplashScreen">-->
 <!--        <item name="windowSplashScreenBackground">@color/white</item>-->

@@ -18,10 +18,8 @@
         android:theme="@style/Theme.Snuggle_final_app"
         tools:targetApi="31">
 
-        <!--            android:theme="@style/SplashTheme"-->
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme"
             android:exported="true" >
 
             <intent-filter>

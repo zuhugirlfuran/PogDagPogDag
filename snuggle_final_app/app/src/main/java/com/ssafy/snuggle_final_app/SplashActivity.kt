@@ -23,7 +23,6 @@ class SplashActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-
 //        startActivity(Intent(this, LoginActivity::class.java))
 //        finish() // 스플래시 화면 종료
 
