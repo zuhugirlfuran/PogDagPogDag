@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="35dp">
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:text="Sign Up Path"
+        android:textColor="#000000"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearInsta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_marginTop="3dp"
+            android:id="@+id/radioInsta"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/dialog_checkbox_blank" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="18sp"
+            android:text="Instagram" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearYoutube"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_marginTop="3dp"
+            android:id="@+id/radioYoutube"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/dialog_checkbox_blank" />
+
+        <TextView
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Youtube" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearBlog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_marginTop="3dp"
+            android:id="@+id/radioBlog"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/dialog_checkbox_blank" />
+
+        <TextView
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Blog" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearSsafy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:gravity="center"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_marginTop="3dp"
+            android:id="@+id/radioSsafy"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/dialog_checkbox_blank" />
+
+        <TextView
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="Ssafy" />
+    </LinearLayout>
+</LinearLayout>

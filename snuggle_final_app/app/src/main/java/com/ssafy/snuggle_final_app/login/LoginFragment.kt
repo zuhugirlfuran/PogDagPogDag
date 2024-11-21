@@ -44,4 +44,27 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        /* ===== 비밀번호 표시 ===== */
+        binding.loginCheckPw.setOnClickListener {
+            // 현재 상태에 따라 비밀번호 표시/숨기기
+            if (binding.loginCheckPw.tag == "visible") {
+                // 현재 보이는 상태 -> 감추기
+                binding.loginEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.loginCheckPw.setImageResource(R.drawable.login_pw_uncheck) // 숨김 상태 아이콘으로 변경
+                binding.loginCheckPw.tag = "hidden"
+            } else {
+                // 현재 숨김 상태 -> 보이기
+                binding.loginEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.loginCheckPw.setImageResource(R.drawable.login_pw_check) // 표시 상태 아이콘으로 변경
+                binding.loginCheckPw.tag = "visible"
+            }
+
+            // 커서 위치 유지
+            binding.loginEtPw.setSelection(binding.loginEtPw.text.length)
+        }
+    }
+
 }
