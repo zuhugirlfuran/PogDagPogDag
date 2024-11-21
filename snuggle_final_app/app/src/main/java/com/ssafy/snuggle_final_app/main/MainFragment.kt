@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
@@ -51,7 +52,7 @@ class MainFragment : Fragment() {
             bannerTransaction.addToBackStack(null)
             bannerTransaction.commit()
         }
-        
+
         /* ==== BestProduct ==== */
         // 상품 아이템 목록 초기화
         bestProductList = mutableListOf(
@@ -87,6 +88,14 @@ class MainFragment : Fragment() {
         newRecyclerView.adapter = newAdapter
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 툴바 숨기기
+        val toolbar = activity?.findViewById<Toolbar>(R.id.app_bar)
+        toolbar?.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
