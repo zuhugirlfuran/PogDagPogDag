@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun replaceFragment(mainFragment: MainFragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, mainFragment)
+            .replace(R.id.main_frameLayout, mainFragment)
             .commit()
     }
 }

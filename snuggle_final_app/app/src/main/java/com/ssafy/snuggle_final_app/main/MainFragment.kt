@@ -43,6 +43,15 @@ class MainFragment : Fragment() {
     ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
+        /* ==== banner ==== */
+        //배너 클릭 리스너
+        binding.bannerDetailBtn.setOnClickListener {
+            val bannerTransaction = parentFragmentManager.beginTransaction()
+            bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
+            bannerTransaction.addToBackStack(null)
+            bannerTransaction.commit()
+        }
+        
         /* ==== BestProduct ==== */
         // 상품 아이템 목록 초기화
         bestProductList = mutableListOf(
