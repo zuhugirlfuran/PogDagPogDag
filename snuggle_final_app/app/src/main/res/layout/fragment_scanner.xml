@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="-76dp"
+    android:clipToPadding="false"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="33dp"
+    android:paddingRight="33dp"
+    tools:context=".scanner.ScannerFragment">
+
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="85dp"
+        android:layout_height="76dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="60dp"
+        android:src="@drawable/jumping_cat" />
+
+    <LinearLayout
+        android:id="@+id/scanner_ll_readypage"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/scanner_ready_background"
+        android:elevation="30dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="스캔 준비 완료"
+            android:textSize="27dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="108dp"
+            android:layout_height="108dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="50dp"
+            android:src="@drawable/scanner_ready_icon" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="NFC 태그를 기기 뒷면에 가까이 가져가세요.\n스캔이 완료되면 알림이 표시됩니다."
+            android:textSize="13dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:text="태그가 인식되지 않을 경우, 태그 위치를 조정해 주세요."
+            android:textColor="#E70000"
+            android:textSize="11dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+</LinearLayout>

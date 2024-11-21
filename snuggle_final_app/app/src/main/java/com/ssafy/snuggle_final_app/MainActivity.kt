@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
 import com.ssafy.snuggle_final_app.main.NotificationActivity
+import com.ssafy.snuggle_final_app.scanner.ScannerFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -34,6 +36,11 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
+                R.id.scanner -> {
+                    replaceFragment(ScannerFragment())
+                    true
+                }
+
                 else -> false
             }
         }
@@ -53,9 +60,15 @@ class MainActivity : AppCompatActivity() {
 
 
     // 프래그먼트 교체 함수
-    private fun replaceFragment(mainFragment: MainFragment) {
+    public fun replaceFragment(mainFragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frameLayout, mainFragment)
             .commit()
+
+//        if (fragment is HideBottomNavFragment) {
+//            bottomNavigationView.visibility = View.GONE
+//        } else {
+//            bottomNavigationView.visibility = View.VISIBLE
+//        }
     }
 }
