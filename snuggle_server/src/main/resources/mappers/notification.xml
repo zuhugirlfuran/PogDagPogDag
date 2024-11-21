@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.snuggle.model.dao.NotificationDao">
+
+
+	<!-- user_id에 해당하는 알림 조회  -->
+	<select id = "select" parameterType="String" resultType="Notification">
+	 SELECT 
+            n.n_id AS nId,
+            n.user_id AS userId,
+            n.title,
+            n.content,
+            n.time
+        FROM t_notification n
+        WHERE n.user_id = #{userId}
+	</select>
+	
+
+
+</mapper>

@@ -11,7 +11,7 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @SpringBootApplication
-@MapperScan(basePackages = "com.ssafy.cafe.model.dao")
+@MapperScan(basePackages = "com.ssafy.snuggle.model.dao")
 public class SnuggleServerApplication {
 
 
@@ -23,8 +23,8 @@ public class SnuggleServerApplication {
     public OpenAPI postsApi() {
         Info info = new Info()
                .title("폭닥폭닥 Rest API")
-               .description("<h3>폭닥폭닥에서 제공되는 Rest api의 문서 제공</h3><br>"
-               		+ "<img src=\"/imgs/ssafy_logo.png\" width=\"200\">")
+               .description("<h3>폭닥폭닥에서 제공되는 Rest api의 문서 제공</h3><br>" + "<p>귀엽구 멋진 즈후, 미갱, 승디의 프로젝트</p>" 
+               		+ "<img src=\"/imgs/logo.png\" width=\"200\">")
                .contact(new Contact().name("ssafy").email("ssafy@ssafy.com"))
                .license(new License().name("SSAFY License").url("https://www.ssafy.com/ksp/jsp/swp/etc/swpPrivacy.jsp"))
                .version("1.0");
