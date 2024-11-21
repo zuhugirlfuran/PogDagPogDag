@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
-import com.ssafy.snuggle_final_app.dto.Comment
-import com.ssafy.snuggle_final_app.dto.Product
+import com.ssafy.snuggle_final_app.data.model.dto.Comment
+import com.ssafy.snuggle_final_app.data.model.dto.Product
 
 
 class ProductDetailFragment : Fragment() {

@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.dto
+package com.ssafy.snuggle_final_app.data.model.dto
 
 import java.io.Serializable
 

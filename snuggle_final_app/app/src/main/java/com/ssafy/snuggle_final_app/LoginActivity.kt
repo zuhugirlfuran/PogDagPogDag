@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app
 import android.content.Intent
 import android.os.Bundle
 import com.ssafy.smartstore_jetpack.base.BaseActivity
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.databinding.ActivityLoginBinding
 import com.ssafy.snuggle_final_app.login.JoinFragment
 import com.ssafy.snuggle_final_app.login.LoginFragment

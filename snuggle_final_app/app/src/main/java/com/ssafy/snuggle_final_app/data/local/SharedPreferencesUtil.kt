@@ -1,9 +1,9 @@
-package com.ssafy.snuggle_final_app.util
+package com.ssafy.snuggle_final_app.data.local
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
-import com.ssafy.snuggle_final_app.dto.User
+import com.ssafy.snuggle_final_app.data.model.dto.User
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

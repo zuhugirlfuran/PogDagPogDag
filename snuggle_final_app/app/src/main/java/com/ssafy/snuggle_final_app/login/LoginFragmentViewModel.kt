@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.snuggle_final_app.dto.User
-import com.ssafy.snuggle_final_app.util.RetrofitUtil
+import com.ssafy.snuggle_final_app.data.model.dto.User
+import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
 class LoginFragmentViewModel: ViewModel() {

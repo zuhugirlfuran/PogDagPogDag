@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app
+package com.ssafy.snuggle_final_app.base
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.ssafy.snuggle_final_app.util.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 

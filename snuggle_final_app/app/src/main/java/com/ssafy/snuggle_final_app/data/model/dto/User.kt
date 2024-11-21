@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.dto
+package com.ssafy.snuggle_final_app.data.model.dto
 
 data class User(
     val userId: String,      // 사용자 이메일 ID (Primary Key)

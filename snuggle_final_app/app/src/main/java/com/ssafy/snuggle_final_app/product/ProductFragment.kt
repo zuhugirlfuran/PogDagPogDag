@@ -9,15 +9,14 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.ssafy.snuggle_final_app.ApplicationClass
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.dto.Product
+import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.databinding.FragmentProductBinding
-import com.ssafy.snuggle_final_app.service.ProductService
+import com.ssafy.snuggle_final_app.data.service.ProductService
 import kotlinx.coroutines.launch
 
 class ProductFragment : Fragment() {

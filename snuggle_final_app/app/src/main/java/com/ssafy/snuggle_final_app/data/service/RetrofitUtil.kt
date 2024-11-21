@@ -1,8 +1,6 @@
-package com.ssafy.snuggle_final_app.util
+package com.ssafy.snuggle_final_app.data.service
 
-import com.ssafy.snuggle_final_app.ApplicationClass
-import com.ssafy.snuggle_final_app.service.ProductService
-import com.ssafy.snuggle_final_app.service.UserService
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 
 class RetrofitUtil {
     companion object{

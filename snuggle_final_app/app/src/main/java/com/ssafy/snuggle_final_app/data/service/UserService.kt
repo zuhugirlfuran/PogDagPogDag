@@ -1,6 +1,7 @@
-package com.ssafy.snuggle_final_app.service
+package com.ssafy.snuggle_final_app.data.service
 
-import com.ssafy.snuggle_final_app.dto.User
+import com.ssafy.snuggle_final_app.data.model.dto.User
+import com.ssafy.snuggle_final_app.data.model.response.UserResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

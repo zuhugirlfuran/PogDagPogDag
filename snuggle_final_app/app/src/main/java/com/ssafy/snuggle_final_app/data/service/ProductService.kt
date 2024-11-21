@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.service
+package com.ssafy.snuggle_final_app.data.service
 
 import retrofit2.Response
 import retrofit2.http.GET

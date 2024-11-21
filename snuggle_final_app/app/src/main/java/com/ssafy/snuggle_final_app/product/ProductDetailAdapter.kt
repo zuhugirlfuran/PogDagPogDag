@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ssafy.snuggle_final_app.databinding.ItemProductDetailListBinding
-import com.ssafy.snuggle_final_app.dto.Comment
+import com.ssafy.snuggle_final_app.data.model.dto.Comment
 
 class ProductDetailAdapter
     (private val commentList: MutableList<Comment>) :

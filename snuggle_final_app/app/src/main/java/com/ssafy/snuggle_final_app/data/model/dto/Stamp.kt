@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.dto
+package com.ssafy.snuggle_final_app.data.model.dto
 
 data class Stamp(
     val sId: Int,        // 스탬프 ID (Primary Key)
