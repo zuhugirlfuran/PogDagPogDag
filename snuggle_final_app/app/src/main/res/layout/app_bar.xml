@@ -16,6 +16,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/app_bar_iv_logo"
                 android:layout_width="122dp"
                 android:layout_height="68dp"
                 android:src="@drawable/logo" />

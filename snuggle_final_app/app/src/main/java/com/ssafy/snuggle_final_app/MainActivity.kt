@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.Toast
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.ssafy.snuggle_final_app.cart.CartFragment
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
 import com.ssafy.snuggle_final_app.main.NotificationActivity
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         //툴바 메뉴 리스너
         val cartButton = findViewById<ImageButton>(R.id.app_bar_ib_cart)
         cartButton.setOnClickListener {
-            Toast.makeText(this, "장바구니 버튼 클릭됨", Toast.LENGTH_SHORT).show()
+            replaceFragment(CartFragment())
         }
 
         val notificationButton = findViewById<ImageButton>(R.id.app_bar_ib_notification)
@@ -56,6 +57,13 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, NotificationActivity::class.java)
             startActivity(intent)
         }
+
+        val logo = findViewById<ImageView>(R.id.app_bar_iv_logo)
+        logo.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
@@ -65,10 +73,5 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.main_frameLayout, mainFragment)
             .commit()
 
-//        if (fragment is HideBottomNavFragment) {
-//            bottomNavigationView.visibility = View.GONE
-//        } else {
-//            bottomNavigationView.visibility = View.VISIBLE
-//        }
     }
 }
