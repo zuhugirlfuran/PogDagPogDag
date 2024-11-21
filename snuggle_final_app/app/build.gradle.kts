@@ -36,6 +36,9 @@ android {
     viewBinding {
         enable = true
     }
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -57,5 +60,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    //framework ktx dependency 추가
+    implementation ("androidx.fragment:fragment-ktx:1.6.2")
 
 }
