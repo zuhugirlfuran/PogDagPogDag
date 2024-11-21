@@ -20,6 +20,7 @@
             android:paddingEnd="16dp">
 
             <ImageView
+                android:id="@+id/product_detail_iv_img"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_gravity="center"

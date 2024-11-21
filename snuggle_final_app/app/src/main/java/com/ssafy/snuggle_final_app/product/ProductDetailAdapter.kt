@@ -9,7 +9,7 @@ import com.ssafy.snuggle_final_app.databinding.ItemProductDetailListBinding
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 
 class ProductDetailAdapter
-    (private val commentList: MutableList<Comment>) :
+    (private var commentList: List<Comment>) :
     RecyclerView.Adapter<ProductDetailAdapter.ProductDetailViewHolder>() {
 
     class ProductDetailViewHolder(private val binding: ItemProductDetailListBinding) :
@@ -30,6 +30,11 @@ class ProductDetailAdapter
             }
 
         }
+    }
+
+    fun submitList(list: List<Comment>) {
+        commentList = list
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
