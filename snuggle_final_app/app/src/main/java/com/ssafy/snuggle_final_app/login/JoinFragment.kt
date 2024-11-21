@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_mobile.login
+package com.ssafy.snuggle_final_app.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +18,7 @@ class JoinFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         return inflater.inflate(R.layout.fragment_join, container, false)
     }
 
