@@ -6,17 +6,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.ssafy.snuggle_final_app.util.SharedPreferencesUtil
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
     // ipconfig를 통해 IP확인하기
     // 핸드폰으로 접속은 같은 인터넷으로 연결 되어있어야함 (유,무선)
-    val SERVER_URL = "http://192.168.33.117:8080/"
+//    val SERVER_URL = "http://192.168.33.117:8080/"
+    val SERVER_URL = "http://192.168.33.118:8080/"
 
     companion object {
         // 전역변수 문법을 통해 Retrofit 인스턴스를 앱 실행시 1번만 생성하여 사용 (Singleton)
         lateinit var retrofit: Retrofit
+
+        lateinit var sharedPreferencesUtil: SharedPreferencesUtil
     }
 
     override fun onCreate() {
@@ -36,6 +40,9 @@ class ApplicationClass : Application() {
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
+
+        // 초기화
+        sharedPreferencesUtil = SharedPreferencesUtil(this)
     }
 
     //GSon은 엄격한 json type을 요구하는데, 느슨하게 하기 위한 설정.

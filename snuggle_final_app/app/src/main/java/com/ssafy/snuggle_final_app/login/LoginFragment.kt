@@ -1,11 +1,14 @@
 package com.ssafy.snuggle_final_app.login
 
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
@@ -16,6 +19,7 @@ class LoginFragment : Fragment() {
     // 바인딩 객체 선언 및 초기화
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: LoginFragmentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +36,9 @@ class LoginFragment : Fragment() {
         Glide.with(this).load(R.raw.jumping_cat).override(560, 560).into(binding.loginCatImageView)
 
         // 메인 화면으로 이동
-        binding.loginBtnSignIn.setOnClickListener {
-            loginActivity.openFragment(1)
-        }
+//        binding.loginBtnSignIn.setOnClickListener {
+//            loginActivity.openFragment(1)
+//        }
 
         // 회원가입 화면으로 이동
         binding.loginBtnSignUp.setOnClickListener {
@@ -47,17 +51,20 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        /* ===== 회원가입 ===== */
+        moveToSignup()
+
         /* ===== 비밀번호 표시 ===== */
         binding.loginCheckPw.setOnClickListener {
             // 현재 상태에 따라 비밀번호 표시/숨기기
             if (binding.loginCheckPw.tag == "visible") {
                 // 현재 보이는 상태 -> 감추기
-                binding.loginEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.loginEtPw.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 binding.loginCheckPw.setImageResource(R.drawable.login_pw_uncheck) // 숨김 상태 아이콘으로 변경
                 binding.loginCheckPw.tag = "hidden"
             } else {
                 // 현재 숨김 상태 -> 보이기
-                binding.loginEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.loginEtPw.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 binding.loginCheckPw.setImageResource(R.drawable.login_pw_check) // 표시 상태 아이콘으로 변경
                 binding.loginCheckPw.tag = "visible"
             }
@@ -65,6 +72,34 @@ class LoginFragment : Fragment() {
             // 커서 위치 유지
             binding.loginEtPw.setSelection(binding.loginEtPw.text.length)
         }
+
+
+        /* ===== 로그인 ===== */
+        binding.loginBtnSignIn.setOnClickListener {
+            val id = binding.loginEtId.text.toString()
+            val password = binding.loginEtPw.text.toString()
+            viewModel.login(id, password)
+        }
     }
 
+    private fun moveToSignup() {
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            if (user.userId.isNotEmpty()) {
+                showToast("로그인 성공: ${user.userId}")
+                (requireActivity() as LoginActivity).openFragment(1)
+            } else {
+                showToast("로그인 실패: 아이디 또는 비밀번호를 확인하세요.")
+            }
+        }
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
