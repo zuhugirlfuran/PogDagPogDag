@@ -4,7 +4,7 @@
 
 <mapper namespace="com.ssafy.snuggle.model.dao.AddressDao">
 
-	<select id="select" parameterType="String" resultType="Address">
+	<select id="select" parameterType="String" resultType="com.ssafy.snuggle.model.dto.Address">
 		SELECT *
 		FROM t_address
 		WHERE user_id = #{userId}
