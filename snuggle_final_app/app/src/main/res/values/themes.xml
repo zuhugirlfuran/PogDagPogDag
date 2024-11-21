@@ -5,7 +5,7 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="android:windowBackground">@color/basic_backgound</item>
-
+        <item name="android:windowIsTranslucent">true</item>
         <!-- 상태바 없애기 -->
         <item name="android:statusBarColor">@color/basic_backgound</item>
 
@@ -13,22 +13,4 @@
 
     <style name="Theme.Snuggle_final_app" parent="Base.Theme.Snuggle_final_app" />
 
-<!--    <style name="SplashTheme" parent="Theme.SplashScreen">-->
-<!--        <item name="windowSplashScreenBackground">@color/basic_backgound</item>-->
-<!--        <item name="windowSplashScreenIconBackgroundColor">@raw/falling_snow</item>-->
-<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item> &lt;!&ndash; 로고 &ndash;&gt;-->
-<!--        <item name="windowSplashScreenAnimationDuration">2000</item> &lt;!&ndash; 애니메이션 시간 &ndash;&gt;-->
-<!--        <item name="postSplashScreenTheme">@style/Theme.Snuggle_final_app</item> &lt;!&ndash; 스플래시 이후 테마 &ndash;&gt;-->
-<!--    </style>-->
-
-    <style name="SplashTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@color/basic_backgound</item>
-    </style>
-
-<!--    <style name="SplashTheme2" parent="Theme.SplashScreen">-->
-<!--        <item name="windowSplashScreenBackground">@color/white</item>-->
-<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_logo</item> &lt;!&ndash; 로고 이미지 &ndash;&gt;-->
-<!--        <item name="windowSplashScreenAnimationDuration">2000</item> &lt;!&ndash; 애니메이션 시간 &ndash;&gt;-->
-<!--        <item name="postSplashScreenTheme">@style/Theme.Snuggle_final_app</item> &lt;!&ndash; 스플래시 이후 테마 &ndash;&gt;-->
-<!--    </style>-->
 </resources>

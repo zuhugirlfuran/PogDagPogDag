@@ -12,48 +12,68 @@ import kotlinx.coroutines.launch
 class LoginFragmentViewModel: ViewModel() {
 
     private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+    val user : LiveData<User> get() = _user
 
     private val _isAvailableId = MutableLiveData<Boolean>()
-    val isAvailableId: LiveData<Boolean>
-        get() = _isAvailableId
+    val isAvailableId: LiveData<Boolean> get() = _isAvailableId
 
+    private val _joinStatus = MutableLiveData<Boolean>()
+    val joinStatus: LiveData<Boolean> get() = _joinStatus
+
+    // 로그인 처리 함수
     fun login(id: String, pass: String) {
         viewModelScope.launch {
             runCatching {
                 RetrofitUtil.userService.login(User(id, pass))
-            }.onSuccess { user ->
-                // 로그인 성공 시
-                _user.value = user
-                // 로그 출력
-                Log.d("Login", "로그인 성공: ${user.userId}")
-            }.onFailure { throwable ->
-                // 로그인 실패 시
+            }.onSuccess {
+                _user.value = it
+            }.onFailure {
                 _user.value = User()
-                // 로그 출력
-                Log.e("Login", "로그인 실패: ${throwable.message}")
             }
         }
     }
 
-
+    // ID 중복 확인 함수
     fun checkAvailableId(id: String) {
         viewModelScope.launch {
-            runCatching {
+            safeApiCall({
                 RetrofitUtil.userService.isUsedId(id)
-            }.onSuccess { isUsed ->
+            }, { isUsed ->
                 _isAvailableId.value = !isUsed
-            }.onFailure {
+                Log.e("ID Check", "ID 중복: $isUsed")
+            }, {
                 _isAvailableId.value = false
-            }
+                Log.e("ID Check", "ID 중복 확인 실패: ${it.message}")
+            })
         }
     }
 
-    fun join(id:String, name:String, pass:String) {
+    // 회원가입 함수
+    fun join(user: User) {
         viewModelScope.launch {
-            RetrofitUtil.userService.insert(User(id, name, pass))
+            safeApiCall({
+                RetrofitUtil.userService.insert(user)
+            }, { isInserted ->
+                Log.d("Join", "회원가입 성공")
+                _joinStatus.value = isInserted // 성공 여부 저장
+            }, {
+                _joinStatus.value = false
+                Log.e("Join", "회원가입 실패: ${it.message}")
+            })
         }
     }
 
+    // 공통으로 API 호출을 안전하게 처리하는 함수
+    private suspend fun <T> safeApiCall(
+        apiCall: suspend () -> T,
+        onSuccess: (T) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        try {
+            val result = apiCall()
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailure(e)
+        }
+    }
 }

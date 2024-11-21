@@ -23,7 +23,6 @@ class SplashActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-
 //        startActivity(Intent(this, LoginActivity::class.java))
 //        finish() // 스플래시 화면 종료
 
@@ -45,7 +44,7 @@ class SplashActivity : Activity() {
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
             finish() // 스플래시 종료
-        }, 3000) // 3000ms (3초)
+        }, 2000) // 3000ms (3초)
 
     }
 }
