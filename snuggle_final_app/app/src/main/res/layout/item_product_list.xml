@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/product_iv"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:backgroundTint="@android:color/transparent"
         android:scaleType="centerCrop" />
 
