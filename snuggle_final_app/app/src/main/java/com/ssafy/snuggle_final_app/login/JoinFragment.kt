@@ -2,17 +2,23 @@ package com.ssafy.snuggle_final_app.login
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.Visibility
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.data.model.dto.User
+import com.ssafy.snuggle_final_app.data.service.RetrofitUtil.Companion.userService
 import com.ssafy.snuggle_final_app.databinding.FragmentJoinBinding
+import kotlinx.coroutines.launch
 
 class JoinFragment : Fragment() {
     private lateinit var loginActivity: LoginActivity
@@ -20,6 +26,9 @@ class JoinFragment : Fragment() {
     // 바인딩 객체 선언 및 초기화
     private var _binding: FragmentJoinBinding? = null
     private val binding get() = _binding!!
+
+    private var checkedId = false
+    private var clicked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +41,87 @@ class JoinFragment : Fragment() {
     ): View? {
         _binding = FragmentJoinBinding.inflate(inflater, container, false)
 
+        // ID 중복 확인 버튼
+        binding.joinCheckId.setOnClickListener {
+            val inputId = binding.joinEtId.text.toString()
+            clicked = true
+
+            if (inputId.isEmpty()) {
+                showToast("ID를 입력해주세요.")
+                binding.joinCheckId.setBackgroundResource(R.drawable.join_checkbox_id_wrong)
+                return@setOnClickListener
+            }
+            lifecycleScope.launch {
+                try {
+                    checkedId = userService.isUsedId(inputId)
+                    if (!checkedId) {
+                        binding.joinCheckId.setBackgroundResource(R.drawable.join_checkbox_id)
+                        showToast("사용가능한 ID입니다.")
+                    } else {
+                        showToast("사용할 수 없는 ID 입니다.")
+                        binding.joinCheckId.setBackgroundResource(R.drawable.join_checkbox_id_wrong)
+                    }
+                } catch (e: Exception) {
+                    showToast("ID 확인 중 오류가 발생했습니다.")
+                }
+            }
+        }
+
+
         // 메인 화면으로 이동
         binding.joinBtnSignUp.setOnClickListener {
+            val id = binding.joinEtId.text.toString()
+            val password = binding.joinEtPw.text.toString()
+            val nickname = binding.joinEtNickname.text.toString()
+            val ageString = binding.joinEtAge.text.toString()
+            val gender = binding.joinEtGender.tag.toString() // 'M' 또는 'F' 값을 가져옴
+            val path = binding.joinEtPath.text.toString()
+
+            // 숫자 변환 시 예외 처리를 위한 try-catch
+            val age: Int? = try {
+                ageString.toInt()
+            } catch (e: NumberFormatException) {
+                0
+            }
+
+            // User 객체 생성
+            val user = User(id, password, nickname, age!!, gender, path, "", "", 0)
+
+            if (checkedId || !clicked) {
+                showToast("ID를 체크해 주세요.")
+                binding.joinCheckId.setBackgroundResource(R.drawable.join_checkbox_id_wrong)
+                return@setOnClickListener
+            } else if (password.isEmpty() || id.isEmpty() || nickname.isEmpty() || ageString.isEmpty() || gender.isEmpty() || path.isEmpty()) {
+                Toast.makeText(requireContext(), "빈 칸을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (clicked) {
+                binding.joinCheckId.setBackgroundResource(R.drawable.join_checkbox_id)
+            }
+
+            lifecycleScope.launch {
+                runCatching {
+                    // 서버에 회원가입 요청
+                    val isInserted = userService.insert(user)
+                    if (isInserted) {
+                        showToast("회원가입이 완료되었습니다.")
+                        loginActivity.openFragment(1)
+                    } else {
+                        showToast("회원가입에 실패했습니다.")
+                    }
+                }
+            }
+
             loginActivity.openFragment(3)
         }
 
-        // 로그인 화면으로 이동
-        binding.joinBtnSignIp.setOnClickListener {
-            loginActivity.openFragment(3)
-        }
 
         return binding.root
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,12 +132,14 @@ class JoinFragment : Fragment() {
             // 현재 상태에 따라 비밀번호 표시/숨기기
             if (binding.joinCheckPw.tag == "visible") {
                 // 현재 보이는 상태 -> 감추기
-                binding.joinEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+                binding.joinEtPw.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
                 binding.joinCheckPw.setImageResource(R.drawable.login_pw_uncheck) // 숨김 상태 아이콘으로 변경
                 binding.joinCheckPw.tag = "hidden"
             } else {
                 // 현재 숨김 상태 -> 보이기
-                binding.joinEtPw.inputType = android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                binding.joinEtPw.inputType =
+                    android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                 binding.joinCheckPw.setImageResource(R.drawable.login_pw_check) // 표시 상태 아이콘으로 변경
                 binding.joinCheckPw.tag = "visible"
             }
@@ -69,6 +150,7 @@ class JoinFragment : Fragment() {
 
 
         /* ===== 커스텀 성별 다이얼로그 ===== */
+        // 커스텀 성별 다이얼로그 설정 부분
         binding.joinEtGender.setOnClickListener {
             // 커스텀 다이얼로그 레이아웃을 인플레이트
             val dialogView = layoutInflater.inflate(R.layout.join_dialog_gender, null)
@@ -85,8 +167,14 @@ class JoinFragment : Fragment() {
                 .setPositiveButton("확인") { _, _ ->
                     // 선택된 성별을 EditText에 설정
                     when {
-                        radioMale.tag == "selected" -> binding.joinEtGender.setText("남성")
-                        radioFemale.tag == "selected" -> binding.joinEtGender.setText("여성")
+                        radioMale.tag == "selected" -> {
+                            binding.joinEtGender.setText("남성")
+                            binding.joinEtGender.tag = "M" // 'M' 값 설정
+                        }
+                        radioFemale.tag == "selected" -> {
+                            binding.joinEtGender.setText("여성")
+                            binding.joinEtGender.tag = "F" // 'F' 값 설정
+                        }
                     }
                 }
                 .create()
@@ -115,8 +203,8 @@ class JoinFragment : Fragment() {
             }
 
             dialog.show() // 다이얼로그 표시
-
         }
+
 
         /* ===== 커스텀 가입경로 다이얼로그 ===== */
         binding.joinEtPath.setOnClickListener {

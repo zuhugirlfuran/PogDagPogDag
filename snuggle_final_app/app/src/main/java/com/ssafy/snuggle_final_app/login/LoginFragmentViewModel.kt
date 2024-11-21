@@ -12,48 +12,64 @@ import kotlinx.coroutines.launch
 class LoginFragmentViewModel: ViewModel() {
 
     private val _user = MutableLiveData<User>()
-    val user : LiveData<User>
-        get() = _user
+    val user : LiveData<User> get() = _user
 
     private val _isAvailableId = MutableLiveData<Boolean>()
-    val isAvailableId: LiveData<Boolean>
-        get() = _isAvailableId
+    val isAvailableId: LiveData<Boolean> get() = _isAvailableId
 
+    // 로그인 처리 함수
     fun login(id: String, pass: String) {
         viewModelScope.launch {
-            runCatching {
+            safeApiCall({
                 RetrofitUtil.userService.login(User(id, pass))
-            }.onSuccess { user ->
-                // 로그인 성공 시
+            }, { user ->
                 _user.value = user
-                // 로그 출력
                 Log.d("Login", "로그인 성공: ${user.userId}")
-            }.onFailure { throwable ->
-                // 로그인 실패 시
+            }, {
                 _user.value = User()
-                // 로그 출력
-                Log.e("Login", "로그인 실패: ${throwable.message}")
-            }
+                Log.e("Login", "로그인 실패: ${it.message}")
+            })
         }
     }
 
-
+    // ID 중복 확인 함수
     fun checkAvailableId(id: String) {
         viewModelScope.launch {
-            runCatching {
+            safeApiCall({
                 RetrofitUtil.userService.isUsedId(id)
-            }.onSuccess { isUsed ->
+            }, { isUsed ->
                 _isAvailableId.value = !isUsed
-            }.onFailure {
+            }, {
                 _isAvailableId.value = false
-            }
+                Log.e("ID Check", "ID 중복 확인 실패: ${it.message}")
+            })
         }
     }
 
-    fun join(id:String, name:String, pass:String) {
+    // 회원가입 함수
+    fun join(id: String, name: String, pass: String) {
         viewModelScope.launch {
-            RetrofitUtil.userService.insert(User(id, name, pass))
+            safeApiCall({
+                RetrofitUtil.userService.insert(User(id, name, pass))
+            }, {
+                Log.d("Join", "회원가입 성공")
+            }, {
+                Log.e("Join", "회원가입 실패: ${it.message}")
+            })
         }
     }
 
+    // 공통으로 API 호출을 안전하게 처리하는 함수
+    private suspend fun <T> safeApiCall(
+        apiCall: suspend () -> T,
+        onSuccess: (T) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        try {
+            val result = apiCall()
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailure(e)
+        }
+    }
 }
