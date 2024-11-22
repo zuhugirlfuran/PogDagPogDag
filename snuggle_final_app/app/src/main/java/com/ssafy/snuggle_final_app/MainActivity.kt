@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.cart.CartFragment
+import com.ssafy.snuggle_final_app.chatbot.ChatBotFragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
@@ -41,10 +42,10 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(MypageFragment())
                     true
                 }
-//                R.id.chatbot -> {
-//                    replaceFragment(ChatBotFragment())
-//                    true
-//                }
+                R.id.chatbot -> {
+                    replaceFragment(ChatBotFragment())
+                    true
+                }
                 else -> false
             }
         }
