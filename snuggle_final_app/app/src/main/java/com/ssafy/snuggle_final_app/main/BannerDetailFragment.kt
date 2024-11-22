@@ -43,14 +43,6 @@ class BannerDetailFragment : Fragment() {
         val toolbar = activity?.findViewById<Toolbar>(R.id.app_bar)
         toolbar?.visibility = View.GONE
 
-
-        binding.moveToOrder.setOnClickListener {
-            // OrderFragment로 이동
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
-            transaction.addToBackStack(null) // 이전 화면으로 돌아갈 수 있게 스택에 추가
-            transaction.commit()
-        }
     }
 
 }
