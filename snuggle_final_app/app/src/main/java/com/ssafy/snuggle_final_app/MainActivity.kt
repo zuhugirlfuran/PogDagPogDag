@@ -93,14 +93,13 @@ class MainActivity : AppCompatActivity() {
 
     fun addToStackFragment(fragment: Fragment) {
         val fragmentTag = fragment.javaClass.simpleName
-        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-
-        if (currentFragment == null) { // 동일한 태그의 프래그먼트가 없을 때만 추가
+//        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+//        if (currentFragment == null) { // 동일한 태그의 프래그먼트가 없을 때만 추가
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frameLayout, fragment, fragmentTag)
                 .addToBackStack(fragmentTag)
                 .commit()
-        }
+//        }
     }
 
     fun fragmentBackPressed(

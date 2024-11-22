@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app.main
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -19,6 +20,7 @@ import com.ssafy.snuggle_final_app.product.ProductDetailFragmentViewModel
 import com.ssafy.snuggle_final_app.search.SearchFragment
 import com.ssafy.snuggle_final_app.search.SearchViewModel
 
+private const val TAG = "MainFragment"
 class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::bind,
     R.layout.fragment_main
@@ -43,10 +45,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         // 툴바 숨기기
         val toolbar = activity?.findViewById<Toolbar>(R.id.app_bar)
@@ -82,33 +82,30 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         productViewModel.getNewProductList()
 
         // 검색 기능
-        binding.searchEditText.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                // EditText가 처음 터치되었을 때 동작
-                mainActivity.addToStackFragment(SearchFragment())
-                true
-            } else {
-                false // 다른 이벤트는 기본 동작 수행
-            }
+        binding.searchEditText.setOnClickListener {
+            mainActivity.addToStackFragment(SearchFragment())
         }
-
 
     }
 
     private fun observeViewModel() {
         productViewModel.bestProductList.observe(viewLifecycleOwner) { bestProducts ->
             if (bestProducts != null) {
-                bestAdapter.submitList(bestProducts)
+                // 데이터 3개 제한
+                val limitedBestProducts = if (bestProducts.size > 3) bestProducts.subList(0, 3) else bestProducts
+                bestAdapter.submitList(limitedBestProducts)
             }
         }
 
         productViewModel.newProductList.observe(viewLifecycleOwner) { newProducts ->
             if (newProducts != null) {
-                newAdapter.submitList(newProducts)
+                // 데이터 3개 제한
+                val limitedNewProducts = if (newProducts.size > 3) newProducts.subList(0, 3) else newProducts
+                newAdapter.submitList(limitedNewProducts)
             }
-
         }
     }
+
 
     private fun bestProductAdapter() {
 
@@ -117,11 +114,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         bestRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
+
         // 어댑터 초기화 및 연결
         bestAdapter = BestProductRecyclerViewAdapter(emptyList()) { productId ->
             productViewModel.productId = productId
             mainActivity.addToStackFragment(ProductDetailFragment())
-
         }
 
         bestRecyclerView.adapter = bestAdapter

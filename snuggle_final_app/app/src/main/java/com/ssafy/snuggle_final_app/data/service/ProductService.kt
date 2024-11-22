@@ -9,13 +9,6 @@ import java.util.Locale.Category
 
 interface ProductService {
 
-    // 카테고리 id에 따라 카테고리 목록 불러오기
-    // 그냥 전체 카테고리 목록을 불러오는게 낫지 않을까..
-    @GET("/snuggle/category/{cId}")
-    suspend fun getCategory(
-        @Path("cId") cId: Int
-    ): Category
-
     // 전체 상품 목록 반환
     @GET("/snuggle/product")
     suspend fun getProductList(): List<Product>

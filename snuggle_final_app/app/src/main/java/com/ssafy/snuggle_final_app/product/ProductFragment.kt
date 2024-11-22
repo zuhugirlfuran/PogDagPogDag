@@ -36,6 +36,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     private lateinit var mainActivity: MainActivity
 
     private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
+    private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -44,7 +45,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+    //    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -53,23 +54,38 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
         // livedata 통해서 관찰하고 리사이클러뷰 업데이트
         observeViewModel()
+        observeCategoryViewModel()
 
         // 상품 리스트 데이터 가져오기
         viewModel.getProductList()
+        // 카테고리 데이터 가져오기
+        categoryViewModel.getCategoryList()
 
         // 검색 기능
-        binding.productEtSearch.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                // EditText가 처음 터치되었을 때 동작
-                mainActivity.addToStackFragment(SearchFragment())
-                true
+        binding.productEtSearch.setOnClickListener {
+            mainActivity.addToStackFragment(SearchFragment())
+        }
+//        binding.productEtSearch.setOnTouchListener { _, event ->
+//            if (event.action == MotionEvent.ACTION_DOWN) {
+//                // EditText가 처음 터치되었을 때 동작
+//                mainActivity.addToStackFragment(SearchFragment())
+//                true
+//            } else {
+//                false // 다른 이벤트는 기본 동작 수행
+//            }
+//        }
+
+        sortSpinner()
+    }
+
+    private fun observeCategoryViewModel() {
+        categoryViewModel.categoryList.observe(viewLifecycleOwner) { categories ->
+            if (categories.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "카테고리 목록이 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
-                false // 다른 이벤트는 기본 동작 수행
+                updateCategorySpinner(categories.map { it.categoryName })
             }
         }
-
-        // 서버에 카테고리 연결해 출력하는 어댑터
-        // categorySpinnerAdapter(1)
     }
 
     private fun observeViewModel() {
@@ -103,64 +119,91 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
     }
 
-//    private fun categorySpinnerAdapter(cId: Int) {
-//        val categoryService = ApplicationClass.retrofit.create(ProductService::class.java)
-//
-//        // CoroutineScope를 활용하여 데이터 가져오기
-//        lifecycleScope.launch {
-//            try {
-//                val response = categoryService.getCategory(cId)
-//
-//                if (response.isSuccessful) {
-//                    val category = response.body()
-//                    if (category != null) {
-//                        val categoryNames = listOf(category.name)
-//
-//                        // Spinner 어댑터 설정
-//                        val spinnerAdapter = ArrayAdapter(
-//                            requireContext(),
-//                            android.R.layout.simple_spinner_dropdown_item,
-//                            categoryNames
-//                        )
-//                        binding.productDropdownCategory.adapter = spinnerAdapter
-//
-//                        // Spinner 아이템 선택 리스너 설정
-//                        binding.productDropdownCategory.onItemSelectedListener = object :
-//                            AdapterView.OnItemSelectedListener {
-//                            override fun onItemSelected(
-//                                parent: AdapterView<*>,
-//                                view: View?,
-//                                position: Int,
-//                                id: Long
-//                            ) {
-//                                if (position == 0) {
-//                                    // Hint 선택 시
-//
-//                                } else {
-//                                    // 실제 카테고리 선택 시
-//                                    Toast.makeText(
-//                                        requireContext(),
-//                                        "선택된 카테고리: ${categoryNames[position]}",
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//                            }
-//
-//                            override fun onNothingSelected(parent: AdapterView<*>) {
-//                                // 아무 것도 선택하지 않았을 때 처리할 로직
-//                            }
-//                        }
-//                    } else {
-//                        Toast.makeText(requireContext(), "카테고리 데이터 없음", Toast.LENGTH_SHORT).show()
-//                    }
-//                } else {
-//                    Toast.makeText(requireContext(), "카테고리 로드 실패: ${response.code()}", Toast.LENGTH_SHORT).show()
-//                }
-//            } catch (e: Exception) {
-//                Toast.makeText(requireContext(), "에러 발생: ${e.message}", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
+    private fun updateCategorySpinner(categoryNames: List<String>) {
+
+        val categoryWithHint = mutableListOf("카테고리").apply {
+            addAll(categoryNames)
+        }
+
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            categoryWithHint
+        )
+
+        binding.productDropdownCategory.adapter = spinnerAdapter
+
+        // 기본값으로 첫 번째 항목 선택(힌트)
+        binding.productDropdownCategory.setSelection(0)
+
+        binding.productDropdownCategory.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 0) {
+                    // 카테고리 선택 안했을 때
+                } else {
+                    // 카테고리 선택 시 처리 로직
+                    Toast.makeText(
+                        requireContext(),
+                        "선택된 카테고리: ${categoryNames[position]}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 아무 것도 선택하지 않았을 때 처리할 로직
+            }
+        }
+    }
+
+    private fun sortSpinner() {
+        // 고정된 항목 리스트 생성
+        val fixedItems = listOf("정렬기준", "인기순", "신규순", "가격 오름차순", "가격 내림차순")
+
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            fixedItems
+        )
+
+        // 스피너에 어댑터 연결
+        binding.productDropdownSort.adapter = spinnerAdapter
+
+        // 기본값 선택 (첫 번째 항목)
+        binding.productDropdownSort.setSelection(0)
+
+        // 스피너 아이템 선택 리스너 설정
+        binding.productDropdownSort.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 0) {
+                    // Hint 선택 시
+                } else {
+                    // 선택된 항목 처리 로직
+                    Toast.makeText(
+                        requireContext(),
+                        "선택된 항목: ${fixedItems[position]}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 아무 것도 선택하지 않았을 때 처리할 로직 (필요 시 추가)
+            }
+        }
+    }
 
 
 }

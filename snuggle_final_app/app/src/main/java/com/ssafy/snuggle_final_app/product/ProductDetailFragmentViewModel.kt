@@ -116,7 +116,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                     } else {
                         _newProductList.value = emptyList()
                     }
-                }, {exception ->
+                }, { exception ->
                     Log.e("Product", "새로운 상품 리스트 불러오기 오류: ${exception.message}")
                     _newProductList.value = emptyList()
                 }

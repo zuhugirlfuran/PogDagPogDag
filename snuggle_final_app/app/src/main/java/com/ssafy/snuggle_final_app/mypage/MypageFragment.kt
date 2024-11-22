@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.network.RetrofitClient
 import com.ssafy.snuggle_final_app.data.service.UserService
 import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
 
@@ -46,7 +45,7 @@ class MypageFragment : Fragment() {
         menuNotification.setBackgroundColor(Color.parseColor("#FFE57D"))
 
         //=== User 정보 가져오기 ==//
-        val userService = RetrofitClient.instance.create(UserService::class.java)
+//        val userService = RetrofitClient.instance.create(UserService::class.java)
 
 //        userService.getUserInfo("id 01").enqueue(object : retrofit2.Callback<UserResponse> {
 //            override fun onResponse(
