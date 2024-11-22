@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 초기 프래그먼트 설정 (MainFragment)
-        replaceFragment(MainFragment())
+        addToStackFragment(MainFragment())
 
         val bottomNavigation = binding.bottomNavigation
         bottomNavigation.selectedItemId = R.id.home

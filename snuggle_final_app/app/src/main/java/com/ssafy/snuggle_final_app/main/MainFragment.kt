@@ -1,10 +1,14 @@
 package com.ssafy.snuggle_final_app.main
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.MainActivity
@@ -12,6 +16,8 @@ import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
 import com.ssafy.snuggle_final_app.product.ProductDetailFragment
 import com.ssafy.snuggle_final_app.product.ProductDetailFragmentViewModel
+import com.ssafy.snuggle_final_app.search.SearchFragment
+import com.ssafy.snuggle_final_app.search.SearchViewModel
 
 class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::bind,
@@ -26,7 +32,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     private lateinit var mainActivity: MainActivity
 
     // viewModel
-    private val productViewModel : ProductDetailFragmentViewModel by activityViewModels()
+    private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
+//    private val searchViewModel: SearchViewModel by activityViewModels()
+
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,6 +42,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             mainActivity = context
         }
     }
+
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,27 +71,38 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         // 어댑터 초기화
         bestProductAdapter()
         newProductAdapter()
-        
+
         // viewModel 적용
         observeViewModel()
-       
+
         /* ==== BestProduct ==== */
         productViewModel.getBestProductList()
-
 
         /* ==== NewProduct ==== */
         productViewModel.getNewProductList()
 
-    }
-
-    private fun observeViewModel() {
-        productViewModel.bestProductList.observe(viewLifecycleOwner) {bestProducts ->
-            if (bestProducts != null) {
-               bestAdapter.submitList(bestProducts)
+        // 검색 기능
+        binding.searchEditText.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // EditText가 처음 터치되었을 때 동작
+                mainActivity.addToStackFragment(SearchFragment())
+                true
+            } else {
+                false // 다른 이벤트는 기본 동작 수행
             }
         }
 
-        productViewModel.newProductList.observe(viewLifecycleOwner) {newProducts ->
+
+    }
+
+    private fun observeViewModel() {
+        productViewModel.bestProductList.observe(viewLifecycleOwner) { bestProducts ->
+            if (bestProducts != null) {
+                bestAdapter.submitList(bestProducts)
+            }
+        }
+
+        productViewModel.newProductList.observe(viewLifecycleOwner) { newProducts ->
             if (newProducts != null) {
                 newAdapter.submitList(newProducts)
             }
@@ -114,11 +135,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         // 어댑터 초기화 및 연결
-        newAdapter = NewProductRecyclerViewAdapter(emptyList()) {productId ->
+        newAdapter = NewProductRecyclerViewAdapter(emptyList()) { productId ->
             productViewModel.productId = productId
             mainActivity.addToStackFragment(ProductDetailFragment())
         }
         newRecyclerView.adapter = newAdapter
     }
-
 }

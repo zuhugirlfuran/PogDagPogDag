@@ -80,7 +80,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
         adapter = ProductAdapter(emptyList()) { productId ->
             viewModel.productId = productId
-
             mainActivity.addToStackFragment(ProductDetailFragment())
         }
 
