@@ -1,9 +1,11 @@
 package com.ssafy.snuggle_final_app.product
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -22,6 +24,7 @@ import com.ssafy.snuggle_final_app.databinding.FragmentProductBinding
 import com.ssafy.snuggle_final_app.data.service.ProductService
 import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+import com.ssafy.snuggle_final_app.search.SearchFragment
 import kotlinx.coroutines.launch
 
 class ProductFragment : BaseFragment<FragmentProductBinding>(
@@ -41,6 +44,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,6 +56,17 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
         // 상품 리스트 데이터 가져오기
         viewModel.getProductList()
+
+        // 검색 기능
+        binding.productEtSearch.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                // EditText가 처음 터치되었을 때 동작
+                mainActivity.addToStackFragment(SearchFragment())
+                true
+            } else {
+                false // 다른 이벤트는 기본 동작 수행
+            }
+        }
 
         // 서버에 카테고리 연결해 출력하는 어댑터
         // categorySpinnerAdapter(1)
