@@ -39,6 +39,9 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    dataBinding {
+        enable = true
+    }
 }
 
 dependencies {
@@ -48,8 +51,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,5 +60,19 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
 
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.25")
+
+
+    // retrofit
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    //framework ktx dependency 추가
+    implementation ("androidx.fragment:fragment-ktx:1.6.2")
+
+    // splash
+    implementation (libs.androidx.core.splashscreen)
+
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.0")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.0")
 
 }

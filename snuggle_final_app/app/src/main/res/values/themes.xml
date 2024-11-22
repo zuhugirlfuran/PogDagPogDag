@@ -5,12 +5,12 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
         <item name="android:windowBackground">@color/basic_backgound</item>
-
+        <item name="android:windowIsTranslucent">true</item>
         <!-- 상태바 없애기 -->
         <item name="android:statusBarColor">@color/basic_backgound</item>
-
 
     </style>
 
     <style name="Theme.Snuggle_final_app" parent="Base.Theme.Snuggle_final_app" />
+
 </resources>

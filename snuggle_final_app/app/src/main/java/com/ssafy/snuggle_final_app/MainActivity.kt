@@ -12,6 +12,8 @@ import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
 import com.ssafy.snuggle_final_app.main.NotificationActivity
 import com.ssafy.snuggle_final_app.scanner.ScannerFragment
+import com.ssafy.snuggle_final_app.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.product.ProductFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
         // ViewBinding 초기화
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,12 +39,18 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(MainFragment())
                     true
                 }
-
+                R.id.product -> {
+                    replaceFragment(ProductFragment())
+                    true
+                }
+                R.id.mypage -> {
+                    replaceFragment(MypageFragment())
+                    true
+                }
                 R.id.scanner -> {
                     replaceFragment(ScannerFragment())
                     true
                 }
-
                 else -> false
             }
         }
@@ -66,12 +75,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    // 프래그먼트 교체 함수
-    public fun replaceFragment(mainFragment: Fragment) {
+    fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frameLayout, mainFragment)
+            .replace(R.id.main_frameLayout, fragment)
             .commit()
-
     }
 }

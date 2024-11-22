@@ -2,49 +2,41 @@ package com.ssafy.snuggle_final_app
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.ssafy.smartstore_jetpack.base.BaseActivity
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.databinding.ActivityLoginBinding
 import com.ssafy.snuggle_final_app.login.JoinFragment
 import com.ssafy.snuggle_final_app.login.LoginFragment
 
-class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+
+class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        //로그인 된 상태인지 확인
+        val user = ApplicationClass.sharedPreferencesUtil.getUser()
 
-        // 초기 프래그먼트 설정 (MainFragment)
-        replaceFragment(LoginFragment())
-
-    }
-
-    private fun replaceFragment(loginFragment: LoginFragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_layout_login, loginFragment)
-            .commit()
+        //로그인 상태 확인. id가 있다면 로그인 된 상태
+        if (user.userId != ""){
+            openFragment(1)
+        } else {
+            // 가장 첫 화면은 홈 화면의 Fragment로 지정
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout_login, LoginFragment())
+                .commit()
+        }
     }
 
     fun openFragment(int: Int){
         val transaction = supportFragmentManager.beginTransaction()
         when(int){
-            // 1번은 뒤로 가기 누르면 로그인 화면으로 오지 않도록
-            // 2번은 뒤로 가기 누르면 로그인 화면으로 오도록.
             1 -> {
-                val intent = Intent(this, MainActivity::class.java).apply{
-                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
+                val intent = Intent(this, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent)
             }
-            // fragment에서 뒤로가기를 대응하려면, addToBackStack을 활용한다.
             2 -> transaction.replace(R.id.frame_layout_login, JoinFragment())
                 .addToBackStack(null)
 
@@ -55,8 +47,6 @@ class LoginActivity : AppCompatActivity() {
                 transaction.replace(R.id.frame_layout_login, LoginFragment())
             }
         }
-
-        // 즉시 반영이 아님.
         transaction.commit()
     }
 
