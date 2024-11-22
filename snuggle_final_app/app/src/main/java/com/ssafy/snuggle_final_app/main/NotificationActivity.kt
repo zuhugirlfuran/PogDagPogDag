@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app.main
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.data.model.dto.Notice
 import com.ssafy.snuggle_final_app.databinding.ActivityNotificationBinding
 
 class NotificationActivity : AppCompatActivity() {

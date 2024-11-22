@@ -24,6 +24,14 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
     private val _productList = MutableLiveData<List<Product>>()
     val productList: LiveData<List<Product>> get() = _productList
 
+    // 베스트 상품 리스트 반환
+    private val _bestProductList = MutableLiveData<List<Product>>()
+    val bestProductList: LiveData<List<Product>> get() = _bestProductList
+
+    // 새로운 상품 리스트 반환
+    private val _newProductList = MutableLiveData<List<Product>>()
+    val newProductList: LiveData<List<Product>> get() = _newProductList
+
     // 상품 정보 반환 : 댓글이랑 같이
     private val _productInfo = MutableLiveData<ProductWithCommentResponse>()
     val productInfo: LiveData<ProductWithCommentResponse>
@@ -51,6 +59,46 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 }, { exception ->
                     Log.e("Product", "상품 리스트 불러오기 오류: ${exception.message}")
                     _productList.value = emptyList()
+                }
+            )
+        }
+    }
+
+    // 베스트 상품 5개 불러오기
+    fun getBestProductList() {
+        viewModelScope.launch {
+            safeApiCall(
+                {
+                    RetrofitUtil.productService.getBestProduct()
+                }, {bestProducts ->
+                    if (bestProducts.isNotEmpty()) {
+                        _bestProductList.value = bestProducts
+                    } else {
+                        _bestProductList.value = emptyList()
+                    }
+                }, {exception ->
+                    Log.e("Product", "베스트 상품 리스트 불러오기 오류: ${exception.message}")
+                    _bestProductList.value = emptyList()
+                }
+            )
+        }
+    }
+
+    // 새로운 상품 5개 불러오기
+    fun getNewProductList() {
+        viewModelScope.launch {
+            safeApiCall(
+                {
+                    RetrofitUtil.productService.getNewProduct()
+                }, { newProducts ->
+                    if (newProducts.isNotEmpty()) {
+                        _newProductList.value = newProducts
+                    } else {
+                        _newProductList.value = emptyList()
+                    }
+                }, {exception ->
+                    Log.e("Product", "새로운 상품 리스트 불러오기 오류: ${exception.message}")
+                    _newProductList.value = emptyList()
                 }
             )
         }

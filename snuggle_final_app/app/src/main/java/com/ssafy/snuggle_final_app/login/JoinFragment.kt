@@ -2,26 +2,16 @@ package com.ssafy.snuggle_final_app.login
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.transition.Visibility
-import com.ssafy.smartstore_jetpack.base.BaseFragment
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.data.model.dto.User
-import com.ssafy.snuggle_final_app.data.service.RetrofitUtil.Companion.userService
 import com.ssafy.snuggle_final_app.databinding.FragmentJoinBinding
-import kotlinx.coroutines.launch
 
 private const val TAG = "JoinFragment_싸피"
 

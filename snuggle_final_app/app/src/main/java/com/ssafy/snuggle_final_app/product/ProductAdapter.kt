@@ -10,6 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.databinding.ItemProductListBinding
+import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 
 private const val TAG = "ProductAdapter"
 
@@ -30,7 +31,7 @@ class ProductAdapter(
                 .into(binding.productIv)
 
             binding.productTvName.text = product.productName
-            binding.productTvPrice.text = "${product.price}원"
+            binding.productTvPrice.text = "${makeComma(product.price)}원"
 
             // 클릭 이벤트 처리
             binding.root.setOnClickListener { onItemClick(product.productId) }
