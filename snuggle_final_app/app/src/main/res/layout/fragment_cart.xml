@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="33dp"
     android:paddingTop="10dp"
-    android:paddingRight="33dp"
     tools:context=".cart.CartFragment">
 
     <TextView
         android:id="@+id/cart_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:layout_marginBottom="15dp"
         android:text="장바구니"
         android:textSize="25sp"
@@ -22,13 +22,18 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:text="폭닥폭닥을 찾아주셔서 감사합니다. \n상품은 결제 후 배송은 약 3-5일 정도 소요됩니다."
-        android:textSize="15sp" />
+        android:textSize="13sp" />
 
     <ListView
         android:id="@+id/cart_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false" />
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="20dp"
+        android:padding="25dp" />
 </LinearLayout>

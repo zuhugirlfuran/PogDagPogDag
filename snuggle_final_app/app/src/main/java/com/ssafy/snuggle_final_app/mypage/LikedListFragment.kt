@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentLikedListBinding
 
@@ -35,5 +37,16 @@ class LikedListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        // Activity의 BottomNavigationView를 숨김
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+    }
 
+    override fun onStop() {
+        super.onStop()
+        // Activity의 BottomNavigationView를 다시 보임
+        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
+            View.VISIBLE
+    }
 }
