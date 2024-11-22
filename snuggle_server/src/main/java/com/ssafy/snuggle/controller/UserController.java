@@ -76,6 +76,7 @@ public class UserController {
 			Cookie cookie = new Cookie("loginId", URLEncoder.encode(selected.getUserId(), "utf-8"));
 
 			cookie.setMaxAge(60 * 60 * 24 * 30); // 30일
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 		return selected;
@@ -118,7 +119,7 @@ public class UserController {
 			return map;
 		} else {
 			Map<String, Object> info = new HashMap<>();
-			info.put("userW", selected);
+			info.put("user", selected);
 			List<Order> orders = oService.getOrderByUser(selected.getUserId());
 			info.put("order", orders);
 			return info;
