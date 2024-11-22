@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app.product
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -35,7 +36,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     private lateinit var adapter: ProductAdapter
     private lateinit var mainActivity: MainActivity
 
-    private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
+    private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
     private val categoryViewModel: CategoryViewModel by viewModels()
 
     override fun onAttach(context: Context) {
@@ -49,15 +50,15 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         initAdapter()
 
         // livedata 통해서 관찰하고 리사이클러뷰 업데이트
         observeViewModel()
         observeCategoryViewModel()
+        observeSortedViewModel()
 
         // 상품 리스트 데이터 가져오기
-        viewModel.getProductList()
+        productViewModel.getProductList()
         // 카테고리 데이터 가져오기
         categoryViewModel.getCategoryList()
 
@@ -65,15 +66,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         binding.productEtSearch.setOnClickListener {
             mainActivity.addToStackFragment(SearchFragment())
         }
-//        binding.productEtSearch.setOnTouchListener { _, event ->
-//            if (event.action == MotionEvent.ACTION_DOWN) {
-//                // EditText가 처음 터치되었을 때 동작
-//                mainActivity.addToStackFragment(SearchFragment())
-//                true
-//            } else {
-//                false // 다른 이벤트는 기본 동작 수행
-//            }
-//        }
 
         sortSpinner()
     }
@@ -91,18 +83,27 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     private fun observeViewModel() {
 
         // 전체 상품 불러오기
-        viewModel.productList.observe(viewLifecycleOwner) { products ->
+        productViewModel.productList.observe(viewLifecycleOwner) { products ->
             if (products.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "상품 목록이 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
+                Log.d("TAG", "observeViewModel: ${products}")
                 adapter.submitList(products)
             }
         }
 
         // 상품 id에 따른 info 불러오기
-        viewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
-            productInfo?.let {
-                mainActivity.addToStackFragment(ProductDetailFragment())
+//        productViewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
+//           productInfo?.let {
+//                 mainActivity.addToStackFragment(ProductDetailFragment())
+//            }
+//        }
+    }
+
+    private fun observeSortedViewModel() {
+        productViewModel.sortedProductList.observe(viewLifecycleOwner) { sortedProducts ->
+            if (sortedProducts != null) {
+                adapter.submitList(sortedProducts) // RecyclerView 어댑터 갱신
             }
         }
     }
@@ -110,8 +111,11 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     private fun initAdapter() {
 
         adapter = ProductAdapter(emptyList()) { productId ->
-            viewModel.productId = productId
-            mainActivity.addToStackFragment(ProductDetailFragment())
+            Log.d("AdapterClick", "Clicked productId: $productId")
+            if (productId >= 0) { // 유효한 productId만 설정
+                productViewModel.productId = productId
+                mainActivity.addToStackFragment(ProductDetailFragment())
+            }
         }
 
         binding.productRecyclerview.adapter = adapter
@@ -164,7 +168,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
     private fun sortSpinner() {
         // 고정된 항목 리스트 생성
-        val fixedItems = listOf("정렬기준", "인기순", "신규순", "가격 오름차순", "가격 내림차순")
+        val fixedItems = listOf("정렬기준", "인기순", "신규순", "높은가격순", "낮은가격순")
 
         val spinnerAdapter = ArrayAdapter(
             requireContext(),
@@ -187,15 +191,15 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                 position: Int,
                 id: Long
             ) {
-                if (position == 0) {
-                    // Hint 선택 시
-                } else {
+                if (position > 0) {
+
                     // 선택된 항목 처리 로직
                     Toast.makeText(
                         requireContext(),
                         "선택된 항목: ${fixedItems[position]}",
                         Toast.LENGTH_SHORT
                     ).show()
+                    applySortOption(fixedItems[position])
                 }
             }
 
@@ -203,6 +207,21 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                 // 아무 것도 선택하지 않았을 때 처리할 로직 (필요 시 추가)
             }
         }
+    }
+
+    fun applySortOption(option: String) {
+        val currentProducts = productViewModel.productList.value ?: return
+
+        val sortedProducts = when (option) {
+            "인기순" -> currentProducts.sortedByDescending { it.likeCount } // `popularity`는 가정된 속성
+            "신규순" -> currentProducts.sortedByDescending { it.productId }  // `dateAdded`는 가정된 속성
+            "높은가격순" -> currentProducts.sortedByDescending { it.price }  // 높은 가격순
+            "낮은가격순" -> currentProducts.sortedBy { it.price }            // 낮은 가격순
+            else -> currentProducts
+        }
+
+        // 정렬된 데이터 업데이트
+        productViewModel.sortedProductList.value = sortedProducts
     }
 
 

@@ -1,10 +1,12 @@
 package com.ssafy.snuggle_final_app.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
@@ -29,6 +31,23 @@ abstract class BaseFragment<B : ViewBinding>(
         return _binding?.root
     }
 
+    private lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        setBackPressedCallback()
+    }
+
+    private fun setBackPressedCallback() {
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().supportFragmentManager.popBackStack()
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
     override fun onDestroyView() {
         _binding = null
         super.onDestroyView()

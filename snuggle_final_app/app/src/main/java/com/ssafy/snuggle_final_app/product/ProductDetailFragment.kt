@@ -44,23 +44,13 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로 가기
-//        mainActivity.fragmentBackPressed(viewLifecycleOwner) {
-//            when (viewModel.fragmentPlace) {
-//                "product" -> parentFragmentManager.popBackStack() // ProductFragment로 돌아감
-//                "main" -> parentFragmentManager.popBackStack() // MainFragment로 돌아감
-//                else -> mainActivity.defaultOnBackPressed() // 기본 뒤로가기
-//            }
-//        }
-
         // 화면 전환 이벤트
-        mainActivity.fragmentBackPressed(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Log.d("backpressed", "")
-                viewModel.setCheck(true) // 체크 플래그 설정
-                parentFragmentManager.popBackStack() // 이전 Fragment로 이동
-            }
-        })
+//        mainActivity.fragmentBackPressed(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                viewModel.setCheck(true) // 체크 플래그 설정
+//                parentFragmentManager.popBackStack() // 이전 Fragment로 이동
+//            }
+//        })
 
         // 어댑터 초기화
         initAdapter()
@@ -87,12 +77,12 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
         // 좋아요 버튼
         binding.productDetailBtnLike.setOnClickListener {
+            Log.d(TAG, "onViewCreated: 좋아요 버튼")
             val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
             val today = CommonUtils.dateformatYMD(Date())
+            Log.d(TAG, "onViewCreated: userId ${userId} productId ${productId}")
             viewModel.likeProduct(Like(userId, productId, today))
         }
-
-
     }
 
     private fun showOrderDialog() {

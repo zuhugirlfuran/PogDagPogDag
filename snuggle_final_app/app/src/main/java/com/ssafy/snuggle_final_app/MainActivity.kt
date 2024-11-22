@@ -2,6 +2,7 @@ package com.ssafy.snuggle_final_app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -93,9 +94,16 @@ class MainActivity : AppCompatActivity() {
 
     fun addToStackFragment(fragment: Fragment) {
         val fragmentTag = fragment.javaClass.simpleName
-//        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
-//        if (currentFragment == null) { // 동일한 태그의 프래그먼트가 없을 때만 추가
-            supportFragmentManager.beginTransaction()
+        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+        // 현재 보여지고 있는 Fragment와 새로 추가하려는 Fragment가 동일한지 확인
+//        if (currentFragment != null && currentFragment::class.java == fragment::class.java) {
+//            return // 동일한 Fragment를 다시 추가하지 않음
+//        }
+        if (currentFragment != null) {
+            Log.d("FragmentTransaction", "Adding fragment: ${fragment.javaClass.simpleName} ${currentFragment.tag}")
+            return
+        }
+        supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frameLayout, fragment, fragmentTag)
                 .addToBackStack(fragmentTag)
                 .commit()

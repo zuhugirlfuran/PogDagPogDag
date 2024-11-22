@@ -23,20 +23,25 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
 
     fun clearData() {
         _productInfo.value = null
-        productId = -1
+        productId = 0
     }
 
     private fun fetchProductInfo(productId: Int) {
         if (productId > 0) {
             viewModelScope.launch {
                 val response = RetrofitUtil.productService.getProductWithComments(productId)
-                _productInfo.value = response
+                Log.d("ViewModel", "fetchProductInfo: $response")
+                if (response.productId > 0) {
+                    _productInfo.value = response
+                } else {
+                    _productInfo.value = null
+                }
             }
         }
     }
 
     private val _check = MutableLiveData<Boolean>()
-    fun setCheck(data: Boolean){
+    fun setCheck(data: Boolean) {
         _check.postValue(data)
     }
 
@@ -61,9 +66,14 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
     private val _isProductLiked = MutableLiveData<Boolean>()
     val isProductLiked: LiveData<Boolean> get() = _isProductLiked
 
+    // 스피너 정렬 데이터 부분
+    val sortedProductList = MutableLiveData<List<Product>>() // 정렬된 데이터
 
+
+    private var isProductListFetched = false
     // 전체 상품 리스트 불러오기
     fun getProductList() {
+        if (isProductListFetched) return // 이미 호출된 경우
         viewModelScope.launch {
             safeApiCall(
                 {
@@ -71,6 +81,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 }, { productList ->
                     if (productList.isNotEmpty()) {
                         _productList.value = productList
+                        isProductListFetched = true
                         Log.d("Product", "상품 리스트 불러오기 성공")
                     } else {
                         Log.e("Product", "상품 리스트 불러오기 실패")
@@ -90,13 +101,13 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
             safeApiCall(
                 {
                     RetrofitUtil.productService.getBestProduct()
-                }, {bestProducts ->
+                }, { bestProducts ->
                     if (bestProducts.isNotEmpty()) {
                         _bestProductList.value = bestProducts
                     } else {
                         _bestProductList.value = emptyList()
                     }
-                }, {exception ->
+                }, { exception ->
                     Log.e("Product", "베스트 상품 리스트 불러오기 오류: ${exception.message}")
                     _bestProductList.value = emptyList()
                 }
@@ -151,21 +162,22 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 }, { isLiked ->
                     if (isLiked) {
                         _isProductLiked.value = isLiked
-                        _productInfo.value?.likeCount = _productInfo.value?.likeCount?.plus(1)!!
+                        _productInfo.value?.likeCount = (_productInfo.value?.likeCount ?: 0) + 1
                         Log.d("Like", "좋아요 등록")
                     } else {
                         _isProductLiked.value = isLiked
-                        _productInfo.value?.likeCount = _productInfo.value?.likeCount?.minus(1) ?: 0
+                        _productInfo.value?.likeCount =
+                            (_productInfo.value?.likeCount?.minus(1)?.coerceAtLeast(0)!!)
                         Log.d("Like", "좋아요 해제")
                     }
                     _productInfo.value = _productInfo.value // MutableLiveData 갱신
-                    
                 }, { exception ->
                     Log.e("Like", "좋아요 상태 업데이트 오류: ${exception.message}")
                 }
             )
         }
     }
+
 
     fun isLikeSatatus(userId: String, productId: Int) {
         viewModelScope.launch {
@@ -183,8 +195,6 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
             )
         }
     }
-
-
 
     // 공통으로 API 호출을 안전하게 처리하는 함수
     private suspend fun <T> safeApiCall(
