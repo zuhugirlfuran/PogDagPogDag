@@ -34,6 +34,18 @@ class CartFragment : Fragment() {
                 "11.30(토) 이내 발송예정",
                 "5,000원"
             ),
+            Cart(
+                R.drawable.item03,
+                "푸딩거북이2",
+                "11.30(토) 이내 발송예정",
+                "5,000원"
+            ),
+            Cart(
+                R.drawable.item03,
+                "푸딩거북이2",
+                "11.30(토) 이내 발송예정",
+                "5,000원"
+            ),
         )
 
         val adapter = CartAdapter(requireContext(), dataList)
