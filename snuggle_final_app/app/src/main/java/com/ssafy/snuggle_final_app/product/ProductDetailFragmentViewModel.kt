@@ -179,7 +179,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
     }
 
 
-    fun isLikeSatatus(userId: String, productId: Int) {
+    fun isLikeStatus(userId: String, productId: Int) {
         viewModelScope.launch {
             safeApiCall(
                 { RetrofitUtil.likeService.getLikeListByUser(userId) },

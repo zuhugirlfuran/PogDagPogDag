@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/cart_listview_item"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp">
@@ -16,7 +16,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/dialog_input"
+        android:id="@+id/comment_dialog_input"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:background="@drawable/comment_add_dialog_background"

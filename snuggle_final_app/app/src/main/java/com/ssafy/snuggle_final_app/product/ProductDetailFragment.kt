@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import androidx.activity.OnBackPressedCallback
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -15,10 +16,9 @@ import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.cart.CartFragment
+import com.ssafy.snuggle_final_app.data.model.dto.Comment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
-import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
-import com.ssafy.snuggle_final_app.main.MainFragment
 import com.ssafy.snuggle_final_app.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
@@ -29,11 +29,12 @@ private const val TAG = "ProductDetailFragment"
 class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     FragmentProductDetailBinding::bind,
     R.layout.fragment_product_detail
-) {
+), ProductDetailAdapter.OnCommentClickListener {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var adapter: ProductDetailAdapter
     private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
+    private val commentViewModel: CommentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,10 +61,11 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
         if (productId > 0) {
             viewModel.getProductWithComments(productId)
-            viewModel.isLikeSatatus(userId, productId)
+            viewModel.isLikeStatus(userId, productId)
         }
 
         observeViewModel()
+        observeCommentViewModel()
 
         // 댓글달기 버튼
         binding.productDetailBtnComment.setOnClickListener {
@@ -83,6 +85,8 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             Log.d(TAG, "onViewCreated: userId ${userId} productId ${productId}")
             viewModel.likeProduct(Like(userId, productId, today))
         }
+
+        commentViewModel.fetchComments(productId)
     }
 
     private fun showOrderDialog() {
@@ -104,7 +108,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
             mainActivity.addToStackFragment(OrderFragment())
         }
-        
+
         // 다이얼로그의 '장바구니' 버튼 클릭 시 처리
         val cartBtn = dialogView.findViewById<Button>(R.id.product_detail_btn_cart)
         cartBtn.setOnClickListener {
@@ -124,22 +128,38 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     private fun showCommentDialog() {
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_comment, null)
         val builder = AlertDialog.Builder(requireContext())
         builder.setView(dialogView)
         val dialog = builder.create()
 
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
-        dialogButton.setOnClickListener {
-            dialog.dismiss()
-        }
+        val dialogInput = dialogView.findViewById<EditText>(R.id.comment_dialog_input)
 
+        dialogButton.setOnClickListener {  // 확인 버튼
+            val inputText = dialogInput.text.toString()
+            if (inputText.isNotEmpty()) {
+                val productId = viewModel.productId
+                val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+                val newComment = Comment(
+                    comment = inputText,
+                    productId = productId,
+                    userId = userId
+                )
+
+                commentViewModel.addComment(newComment)
+                dialog.dismiss()
+            } else {
+                showToast("댓글을 입력해주세요.")
+            }
+        }
         dialog.show()
     }
 
     private fun initAdapter() {
 
-        adapter = ProductDetailAdapter(emptyList())
+        adapter = ProductDetailAdapter(emptyList(), this)
 
         binding.productDetailRecyclerview.adapter = adapter
         binding.productDetailRecyclerview.layoutManager = LinearLayoutManager(requireContext())
@@ -182,9 +202,56 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
     }
 
+    private fun observeCommentViewModel() {
+        // 댓글 기능
+        commentViewModel.comments.observe(viewLifecycleOwner) { comments ->
+            Log.d(TAG, "observeCommentViewModel: ${comments}")
+            adapter.submitList(comments)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.clearData()
     }
+
+    override fun onUpdateClick(comment: Comment, position: Int, updatedComment: String) {
+
+        if (comment.commentId > 0) {
+            val updated = comment.copy(comment = updatedComment)
+            Log.d(TAG, "onUpdateClick: $updated $position ${comment.commentId}")
+            commentViewModel.updateComment(updated)
+            adapter.notifyItemChanged(position) // position 값을 사용
+        }
+
+    }
+
+
+    override fun onDeleteClick(comment: Comment, position: Int) {
+        commentViewModel.deleteComment(comment.commentId)
+        adapter.notifyItemRemoved(position)
+    }
+
+    override fun onInsertClick(comment: Comment, position: Int) {
+        commentViewModel.addComment(comment)
+        adapter.notifyItemInserted(0)
+        // RecyclerView를 가장 위로 스크롤
+        binding.productDetailRecyclerview.scrollToPosition(0)
+    }
+
+//    private fun showDeleteDialog(comment: Comment, onCommentDeleted: (Comment) -> Unit) {
+//        // 다이얼로그 또는 다른 UI로 수정 입력받기
+//        val dialog = AlertDialog.Builder(requireContext())
+//            .setTitle("댓글을 삭제하시겠습니까?")
+////            .setView(R.layout.dialog_edit_comment) // 레이아웃 추가 필요
+//            .setPositiveButton("삭제") { _, _ ->
+//                val updatedComment = comment.copy(comment = "새로운 댓글 내용") // 입력값 가져와서 수정
+//                onCommentUpdated(updatedComment)
+//            }
+//            .setNegativeButton("취소", null)
+//            .create()
+//
+//        dialog.show()
+//    }
 
 }
