@@ -12,6 +12,7 @@
     tools:context=".main.BannerDetailFragment">
 
     <View
+        android:id="@+id/move_to_order"
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:background="@drawable/banner_detail_img1" />
