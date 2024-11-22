@@ -20,6 +20,7 @@ import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+import com.ssafy.snuggle_final_app.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import java.util.Date
 
@@ -70,6 +71,20 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val dialogView = layoutInflater.inflate(R.layout.dialog_bottom_order, null)
         bottomSheetDialog.setContentView(dialogView)
+
+        // 다이얼로그의 '구매' 버튼 클릭 시 처리
+        val orderButton = dialogView.findViewById<Button>(R.id.product_detail_btn_purchase)
+        orderButton.setOnClickListener {
+            // 다이얼로그 종료
+            bottomSheetDialog.dismiss()
+
+            // OrderFragment로 이동
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
+            transaction.addToBackStack(null) // 이전 화면으로 돌아갈 수 있게 스택에 추가
+            transaction.commit()
+        }
+
         bottomSheetDialog.show()
     }
 

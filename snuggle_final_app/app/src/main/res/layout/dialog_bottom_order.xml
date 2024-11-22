@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@drawable/cart_listview_item"
     android:orientation="vertical"
     android:padding="32dp">
 
@@ -74,6 +74,7 @@
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/product_detail_btn_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -83,6 +84,7 @@
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/product_detail_btn_purchase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
