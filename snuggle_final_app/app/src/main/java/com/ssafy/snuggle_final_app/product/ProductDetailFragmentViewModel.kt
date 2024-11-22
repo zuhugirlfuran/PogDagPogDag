@@ -1,0 +1,135 @@
+package com.ssafy.snuggle_final_app.product
+
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ssafy.snuggle_final_app.data.model.dto.Like
+import com.ssafy.snuggle_final_app.data.model.dto.Product
+import com.ssafy.snuggle_final_app.data.model.response.ProductWithCommentResponse
+import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
+import kotlinx.coroutines.launch
+
+class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : ViewModel() {
+
+    var productId = handle.get<Int>("productId") ?: 0
+        set(value) {
+            handle["productId"] = value
+            field = value
+        }
+
+    // 상품 리스트 반환
+    private val _productList = MutableLiveData<List<Product>>()
+    val productList: LiveData<List<Product>> get() = _productList
+
+    // 상품 정보 반환 : 댓글이랑 같이
+    private val _productInfo = MutableLiveData<ProductWithCommentResponse>()
+    val productInfo: LiveData<ProductWithCommentResponse>
+        get() = _productInfo
+
+    // 상품의 좋아요가 눌려있는 지
+    private val _isProductLiked = MutableLiveData<Boolean>()
+    val isProductLiked: LiveData<Boolean> get() = _isProductLiked
+
+
+    // 전체 상품 리스트 불러오기
+    fun getProductList() {
+        viewModelScope.launch {
+            safeApiCall(
+                {
+                    RetrofitUtil.productService.getProductList()
+                }, { productList ->
+                    if (productList.isNotEmpty()) {
+                        _productList.value = productList
+                        Log.d("Product", "상품 리스트 불러오기 성공")
+                    } else {
+                        Log.e("Product", "상품 리스트 불러오기 실패")
+                        _productList.value = emptyList()
+                    }
+                }, { exception ->
+                    Log.e("Product", "상품 리스트 불러오기 오류: ${exception.message}")
+                    _productList.value = emptyList()
+                }
+            )
+        }
+    }
+
+    // productId에 맞는 상품 정보 불러오기 + 댓글
+    fun getProductWithComments(productId: Int) {
+        viewModelScope.launch {
+            safeApiCall(
+                {
+                    RetrofitUtil.productService.getProductWithComments(productId)
+                }, { productInfo ->
+                    _productInfo.value = productInfo
+                    Log.d("ProductInfo", "상품 정보 불러오기 성공")
+
+                }, { exception ->
+                    Log.e("ProductInfo", "상품 정보 불러오기 오류: ${exception.message}")
+                    _productInfo.value = ProductWithCommentResponse()
+                }
+            )
+        }
+    }
+
+    fun likeProduct(like: Like) {
+        Log.d("LikeRequest", "Sending Like object: $like")
+        viewModelScope.launch {
+            safeApiCall(
+                {
+                    RetrofitUtil.likeService.addLike(like)
+                }, { isLiked ->
+                    if (isLiked) {
+                        _isProductLiked.value = isLiked
+                        _productInfo.value?.likeCount = _productInfo.value?.likeCount?.plus(1)!!
+                        Log.d("Like", "좋아요 등록")
+                    } else {
+                        _isProductLiked.value = isLiked
+                        _productInfo.value?.likeCount = _productInfo.value?.likeCount?.minus(1) ?: 0
+                        Log.d("Like", "좋아요 해제")
+                    }
+                    _productInfo.value = _productInfo.value // MutableLiveData 갱신
+                    
+                }, { exception ->
+                    Log.e("Like", "좋아요 상태 업데이트 오류: ${exception.message}")
+                }
+            )
+        }
+    }
+
+    fun isLikeSatatus(userId: String, productId: Int) {
+        viewModelScope.launch {
+            safeApiCall(
+                { RetrofitUtil.likeService.getLikeListByUser(userId) },
+                { likedProducts ->
+                    // 좋아요 리스트에서 현재 상품의 좋아요 여부 확인
+                    val isLiked = likedProducts.any { it.productId == productId }
+                    _isProductLiked.value = isLiked
+                    Log.d("Like", "초기 좋아요 상태: $isLiked")
+                },
+                { exception ->
+                    Log.e("Like", "좋아요 상태 초기화 오류: ${exception.message}")
+                }
+            )
+        }
+    }
+
+
+
+    // 공통으로 API 호출을 안전하게 처리하는 함수
+    private suspend fun <T> safeApiCall(
+        apiCall: suspend () -> T,
+        onSuccess: (T) -> Unit,
+        onFailure: (Throwable) -> Unit
+    ) {
+        try {
+            val result = apiCall()
+            onSuccess(result)
+        } catch (e: Exception) {
+            onFailure(e)
+        }
+    }
+
+}

@@ -2,23 +2,29 @@ package com.ssafy.snuggle_final_app.login
 
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import androidx.fragment.app.viewModels
+import com.ssafy.smartstore_jetpack.base.BaseFragment
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
 
-class LoginFragment : Fragment() {
+private const val TAG = "LoginFragment"
+class LoginFragment : BaseFragment<FragmentLoginBinding>(
+    FragmentLoginBinding::bind,
+    R.layout.fragment_login
+)
+{
     private lateinit var loginActivity: LoginActivity
 
-    // 바인딩 객체 선언 및 초기화
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: LoginFragmentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,30 +32,16 @@ class LoginFragment : Fragment() {
         loginActivity = context as LoginActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // 고양이 gif 파일 넣기
         Glide.with(this).load(R.raw.jumping_cat).override(560, 560).into(binding.loginCatImageView)
-
-        // 메인 화면으로 이동
-//        binding.loginBtnSignIn.setOnClickListener {
-//            loginActivity.openFragment(1)
-//        }
 
         // 회원가입 화면으로 이동
         binding.loginBtnSignUp.setOnClickListener {
             loginActivity.openFragment(2)
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         /* ===== 회원가입 ===== */
         moveToSignup()
@@ -73,7 +65,8 @@ class LoginFragment : Fragment() {
             binding.loginEtPw.setSelection(binding.loginEtPw.text.length)
         }
 
-
+        // 로그인 쿠키 남기기
+        registerObserver()
         /* ===== 로그인 ===== */
         binding.loginBtnSignIn.setOnClickListener {
             val id = binding.loginEtId.text.toString()
@@ -93,13 +86,21 @@ class LoginFragment : Fragment() {
         }
     }
 
+    private fun registerObserver() {
 
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            if (user.userId.isEmpty()) {  // 아이디 비어있음 => 로그인 실패
+                showToast("id 혹은 password를 확인해주세요.")
+            } else {  //  로그인 성공
+                // sharedpreference에 기록
+                ApplicationClass.sharedPreferencesUtil.addUser(user)
+                Log.d(TAG, "registerObserver: Id ${user.userId}")
+                Log.d(TAG, "registerObserver: Name ${user.nickname}")
+                showToast("로그인 되었습니다.")
+                loginActivity.openFragment(1)  // 로그인 성공시, main으로 이동
+            }
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }
