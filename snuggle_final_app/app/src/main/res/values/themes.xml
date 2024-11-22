@@ -13,4 +13,8 @@
 
     <style name="Theme.Snuggle_final_app" parent="Base.Theme.Snuggle_final_app" />
 
+    <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">#795A0C</item>
+    </style>
+
 </resources>

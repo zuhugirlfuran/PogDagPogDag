@@ -75,6 +75,15 @@ class MypageFragment : Fragment() {
             transaction.addToBackStack(null)
             transaction.commit()
         }
+
+        //==영상 책갈피로 이동==//
+        binding.mypageLlBookmark.setOnClickListener {
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_frameLayout, BookmarkFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
     }
 
     override fun onResume() {

@@ -54,6 +54,7 @@
 
         <!-- 배너 -->
         <LinearLayout
+            android:id="@+id/main_ll_banner"
             android:layout_width="match_parent"
             android:layout_height="130dp"
             android:layout_gravity="center"

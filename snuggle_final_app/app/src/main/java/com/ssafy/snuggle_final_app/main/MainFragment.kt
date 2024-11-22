@@ -46,7 +46,7 @@ class MainFragment : Fragment() {
 
         /* ==== banner ==== */
         //배너 클릭 리스너
-        binding.bannerDetailBtn.setOnClickListener {
+        binding.mainLlBanner.setOnClickListener {
             val bannerTransaction = parentFragmentManager.beginTransaction()
             bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
             bannerTransaction.addToBackStack(null)

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/cart_listview_item"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:elevation="20dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/bookmark_iv_img"
+        android:layout_width="93dp"
+        android:layout_height="93dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/item03"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/bookmark_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp"
+                android:layout_weight="1"
+                android:text="왕초보 뜨개질 기초 강의"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/bookmark_tv_contents"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="22dp"
+            android:layout_weight="1"
+            android:text="달콤한 푸딩을 닮은 아기자기한 소품으로, 공간에 따뜻한 감성을 더해줍니다. 초보자도 쉽게 ···"
+            android:textColor="#7D7D7D"
+            android:textSize="11dp" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="27dp"
+        android:layout_gravity="top"
+        android:src="@drawable/bookmark_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
