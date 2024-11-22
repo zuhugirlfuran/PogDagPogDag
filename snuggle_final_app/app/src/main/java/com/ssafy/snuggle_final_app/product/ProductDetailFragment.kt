@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -22,6 +23,7 @@ import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
 import com.ssafy.snuggle_final_app.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
+import org.w3c.dom.Text
 import java.util.Date
 
 private const val TAG = "ProductDetailFragment"
@@ -96,6 +98,18 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
         // 다이얼로그의 '구매' 버튼 클릭 시 처리
         val orderButton = dialogView.findViewById<Button>(R.id.product_detail_btn_purchase)
+        val productName = dialogView.findViewById<TextView>(R.id.dialog_order_name)
+        val productPrice = dialogView.findViewById<TextView>(R.id.dialog_order_price)
+
+        // ViewModel에서 현재 상품 정보 가져오기
+        val product = viewModel.productInfo.value
+
+        // 상품 정보 설정
+        product?.let {
+            productName.text = it.productName
+            productPrice.text = makeComma(it.productPrice)
+        }
+
         orderButton.setOnClickListener {
             // 다이얼로그 종료
             bottomSheetDialog.dismiss()
