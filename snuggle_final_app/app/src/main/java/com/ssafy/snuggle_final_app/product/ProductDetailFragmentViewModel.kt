@@ -18,7 +18,27 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
         set(value) {
             handle["productId"] = value
             field = value
+            fetchProductInfo(value)
         }
+
+    fun clearData() {
+        _productInfo.value = null
+        productId = -1
+    }
+
+    private fun fetchProductInfo(productId: Int) {
+        if (productId > 0) {
+            viewModelScope.launch {
+                val response = RetrofitUtil.productService.getProductWithComments(productId)
+                _productInfo.value = response
+            }
+        }
+    }
+
+    private val _check = MutableLiveData<Boolean>()
+    fun setCheck(data: Boolean){
+        _check.postValue(data)
+    }
 
     // 상품 리스트 반환
     private val _productList = MutableLiveData<List<Product>>()
@@ -33,8 +53,8 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
     val newProductList: LiveData<List<Product>> get() = _newProductList
 
     // 상품 정보 반환 : 댓글이랑 같이
-    private val _productInfo = MutableLiveData<ProductWithCommentResponse>()
-    val productInfo: LiveData<ProductWithCommentResponse>
+    private val _productInfo = MutableLiveData<ProductWithCommentResponse?>()
+    val productInfo: LiveData<ProductWithCommentResponse?>
         get() = _productInfo
 
     // 상품의 좋아요가 눌려있는 지
