@@ -1,8 +1,11 @@
 package com.ssafy.snuggle_final_app
 
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.ssafy.snuggle_final_app.cart.CartFragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.main.MainFragment
@@ -38,8 +41,24 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(MypageFragment())
                     true
                 }
+//                R.id.chatbot -> {
+//                    replaceFragment(ChatBotFragment())
+//                    true
+//                }
                 else -> false
             }
+        }
+
+        // appBar_cart 버튼 클릭 리스너 설정
+        val cartButton = findViewById<ImageButton>(R.id.app_bar_cart)
+        cartButton.setOnClickListener {
+            replaceFragment(CartFragment())
+        }
+
+        // appBar logo 클릭 시 메인 프레그먼트로 이동
+        val logoBtn = findViewById<ImageView>(R.id.app_bar_logo)
+        logoBtn.setOnClickListener {
+            replaceFragment(MainFragment())
         }
     }
 
