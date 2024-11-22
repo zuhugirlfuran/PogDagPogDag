@@ -21,5 +21,21 @@ public interface ProductService {
 	 * @return
 	 */
 	ProductWithComment selectWithComment(int productId);
+	
+	/**
+	 * 베스트 TOP 5 의 상품을 불러온다.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> getBestProduct();
+	
+	/**
+	 * 새로 생성된 상품 5개를 불러온다.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> getNewProduct();
 
 }
