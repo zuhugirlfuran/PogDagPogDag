@@ -84,6 +84,14 @@ class MypageFragment : Fragment() {
             transaction.commit()
         }
 
+        //== 관심상품으로 이동==//
+        binding.mypageLlLike.setOnClickListener {
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_frameLayout, LikedListFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
     }
 
     override fun onResume() {
