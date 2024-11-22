@@ -1,5 +1,6 @@
 package com.ssafy.snuggle_final_app.base
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -16,7 +17,7 @@ class AddCookiesInterceptor : Interceptor {
         val getCookies = ApplicationClass.sharedPreferencesUtil.getUserCookie()
         for (cookie in getCookies!!) {
             builder.addHeader("Cookie", cookie)
-//            Log.v(TAG,"Adding Header: $cookie")
+            Log.v(TAG,"Adding Header: $cookie")
         }
         return chain.proceed(builder.build())
     }

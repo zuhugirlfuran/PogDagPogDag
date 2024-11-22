@@ -33,6 +33,9 @@ class MypageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //유저 정보 가져오기
+        observeViewModel()
+
         val toolbar =
             requireActivity().findViewById<androidx.appcompat.widget.Toolbar>(R.id.app_bar)
         val menuCart = requireActivity().findViewById<View>(R.id.app_bar_ib_cart) // Cart 버튼
@@ -45,8 +48,9 @@ class MypageFragment : Fragment() {
         menuNotification.setBackgroundColor(Color.parseColor("#FFE57D"))
 
 
-        observeViewModel()
+
         //=== User 정보 가져오기 ==//
+        //** 혹시 안불러와진다면 server 코드에서 userW -> W 삭제 && id -> userId로 이름 변경하세욥
         val userId = sharedPreferencesUtil.getUser().userId
         viewModel.getUserInfo(userId)
         Log.d(TAG, "onViewCreated: ${userId}")
@@ -55,20 +59,10 @@ class MypageFragment : Fragment() {
         if (userId.isEmpty()) {
             Log.e(TAG, "로그인된 사용자 ID를 찾을 수 없습니다.")
             return
+        } else{
+
         }
 
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            try {
-//                val response = userService.getUserInfo(userId) // suspend 함수 호출
-//                val user = response.user
-//                Log.d(TAG, "Nickname: ${user.nickname}, Stamps: ${user.stamps}")
-//
-//                binding.mypageTvName.text = user.nickname
-//                binding.mypageTvStamp.text = user.stamps.toString()
-//            } catch (e: Exception) {
-//                Log.e(TAG, "Failed to fetch user info", e)
-//            }
-//        }
 
 
         //=== 주문 내역으로 이동==//

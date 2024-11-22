@@ -10,6 +10,7 @@ import com.ssafy.snuggle_final_app.data.model.response.UserResponse
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
+private const val TAG = "MyPageViewModel_싸피"
 class MyPageViewModel : ViewModel() {
 
     // 유저 정보 가져오기
@@ -22,18 +23,18 @@ class MyPageViewModel : ViewModel() {
                 RetrofitUtil.userService.getUserInfo(userId)
             }, { userRes ->
                 if (userRes != null) {
+                    Log.d(TAG, "getUserInfo: userRes=${userRes.user}")
                     _userInfo.value = userRes
                 } else {
+                    Log.d(TAG, "getUserInfo: userRes is null")
                     _userInfo.value = UserResponse(User())
                 }
-
             }, { exception ->
-                Log.e("Product", "새로운 상품 리스트 불러오기 오류: ${exception.message}")
-//                _userInfo.value = emptyList()
-
+                Log.e(TAG, "Error in getUserInfo: ${exception.message}")
             })
         }
     }
+
 
 
     // 공통으로 API 호출을 안전하게 처리하는 함수
