@@ -29,10 +29,11 @@ class CartAdapter(private val context: Context, private val dataList: List<Cart>
         val deliverDateTextView = view.findViewById<TextView>(R.id.cart_tv_delivery)
         val priceTextView = view.findViewById<TextView>(R.id.cart_tv_price)
 
-        val item = dataList[position]
-        titleTextView.text = item.title
-        deliverDateTextView.text = item.deliveryDate
-        priceTextView.text = item.price
+//        val item = dataList[position]
+        val item = getItem(position) as Cart
+        titleTextView?.text = item?.title
+        deliverDateTextView?.text = item?.deliveryDate
+        priceTextView?.text = item?.price
         img.setImageResource(R.drawable.item03)
 
 
