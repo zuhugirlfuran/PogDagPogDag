@@ -1,45 +1,51 @@
 package com.ssafy.snuggle_final_app.product
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ssafy.smartstore_jetpack.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.data.model.dto.Like
+import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
-import com.ssafy.snuggle_final_app.data.model.dto.Comment
-import com.ssafy.snuggle_final_app.data.model.dto.Product
+import com.ssafy.snuggle_final_app.util.CommonUtils
+import java.util.Date
 
+private const val TAG = "ProductDetailFragment"
 
-class ProductDetailFragment : Fragment() {
-
-    private var _binding: FragmentProductDetailBinding? = null
-    private val binding get() = _binding!!
+class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
+    FragmentProductDetailBinding::bind,
+    R.layout.fragment_product_detail
+) {
 
     private lateinit var adapter: ProductDetailAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
+
+        val productId = viewModel.productId
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+
+        if (productId > 0) {
+            viewModel.getProductWithComments(productId)
+            viewModel.isLikeSatatus(userId, productId)
+        }
+
+        observeViewModel()
 
         // 댓글달기 버튼
         binding.productDetailBtnComment.setOnClickListener {
@@ -49,6 +55,13 @@ class ProductDetailFragment : Fragment() {
         // 주문하기 버튼
         binding.productDetailBtnOrder.setOnClickListener {
             showOrderDialog()
+        }
+
+        // 좋아요 버튼
+        binding.productDetailBtnLike.setOnClickListener {
+            val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+            val today = CommonUtils.dateformatYMD(Date())
+            viewModel.likeProduct(Like(userId, productId, today))
         }
 
     }
@@ -75,23 +88,54 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        val commentList = mutableListOf(
-            Comment("너무 귀여워요!", 1, "id 01"),
-            Comment("키링으로 활용하기 좋아요", 1, "id 01"),
-            Comment("아기자기하고 어쩌구 저쩌구", 1, "id 01"),
-            Comment("색 커스텀이 어쩌구", 1, "id 01")
-        )
+//        val commentList = mutableListOf(
+//            Comment("너무 귀여워요!", 1, "id 01"),
+//            Comment("키링으로 활용하기 좋아요", 1, "id 01"),
+//            Comment("아기자기하고 어쩌구 저쩌구", 1, "id 01"),
+//            Comment("색 커스텀이 어쩌구 ", 1, "id 01")
+//        )
 
-        adapter = ProductDetailAdapter(commentList)
+        adapter = ProductDetailAdapter(emptyList())
 
         binding.productDetailRecyclerview.adapter = adapter
         binding.productDetailRecyclerview.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    private fun observeViewModel() {
+        // 상품 정보 불러오기
+        viewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+            Log.d(TAG, "observeViewModel: $productInfo")
+            productInfo?.let {
+                binding.apply {
+                    // 상품 정보 업데이트
+                    Glide.with(binding.productDetailIvImg)
+                        .load(it.productImg)
+                        .into(binding.productDetailIvImg)
+
+                    binding.productDetailTvName.text = it.productName
+                    binding.productDetailTvLikecount.text = it.likeCount.toString()
+                    binding.productDetailTvContent.text = it.content
+                    binding.productDetailTvPrice.text = "${it.productPrice}원"
+
+                    // 댓글 RecyclerView 업데이트
+                    adapter.submitList(it.comments)
+                }
+            }
+        }
+
+        // 좋아요 눌렀을 때
+        viewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
+
+            val likeCount = viewModel.productInfo.value?.likeCount ?: 0
+            binding.productDetailTvLikecount.text = likeCount.toString() // likeCount 업데이트
+            Log.d(TAG, "observ: ${likeCount}")
+            if (isLiked) {
+                binding.productDetailBtnLike.setImageResource(R.drawable.heart_fill)
+            } else {
+                binding.productDetailBtnLike.setImageResource(R.drawable.heart)
+            }
+        }
     }
 
 }

@@ -20,6 +20,7 @@
             android:paddingEnd="16dp">
 
             <ImageView
+                android:id="@+id/product_detail_iv_img"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_gravity="center"
@@ -41,15 +42,15 @@
                     android:text="푸딩한접시"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/product_detail_btn_heart"
+                    app:layout_constraintEnd_toStartOf="@+id/product_detail_btn_like"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
-                    android:id="@+id/product_detail_btn_heart"
+                    android:id="@+id/product_detail_btn_like"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginBottom="5dp"
                     android:background="@android:color/transparent"
                     android:src="@drawable/heart"
@@ -60,16 +61,17 @@
                     android:id="@+id/product_detail_tv_likecount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="13"
-                    app:layout_constraintBottom_toBottomOf="@id/product_detail_btn_heart"
-                    app:layout_constraintStart_toEndOf="@+id/product_detail_btn_heart" />
+                    android:layout_marginStart="3dp"
+                    android:text="0"
+                    app:layout_constraintBottom_toBottomOf="@id/product_detail_btn_like"
+                    app:layout_constraintStart_toEndOf="@+id/product_detail_btn_like" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/product_detail_tv_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="달콤한 푸딩을 닮은 아기자기한 소품으로, 공간에 따뜻한 감성을 더해줍니다. 초보자도 쉽게 따라 할 수 있어 직접 만드는 즐거움을 느껴보세요! 🍮" />
+                android:text="" />
 
 
             <TextView
