@@ -72,9 +72,10 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/banner_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:gravity="top"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -100,15 +101,17 @@
                             android:textSize="12sp" />
 
                         <!-- 이미지 버튼을 FrameLayout에 절대 위치로 배치 -->
-                        <ImageButton
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/banner_detail_btn"
-                            android:layout_width="83dp"
-                            android:layout_height="31dp"
+                            android:layout_width="54dp"
+                            android:layout_height="26dp"
                             android:layout_gravity="bottom"
-                            android:layout_marginLeft="5dp"
                             android:layout_marginTop="15dp"
-                            android:background="@drawable/banner_button"
-                            android:scaleType="centerInside" />
+                            android:background="@android:color/transparent"
+                            android:text="더보기"
+                            android:textColor="#5E5E5E"
+                            android:textSize="10sp" />
+
                     </LinearLayout>
 
                     <ImageView

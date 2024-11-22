@@ -36,6 +36,9 @@ android {
     viewBinding {
         enable = true
     }
+    buildFeatures {
+        viewBinding = true
+    }
     dataBinding {
         enable = true
     }
@@ -56,6 +59,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.11.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
 
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.25")
+
+
     // retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -66,5 +72,7 @@ dependencies {
     // splash
     implementation (libs.androidx.core.splashscreen)
 
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.7.0")
+    implementation ("androidx.navigation:navigation-ui-ktx:2.7.0")
 
 }

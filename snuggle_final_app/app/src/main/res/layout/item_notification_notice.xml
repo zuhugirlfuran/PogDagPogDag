@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/notification_item_background"
+    android:elevation="20dp"
+    android:orientation="horizontal"
+    android:padding="21dp">
+
+
+    <ImageView
+        android:id="@+id/notification_item_ib"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:scaleType="fitCenter"
+        tools:srcCompat="@drawable/notification_notice_ib" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notification_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="새로운 기능 출시 안내"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/notification_tv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="NFC 태그를 활용하여 제품을 스캔하면 해당 제품의 도안 및 안내 영상이 떠요!"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

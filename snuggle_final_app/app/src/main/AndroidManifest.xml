@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!--  서버와의 통신을 위한 Internet 허용  -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,17 +19,24 @@
 
         <activity
             android:name=".SplashActivity"
+            android:exported="true" />
+        <!--            <intent-filter>-->
+        <!--                <action android:name="android.intent.action.MAIN" />-->
+        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+        <!--            </intent-filter>-->
+        <activity
+            android:name=".main.NotificationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Snuggle_final_app" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="true">
-
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
+
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
         </activity>
-
-        <activity
-            android:name=".LoginActivity"
-            android:exported="false"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -43,6 +49,11 @@
              </intent-filter>
 
         </activity>
+
+
+
+
+
     </application>
 
 </manifest>
