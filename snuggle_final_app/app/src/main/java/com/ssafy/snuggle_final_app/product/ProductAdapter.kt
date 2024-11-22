@@ -31,7 +31,7 @@ class ProductAdapter(
                 .into(binding.productIv)
 
             binding.productTvName.text = product.productName
-            binding.productTvPrice.text = "${makeComma(product.price)}원"
+            binding.productTvPrice.text = "${makeComma(product.price)}"
 
             // 클릭 이벤트 처리
             binding.root.setOnClickListener { onItemClick(product.productId) }

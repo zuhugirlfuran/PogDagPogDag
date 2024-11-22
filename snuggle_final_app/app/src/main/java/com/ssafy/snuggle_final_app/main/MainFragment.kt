@@ -99,7 +99,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         // 어댑터 초기화 및 연결
         bestAdapter = BestProductRecyclerViewAdapter(emptyList()) { productId ->
             productViewModel.productId = productId
-            mainActivity.replaceFragment(ProductDetailFragment())
+            mainActivity.addToStackFragment(ProductDetailFragment())
 
         }
 
@@ -116,7 +116,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         // 어댑터 초기화 및 연결
         newAdapter = NewProductRecyclerViewAdapter(emptyList()) {productId ->
             productViewModel.productId = productId
-            mainActivity.replaceFragment(ProductDetailFragment())
+            mainActivity.addToStackFragment(ProductDetailFragment())
         }
         newRecyclerView.adapter = newAdapter
     }

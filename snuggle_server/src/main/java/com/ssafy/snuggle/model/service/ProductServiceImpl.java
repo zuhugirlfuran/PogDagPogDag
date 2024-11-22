@@ -21,8 +21,6 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private CommentDao cDao;
 
-	@Autowired
-	private StampDao sDao;
 
 	@Override
 	public List<Product> getProductList() {
@@ -44,6 +42,17 @@ public class ProductServiceImpl implements ProductService {
 //		product.setTotalSells(totalSells);
 
 		return product;
+	}
+
+	@Override
+	public List<Product> getBestProduct() {
+		
+		return pDao.selectBestProduct();
+	}
+
+	@Override
+	public List<Product> getNewProduct() {
+		return pDao.selectNewProduct();
 	}
 
 }

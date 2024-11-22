@@ -57,7 +57,7 @@ public class ProductController {
 			throw new RuntimeException("상품을 찾을 수 없습니다. productId: " + productId);
 		}
 
-		map.put("name", product.getProductName());
+		map.put("productName", product.getProductName());
 		map.put("price", product.getPrice());
 		map.put("content", product.getContent());
 		map.put("img", product.getImg());
@@ -65,6 +65,20 @@ public class ProductController {
 		map.put("comments", selectByProduct);
 
 		return map;
+	}
+	
+	@GetMapping("/bestProduct")
+	@Operation(summary = "best Product를 조회한다. 상품 likeCount가 많은 순서대로 5개만 보여준다.")
+	public ResponseEntity<List<Product>> getBestProduct() {
+
+		return new ResponseEntity<List<Product>>(productService.getBestProduct(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/newProduct")
+	@Operation(summary = "New Product를 조회한다. 새로 등록된 상품 5개만 보여준다.")
+	public ResponseEntity<List<Product>> getNewProduct() {
+
+		return new ResponseEntity<List<Product>>(productService.getNewProduct(), HttpStatus.OK);
 	}
 
 }

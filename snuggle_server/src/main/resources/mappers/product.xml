@@ -29,4 +29,18 @@
 		select * from t_comment where product_id = #{productId}
 	</select>
 
+	
+	<!-- best Product를 조회 -->
+	<select id="selectBestProduct" resultType="Product">
+		select * from t_product 
+		order by like_count desc
+		limit 5
+	</select>
+	
+	<!-- New Product를 조회 -->
+	<select id="selectNewProduct" resultType="Product">
+		select * from t_product 
+		order by product_id desc
+		limit 5
+	</select>
 </mapper>
