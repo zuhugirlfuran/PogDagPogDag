@@ -13,7 +13,9 @@ import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
 import com.ssafy.snuggle_final_app.order.OrderFragment
 
 
+
 class BannerDetailFragment : Fragment() {
+
 
     private lateinit var mainActivity: MainActivity
     private var _binding: FragmentBannerDetailBinding? = null
@@ -30,10 +32,11 @@ class BannerDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentBannerDetailBinding.inflate(inflater, container, false)
 
         return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,8 +45,6 @@ class BannerDetailFragment : Fragment() {
         // 툴바 숨기기
         val toolbar = activity?.findViewById<Toolbar>(R.id.app_bar)
         toolbar?.visibility = View.GONE
-
-
 
     }
 

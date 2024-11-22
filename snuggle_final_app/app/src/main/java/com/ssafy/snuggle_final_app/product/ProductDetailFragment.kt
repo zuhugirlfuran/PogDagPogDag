@@ -2,26 +2,26 @@ package com.ssafy.snuggle_final_app.product
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.ssafy.smartstore_jetpack.base.BaseFragment
+import com.ssafy.snuggle_final_app.MainActivity
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
-import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.cart.CartFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
-import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
+import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+import com.ssafy.snuggle_final_app.main.MainFragment
 import com.ssafy.snuggle_final_app.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
+import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 import java.util.Date
 
 private const val TAG = "ProductDetailFragment"
@@ -31,11 +31,38 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     R.layout.fragment_product_detail
 ) {
 
+    private lateinit var mainActivity: MainActivity
     private lateinit var adapter: ProductDetailAdapter
     private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mainActivity = context as MainActivity
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // 뒤로 가기
+//        mainActivity.fragmentBackPressed(viewLifecycleOwner) {
+//            when (viewModel.fragmentPlace) {
+//                "product" -> parentFragmentManager.popBackStack() // ProductFragment로 돌아감
+//                "main" -> parentFragmentManager.popBackStack() // MainFragment로 돌아감
+//                else -> mainActivity.defaultOnBackPressed() // 기본 뒤로가기
+//            }
+//        }
+
+        // 화면 전환 이벤트
+        mainActivity.fragmentBackPressed(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.d("backpressed", "")
+                viewModel.setCheck(true) // 체크 플래그 설정
+                parentFragmentManager.popBackStack() // 이전 Fragment로 이동
+            }
+        })
+
+        // 어댑터 초기화
         initAdapter()
 
         val productId = viewModel.productId
@@ -65,6 +92,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             viewModel.likeProduct(Like(userId, productId, today))
         }
 
+
     }
 
     private fun showOrderDialog() {
@@ -79,10 +107,27 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             bottomSheetDialog.dismiss()
 
             // OrderFragment로 이동
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
-            transaction.addToBackStack(null) // 이전 화면으로 돌아갈 수 있게 스택에 추가
-            transaction.commit()
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
+//            transaction.addToBackStack(null)
+//            transaction.commit()
+
+            mainActivity.addToStackFragment(OrderFragment())
+        }
+        
+        // 다이얼로그의 '장바구니' 버튼 클릭 시 처리
+        val cartBtn = dialogView.findViewById<Button>(R.id.product_detail_btn_cart)
+        cartBtn.setOnClickListener {
+            bottomSheetDialog.dismiss()
+
+            // OrderFragment로 이동
+//            val transaction = parentFragmentManager.beginTransaction()
+//            transaction.replace(R.id.main_frameLayout, CartFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
+//            transaction.addToBackStack(null)
+//            transaction.commit()
+
+            mainActivity.addToStackFragment(CartFragment())
+
         }
 
         bottomSheetDialog.show()
@@ -103,12 +148,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     private fun initAdapter() {
-//        val commentList = mutableListOf(
-//            Comment("너무 귀여워요!", 1, "id 01"),
-//            Comment("키링으로 활용하기 좋아요", 1, "id 01"),
-//            Comment("아기자기하고 어쩌구 저쩌구", 1, "id 01"),
-//            Comment("색 커스텀이 어쩌구 ", 1, "id 01")
-//        )
 
         adapter = ProductDetailAdapter(emptyList())
 
@@ -131,7 +170,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
                     binding.productDetailTvName.text = it.productName
                     binding.productDetailTvLikecount.text = it.likeCount.toString()
                     binding.productDetailTvContent.text = it.content
-                    binding.productDetailTvPrice.text = "${it.productPrice}원"
+                    binding.productDetailTvPrice.text = makeComma(it.productPrice)
 
                     // 댓글 RecyclerView 업데이트
                     adapter.submitList(it.comments)
@@ -151,6 +190,11 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
                 binding.productDetailBtnLike.setImageResource(R.drawable.heart)
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.clearData()
     }
 
 }

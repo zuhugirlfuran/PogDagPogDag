@@ -16,15 +16,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.databinding.FragmentProductBinding
 import com.ssafy.snuggle_final_app.data.service.ProductService
+import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
+import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
 import kotlinx.coroutines.launch
 
-class ProductFragment : Fragment() {
-
-    private var _binding: FragmentProductBinding? = null
-    private val binding get() = _binding!!
+class ProductFragment : BaseFragment<FragmentProductBinding>(
+    FragmentProductBinding::bind,
+    R.layout.fragment_product
+) {
 
     private lateinit var adapter: ProductAdapter
     private lateinit var mainActivity: MainActivity
@@ -38,20 +41,10 @@ class ProductFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         initAdapter()
 
         // livedata 통해서 관찰하고 리사이클러뷰 업데이트
@@ -78,23 +71,17 @@ class ProductFragment : Fragment() {
         // 상품 id에 따른 info 불러오기
         viewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
             productInfo?.let {
-                mainActivity.replaceFragment(ProductDetailFragment())
+                mainActivity.addToStackFragment(ProductDetailFragment())
             }
         }
     }
 
     private fun initAdapter() {
 
-//        val productList = mutableListOf(
-//            Product(1, "푸딩거북이", "5000", R.drawable.item02),
-//            Product(2, "상어인형", "8000",R.drawable.item01),
-//            Product(3, "토끼인형", "7000",R.drawable.item03),
-//            Product(4, "곰인형", "10000",R.drawable.item04)
-//        )
-
         adapter = ProductAdapter(emptyList()) { productId ->
             viewModel.productId = productId
-            mainActivity.replaceFragment(ProductDetailFragment())
+
+            mainActivity.addToStackFragment(ProductDetailFragment())
         }
 
         binding.productRecyclerview.adapter = adapter
@@ -161,10 +148,5 @@ class ProductFragment : Fragment() {
 //        }
 //    }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
 }

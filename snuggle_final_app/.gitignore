@@ -1,15 +1,12 @@
 *.iml
 .gradle
 /local.properties
-<<<<<<< HEAD:snuggle_final_app/.gitignore
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-=======
->>>>>>> 212e71cb3b6e2928310e9cab05a04ed0d41a0b52:snuggle_mobile/.gitignore
 /.idea/*
 .DS_Store
 /build

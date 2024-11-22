@@ -21,4 +21,20 @@ public interface ProductDao {
 	 * @return
 	 */
 	ProductWithComment selectWithInfo(Integer productId);
+	
+	/**
+	 * 베스트 TOP 5 의 상품을 불러온다.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> selectBestProduct();
+	
+	/**
+	 * 새로 생성된 상품 5개를 불러온다.
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> selectNewProduct();
 }

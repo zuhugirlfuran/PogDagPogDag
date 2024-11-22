@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="33dp"
     android:paddingTop="10dp"
+    android:paddingRight="33dp"
     tools:context=".cart.CartFragment">
 
     <TextView
@@ -30,10 +32,52 @@
     <ListView
         android:id="@+id/cart_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="20dp"
-        android:padding="25dp" />
+        android:divider="@android:color/transparent" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/cart_white_background"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp">
+
+        <LinearLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="12dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="총 3개"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="17,000원"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageButton
+            android:layout_marginTop="12dp"
+            android:id="@+id/cart_btn_order"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/order_btn" />
+    </LinearLayout>
 </LinearLayout>

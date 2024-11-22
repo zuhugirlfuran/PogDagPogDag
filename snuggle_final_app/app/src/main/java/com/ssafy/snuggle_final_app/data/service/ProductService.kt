@@ -24,4 +24,11 @@ interface ProductService {
     @GET("/snuggle/product/{productId}")
     suspend fun getProductWithComments(@Path("productId") productId: Int) : ProductWithCommentResponse
 
+    // best product 5개 조회
+    @GET("/snuggle/product/bestProduct")
+    suspend fun getBestProduct(): List<Product>
+
+    // 새로운 product 5개 조회
+    @GET("/snuggle/product/newProduct")
+    suspend fun getNewProduct(): List<Product>
 }

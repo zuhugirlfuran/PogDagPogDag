@@ -8,15 +8,15 @@
     android:paddingTop="15dp"
     android:paddingRight="20dp"
     android:paddingBottom="15dp"
-
     tools:context=".main.BannerDetailFragment">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <View
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@drawable/banner_detail_img1" />

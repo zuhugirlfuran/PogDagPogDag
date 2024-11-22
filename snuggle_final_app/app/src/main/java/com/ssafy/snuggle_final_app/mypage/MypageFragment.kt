@@ -3,14 +3,15 @@ package com.ssafy.snuggle_final_app.mypage
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.network.RetrofitClient
-import com.ssafy.snuggle_final_app.data.service.UserService
+import com.ssafy.snuggle_final_app.base.ApplicationClass.Companion.sharedPreferencesUtil
 import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
 
 private const val TAG = "MypageFragment_싸피"
@@ -19,9 +20,7 @@ class MypageFragment : Fragment() {
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private val viewModel: MyPageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,28 +44,32 @@ class MypageFragment : Fragment() {
         menuCart.setBackgroundColor(Color.parseColor("#FFE57D"))
         menuNotification.setBackgroundColor(Color.parseColor("#FFE57D"))
 
-        //=== User 정보 가져오기 ==//
-        val userService = RetrofitClient.instance.create(UserService::class.java)
 
-//        userService.getUserInfo("id 01").enqueue(object : retrofit2.Callback<UserResponse> {
-//            override fun onResponse(
-//                call: retrofit2.Call<UserResponse>,
-//                response: retrofit2.Response<UserResponse>
-//            ) {
-//                if (response.isSuccessful) {
-//                    val user = response.body()?.user
-//                    Log.d(TAG, "Nickname: ${user?.nickname}, Stamps: ${user?.stamps}")
-//                    view.findViewById<TextView>(R.id.mypage_tv_name).text = user?.nickname
-//                    view.findViewById<TextView>(R.id.mypage_tv_stamp).text = user?.stamps.toString()
-//                } else {
-//                    Log.e(TAG, "Response Code: ${response.code()}")
-//                }
-//            }
+        observeViewModel()
+        //=== User 정보 가져오기 ==//
+        val userId = sharedPreferencesUtil.getUser().userId
+        viewModel.getUserInfo(userId)
+        Log.d(TAG, "onViewCreated: ${userId}")
+
+
+        if (userId.isEmpty()) {
+            Log.e(TAG, "로그인된 사용자 ID를 찾을 수 없습니다.")
+            return
+        }
+
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            try {
+//                val response = userService.getUserInfo(userId) // suspend 함수 호출
+//                val user = response.user
+//                Log.d(TAG, "Nickname: ${user.nickname}, Stamps: ${user.stamps}")
 //
-//            override fun onFailure(call: retrofit2.Call<UserResponse>, t: Throwable) {
-//                Log.e(TAG, "Failed to fetch user info", t)
+//                binding.mypageTvName.text = user.nickname
+//                binding.mypageTvStamp.text = user.stamps.toString()
+//            } catch (e: Exception) {
+//                Log.e(TAG, "Failed to fetch user info", e)
 //            }
-//        })
+//        }
+
 
         //=== 주문 내역으로 이동==//
         binding.mypageLlOrderlist.setOnClickListener {
@@ -92,6 +95,24 @@ class MypageFragment : Fragment() {
             transaction.commit()
         }
 
+    }
+
+    private fun observeViewModel() {
+        viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
+            if (userInfo != null) {
+                Log.d(TAG, "observeViewModel: ${userInfo.user}")
+                binding.mypageTvName.text = userInfo.user.nickname
+
+                var stampNum = userInfo.user.stamps
+                binding.mypageTvStamp.text = stampNum.toString()
+
+                //==등급 계산(임시)==//
+                // 10개 모으면 rank up 하는걸로 설정 - 기본 레벨은 1
+                var rank = stampNum / 10 + 1
+                binding.mypageTvRank.text = "Lv." + rank.toString()
+            }
+
+        }
     }
 
     override fun onResume() {

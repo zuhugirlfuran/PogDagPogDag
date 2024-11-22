@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.data.model.dto.Notice
 
 class NotificationAdapter(private val context: Context, private val dataList: List<Notice>) :
     BaseAdapter() {

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.cart.CartFragment
@@ -38,22 +39,27 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(MainFragment())
                     true
                 }
+
                 R.id.product -> {
-                    addToStackFragment(ProductFragment())
+                    replaceFragment(ProductFragment())
                     true
                 }
+
                 R.id.mypage -> {
                     replaceFragment(MypageFragment())
                     true
                 }
+
                 R.id.chatbot -> {
-                    replaceFragment(ChatBotFragment())
+                    addToStackFragment(ChatBotFragment())
                     true
                 }
+
                 R.id.scanner -> {
                     replaceFragment(ScannerFragment())
                     true
                 }
+
                 else -> false
             }
         }
@@ -84,11 +90,24 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+
     fun addToStackFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.main_frameLayout, fragment)
-            addToBackStack(null) // 백 스택에 추가
-            commit()
+        val fragmentTag = fragment.javaClass.simpleName
+        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+
+        if (currentFragment == null) { // 동일한 태그의 프래그먼트가 없을 때만 추가
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frameLayout, fragment, fragmentTag)
+                .addToBackStack(fragmentTag)
+                .commit()
         }
     }
+
+    fun fragmentBackPressed(
+        lifecycleOwner: androidx.lifecycle.LifecycleOwner,
+        callback: OnBackPressedCallback
+    ) {
+        onBackPressedDispatcher.addCallback(lifecycleOwner, callback)
+    }
+
 }
