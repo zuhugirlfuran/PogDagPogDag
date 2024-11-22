@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.product -> {
-                    replaceFragment(ProductFragment())
+                    addToStackFragment(ProductFragment())
                     true
                 }
                 R.id.mypage -> {
@@ -67,5 +67,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frameLayout, fragment)
             .commit()
+    }
+
+    fun addToStackFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.main_frameLayout, fragment)
+            addToBackStack(null) // 백 스택에 추가
+            commit()
+        }
     }
 }
