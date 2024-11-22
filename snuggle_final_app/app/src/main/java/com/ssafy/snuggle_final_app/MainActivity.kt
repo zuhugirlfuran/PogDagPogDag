@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.chatbot -> {
-                    replaceFragment(ChatBotFragment())
+                    addToStackFragment(ChatBotFragment())
                     true
                 }
 
