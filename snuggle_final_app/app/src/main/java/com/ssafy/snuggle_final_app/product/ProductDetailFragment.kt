@@ -12,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.cart.CartFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
 import com.ssafy.snuggle_final_app.order.OrderFragment
@@ -75,7 +76,19 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             // OrderFragment로 이동
             val transaction = parentFragmentManager.beginTransaction()
             transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
-            transaction.addToBackStack(null) // 이전 화면으로 돌아갈 수 있게 스택에 추가
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+        
+        // 다이얼로그의 '장바구니' 버튼 클릭 시 처리
+        val cartBtn = dialogView.findViewById<Button>(R.id.product_detail_btn_cart)
+        cartBtn.setOnClickListener {
+            bottomSheetDialog.dismiss()
+
+            // OrderFragment로 이동
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_frameLayout, CartFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
+            transaction.addToBackStack(null)
             transaction.commit()
         }
 
