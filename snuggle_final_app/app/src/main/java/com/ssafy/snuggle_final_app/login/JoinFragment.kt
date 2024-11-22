@@ -10,10 +10,12 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.transition.Visibility
+import com.ssafy.smartstore_jetpack.base.BaseFragment
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.data.model.dto.User
@@ -23,12 +25,12 @@ import kotlinx.coroutines.launch
 
 private const val TAG = "JoinFragment_싸피"
 
-class JoinFragment : Fragment() {
+class JoinFragment : BaseFragment<FragmentJoinBinding>(
+    FragmentJoinBinding::bind,
+    R.layout.fragment_join
+)
+{
     private lateinit var loginActivity: LoginActivity
-
-    // 바인딩 객체 선언 및 초기화
-    private var _binding: FragmentJoinBinding? = null
-    private val binding get() = _binding!!
 
     private var isUsedId = false  // 사용중인 id인지
     private var clicked = false  // id 중복 체크 버튼
@@ -38,15 +40,6 @@ class JoinFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginActivity = context as LoginActivity
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentJoinBinding.inflate(inflater, container, false)
-
-        return binding.root
     }
 
 
@@ -309,13 +302,4 @@ class JoinFragment : Fragment() {
         dialog.show() // 다이얼로그 표시
     }
 
-
-    private fun showToast(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

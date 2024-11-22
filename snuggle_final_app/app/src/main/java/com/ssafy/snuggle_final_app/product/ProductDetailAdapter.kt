@@ -22,6 +22,8 @@ class ProductDetailAdapter
             binding.commentIbModify.setOnClickListener { 
                 binding.commentEtContent.visibility = View.VISIBLE
                 binding.commentTvContent.visibility = View.GONE
+
+                binding.commentEtContent.setText(binding.commentTvContent.text)
             }
 
             // 삭제 버튼 클릭 시

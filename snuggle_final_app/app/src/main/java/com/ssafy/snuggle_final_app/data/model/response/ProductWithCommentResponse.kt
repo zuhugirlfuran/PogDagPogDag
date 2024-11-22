@@ -10,6 +10,6 @@ data class ProductWithCommentResponse(
     @SerializedName("price") val productPrice: Int = 0,          // 상품 가격
     @SerializedName("content") val content: String = "",              // 상품 설명
     @SerializedName("img") val productImg: String = "",               // 상품 이미지
-    @SerializedName("likeCount") val likeCount: Int = 0,              // 좋아요 수
+    @SerializedName("likeCount") var likeCount: Int = 0,              // 좋아요 수
     @SerializedName("comments") val comments: List<Comment> = emptyList() // 댓글 리스트
 )

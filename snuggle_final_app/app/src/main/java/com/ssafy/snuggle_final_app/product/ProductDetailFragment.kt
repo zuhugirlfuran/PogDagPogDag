@@ -8,40 +8,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ssafy.smartstore_jetpack.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.data.model.dto.Like
+import com.ssafy.snuggle_final_app.databinding.FragmentLoginBinding
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+import com.ssafy.snuggle_final_app.util.CommonUtils
+import java.util.Date
 
 private const val TAG = "ProductDetailFragment"
 
-class ProductDetailFragment : Fragment() {
-
-    private var _binding: FragmentProductDetailBinding? = null
-    private val binding get() = _binding!!
+class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
+    FragmentProductDetailBinding::bind,
+    R.layout.fragment_product_detail
+) {
 
     private lateinit var adapter: ProductDetailAdapter
     private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductDetailBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdapter()
 
         val productId = viewModel.productId
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
 
         if (productId > 0) {
             viewModel.getProductWithComments(productId)
+            viewModel.isLikeSatatus(userId, productId)
         }
 
         observeViewModel()
@@ -54,6 +55,13 @@ class ProductDetailFragment : Fragment() {
         // 주문하기 버튼
         binding.productDetailBtnOrder.setOnClickListener {
             showOrderDialog()
+        }
+
+        // 좋아요 버튼
+        binding.productDetailBtnLike.setOnClickListener {
+            val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+            val today = CommonUtils.dateformatYMD(Date())
+            viewModel.likeProduct(Like(userId, productId, today))
         }
 
     }
@@ -94,6 +102,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun observeViewModel() {
+        // 상품 정보 불러오기
         viewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
 
             Log.d(TAG, "observeViewModel: $productInfo")
@@ -104,7 +113,6 @@ class ProductDetailFragment : Fragment() {
                         .load(it.productImg)
                         .into(binding.productDetailIvImg)
 
-                    Log.d(TAG, "observeViewModel: $it")
                     binding.productDetailTvName.text = it.productName
                     binding.productDetailTvLikecount.text = it.likeCount.toString()
                     binding.productDetailTvContent.text = it.content
@@ -115,12 +123,19 @@ class ProductDetailFragment : Fragment() {
                 }
             }
         }
-    }
 
+        // 좋아요 눌렀을 때
+        viewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+            val likeCount = viewModel.productInfo.value?.likeCount ?: 0
+            binding.productDetailTvLikecount.text = likeCount.toString() // likeCount 업데이트
+            Log.d(TAG, "observ: ${likeCount}")
+            if (isLiked) {
+                binding.productDetailBtnLike.setImageResource(R.drawable.heart_fill)
+            } else {
+                binding.productDetailBtnLike.setImageResource(R.drawable.heart)
+            }
+        }
     }
 
 }

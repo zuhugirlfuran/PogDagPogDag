@@ -93,7 +93,6 @@ class ProductFragment : Fragment() {
 //        )
 
         adapter = ProductAdapter(emptyList()) { productId ->
-//            viewModel.getProductWithComments(productId)
             viewModel.productId = productId
             mainActivity.replaceFragment(ProductDetailFragment())
         }
