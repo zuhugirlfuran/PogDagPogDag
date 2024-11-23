@@ -29,7 +29,7 @@
         <!--                <category android:name="android.intent.category.LAUNCHER" />-->
         <!--            </intent-filter>-->
         <activity
-            android:name=".main.NotificationActivity"
+            android:name=".ui.notification.NotificationActivity"
             android:exported="false"
             android:theme="@style/Theme.Snuggle_final_app" />
         <activity

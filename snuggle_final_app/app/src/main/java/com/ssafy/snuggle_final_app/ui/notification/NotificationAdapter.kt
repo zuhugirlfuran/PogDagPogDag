@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.main
+package com.ssafy.snuggle_final_app.ui.notification
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,8 +10,9 @@ import android.widget.TextView
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.data.model.dto.Notice
 
-class NotificationAdapter(private val context: Context, private val dataList: List<Notice>) :
+class NotificationAdapter(private val context: Context, private var dataList: List<Notice>) :
     BaseAdapter() {
+
     override fun getCount(): Int = dataList.size
 
     override fun getItem(position: Int): Any = dataList[position]
@@ -26,12 +27,17 @@ class NotificationAdapter(private val context: Context, private val dataList: Li
         val subtitleTextView = view.findViewById<TextView>(R.id.notification_tv_contents)
         val img = view.findViewById<ImageView>(R.id.notification_item_ib)
 
-
         val item = dataList[position]
         titleTextView.text = item.title
         subtitleTextView.text = item.subTitle
-        img.setImageResource(R.drawable.notification_notice_ib)
+        img.setImageResource(item.img)
 
         return view
+    }
+
+    // 데이터 갱신
+    fun updateData(newData: List<Notice>) {
+        dataList = newData
+        notifyDataSetChanged()
     }
 }

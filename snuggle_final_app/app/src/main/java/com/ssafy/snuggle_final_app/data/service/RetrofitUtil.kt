@@ -12,6 +12,7 @@ class RetrofitUtil {
         val userService = ApplicationClass.retrofit.create(UserService::class.java)
         val categoryService = ApplicationClass.retrofit.create(CategoryService::class.java)
 
+        val notificationService = ApplicationClass.retrofit.create(NotificationService::class.java)
         val fcmService = ApplicationClass.retrofit.create(FirebaseTokenService::class.java)
     }
 }

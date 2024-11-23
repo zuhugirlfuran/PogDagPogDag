@@ -6,9 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingTop="25dp"
-
-
-    tools:context=".main.NotificationActivity">
+    tools:context=".ui.notification.NotificationActivity">
 
     <TextView
         android:id="@+id/notification_tv_main_title"
@@ -30,7 +28,8 @@
         android:paddingStart="25dp"
         android:paddingTop="36dp"
         android:paddingEnd="25dp"
-        android:paddingBottom="25dp" />
+        android:paddingBottom="25dp"
+        android:scrollbars="none" />
 
 
 </LinearLayout>

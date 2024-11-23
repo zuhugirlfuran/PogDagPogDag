@@ -1,14 +1,12 @@
 package com.ssafy.snuggle_final_app.base
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 import android.app.Application
-import com.google.firebase.FirebaseApp
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
@@ -17,7 +15,7 @@ class ApplicationClass : Application() {
 //    val SERVER_URL = "http://192.168.33.117:8080/"
 //    val SERVER_URL = "http://192.168.33.118:8080/"
 //    val SERVER_URL = "http://192.168.0.3:8080/"
-    val SERVER_URL = "http://172.30.1.6:8080/"
+    val SERVER_URL = "http://192.168.0.53:8080/"
 
     companion object {
         // 전역변수 문법을 통해 Retrofit 인스턴스를 앱 실행시 1번만 생성하여 사용 (Singleton)
