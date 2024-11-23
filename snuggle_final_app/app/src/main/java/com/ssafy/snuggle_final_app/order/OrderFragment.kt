@@ -64,7 +64,7 @@ class OrderFragment : Fragment() {
         binding.orderLv.adapter = adapter
 
         // ViewModel의 shoppingList를 관찰하여 업데이트
-        viewModel.shoppingList.observe(viewLifecycleOwner) { shoppingList ->
+        viewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
             adapter.updateData(shoppingList) // 어댑터 데이터 갱신
             updateTotal(shoppingList)  // 총 개수와 총 금액 업데이트
         }
@@ -111,7 +111,7 @@ class OrderFragment : Fragment() {
 
     private fun makeOrder() {
         // ViewModel에서 현재 장바구니 정보를 가져와 Order 객체 생성
-        viewModel.shoppingList.value?.let { shoppingList ->
+        viewModel.shoppingCart.value?.let { shoppingList ->
             if (shoppingList.isEmpty()) {
                 Toast.makeText(context, "장바구니가 비어 있습니다.", Toast.LENGTH_SHORT).show()
                 return
@@ -132,7 +132,6 @@ class OrderFragment : Fragment() {
                     completed = "N" // 초기 상태
                 )
             }
-
 
             val order = Order(
                 orderId = 0, // 서버에서 생성

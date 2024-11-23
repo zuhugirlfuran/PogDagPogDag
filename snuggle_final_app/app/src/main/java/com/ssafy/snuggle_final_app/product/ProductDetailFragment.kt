@@ -157,19 +157,30 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     private fun addItemToCart(quantity: Int) {
-        viewModel.productInfo.value?.let { product ->
+        val productId = viewModel.productId // ViewModel에서 현재 선택된 productId를 가져옴
+        val productInfo = viewModel.productInfo.value
+
+        if (productId > 0 && productInfo != null) { // 유효한 productId인지 확인
             val cartItem = Cart(
-                productId = product.productId, // 추가된 productId 전달
-                img = product.productImg,
-                title = product.productName,
+                productId = productId, // productId를 직접 설정
+                img = productInfo.productImg,
+                title = productInfo.productName,
                 productCnt = quantity,
-                price = product.productPrice,
+                price = productInfo.productPrice,
                 deliveryDate = "2024-12-25T12:23:15" // 샘플 배송 날짜
             )
-            Log.d("CartCreation", "Created Cart Item: Product ID=${cartItem.productId}, Title=${cartItem.title}")
+            Log.d(
+                "CartCreation",
+                "Created Cart Item: Product ID=${cartItem.productId}, Title=${cartItem.title}"
+            )
             activityViewModel.addShoppingList(cartItem)
+            Toast.makeText(requireContext(), "상품이 장바구니에 담겼습니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            Log.e("CartCreation", "Invalid productId or productInfo")
+            Toast.makeText(requireContext(), "상품 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     private fun showCommentDialog() {
 

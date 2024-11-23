@@ -52,7 +52,7 @@ class CartFragment : Fragment() {
 //        binding.cartLv.adapter = adapter
 
         // ViewModel의 shoppingList를 관찰하여 업데이트
-        viewModel.shoppingList.observe(viewLifecycleOwner) { shoppingList ->
+        viewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
             adapter.updateData(shoppingList) // 어댑터 데이터 갱신
             updateTotal(shoppingList)
         }
@@ -62,7 +62,7 @@ class CartFragment : Fragment() {
 
     // 삭제 처리 함수
     private fun deleteItem(position: Int) {
-        val currentList = viewModel.shoppingList.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
+        val currentList = viewModel.shoppingCart.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
         currentList.removeAt(position) // 아이템 삭제
         viewModel.updateShoppingList(currentList) // 업데이트
         updateTotal(currentList) // 총 개수와 총 금액 업데이트

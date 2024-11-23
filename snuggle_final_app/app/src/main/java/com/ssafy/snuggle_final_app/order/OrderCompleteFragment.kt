@@ -49,7 +49,7 @@ class OrderCompleteFragment : Fragment() {
 
     private fun setupObserver() {
         // ViewModel 데이터 관찰 및 UI 업데이트
-        viewModel.shoppingList.observe(viewLifecycleOwner) { shoppingList ->
+        viewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
             val totalItems = shoppingList.sumOf { it.productCnt }
             val totalPrice = shoppingList.sumOf { it.price * it.productCnt }
 
