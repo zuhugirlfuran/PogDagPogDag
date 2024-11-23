@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app.ui.chatbot
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.snuggle_final_app.chatbot.ChatMessage
 import com.ssafy.snuggle_final_app.databinding.ItemChatChatbotBinding
 import com.ssafy.snuggle_final_app.databinding.ItemChatUserBinding
 

@@ -25,6 +25,7 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+
 import com.ssafy.snuggle_final_app.ui.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma

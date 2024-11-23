@@ -1,13 +1,12 @@
 package com.ssafy.snuggle_final_app.base
 
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApplicationClass : Application() {
@@ -46,6 +45,7 @@ class ApplicationClass : Application() {
 
         // 초기화
         sharedPreferencesUtil = SharedPreferencesUtil(applicationContext)
+
     }
 
     //GSon은 엄격한 json type을 요구하는데, 느슨하게 하기 위한 설정.

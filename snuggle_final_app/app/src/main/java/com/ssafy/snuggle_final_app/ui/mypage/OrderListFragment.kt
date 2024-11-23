@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ssafy.snuggle_final_app.data.model.dto.Order
-import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderListBinding
 
 class OrderListFragment : Fragment() {
@@ -16,10 +14,11 @@ class OrderListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentOrderListBinding.inflate(inflater, container, false)
 
         // Adapter 연결
+
 //        val dataList = listOf(
 //            Pair(
 //                Order(orderId = 1, userId = "id01", addressId = 101, totalPrice = 5000.0),
@@ -43,6 +42,8 @@ class OrderListFragment : Fragment() {
 
 //        val adapter = OrderListAdapter(requireContext(), dataList)
 //        binding.orderlistLv.adapter = adapter
+
+    
 
         return binding.root
     }

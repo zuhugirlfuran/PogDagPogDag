@@ -1,5 +1,7 @@
 package com.ssafy.snuggle_final_app.ui.order
 
+import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
+
 import OrderViewModel
 import android.os.Bundle
 import android.util.Log
@@ -51,10 +53,12 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 //            this,
 //            OrderViewModelFactory(RetrofitUtil.orderService)
 //        )[OrderViewModel::class.java]
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         // 어댑터 초기화
         initAdapter()
@@ -250,3 +254,4 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             View.VISIBLE
     }
 }
+

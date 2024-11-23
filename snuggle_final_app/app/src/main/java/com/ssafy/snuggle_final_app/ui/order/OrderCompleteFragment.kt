@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderCompleteBinding
+import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma

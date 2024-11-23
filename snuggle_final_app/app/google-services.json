@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "642123001265",
+    "project_id": "ssafyfinal-e1a54",
+    "storage_bucket": "ssafyfinal-e1a54.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:642123001265:android:116e31b183e0a2032a6190",
+        "android_client_info": {
+          "package_name": "com.ssafy.snuggle_final_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAbYslk2Sxa-oSSVRy84oQx4kfmWJ81_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

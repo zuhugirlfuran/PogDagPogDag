@@ -1,4 +1,4 @@
-package com.ssafy.smartstore_jetpack.util
+package com.ssafy.snuggle_final_app.util
 
 import android.content.Context
 import android.content.Intent

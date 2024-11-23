@@ -1,6 +1,5 @@
 package com.ssafy.snuggle_final_app.ui.cart
 
-import CartAdapter
 import OrderViewModel
 import android.os.Bundle
 import android.view.View
@@ -20,15 +19,16 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
     FragmentCartBinding::bind,
     R.layout.fragment_cart
 ) {
-
     private lateinit var mainActivity: MainActivity
     private val orderViewModel: OrderViewModel by activityViewModels()
     private lateinit var adapter: CartAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivity = context as MainActivity
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,6 +82,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
                 "Invalid position: $position for list size ${currentList.size}"
             )
         }
+
     }
 
     private fun updateTotal(shoppingList: List<Cart>) {
@@ -121,5 +122,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
     // 삭제된 productId 로그 출력
     private fun logRemovedProductId(cart: Cart) {
         android.util.Log.d("CartFragment", "Removed Product ID: ${cart.productId}")
+
     }
 }
