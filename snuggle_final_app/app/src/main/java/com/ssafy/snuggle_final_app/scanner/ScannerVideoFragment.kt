@@ -1,35 +1,47 @@
 package com.ssafy.snuggle_final_app.scanner
 
+import ScannerViewModel
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import com.ssafy.snuggle_final_app.databinding.FragmentScannerVideoBinding
 
 class ScannerVideoFragment : Fragment() {
     private var _binding: FragmentScannerVideoBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ScannerViewModel by viewModels()
+
     private lateinit var videoSrc: String
     private lateinit var videoTitle: String
     private lateinit var videoContent: String
+    private lateinit var taggingId: String
     private var videoLike: Int = 0
 
-    // 북마크 상태를 저장하는 변수
-    private var bookmarkClicked = false
-
     companion object {
-        fun newInstance(videoSrc: String, videoTitle: String, videoContent: String, videoLike: Int): ScannerVideoFragment {
+        fun newInstance(
+            videoSrc: String,
+            videoTitle: String,
+            videoContent: String,
+            videoLike: Int,
+            taggingId: String
+        ): ScannerVideoFragment {
             val fragment = ScannerVideoFragment()
-            val args = Bundle()
-            args.putString("videoSrc", videoSrc)
-            args.putString("videoTitle", videoTitle)
-            args.putString("videoContent", videoContent)
-            args.putInt("videoLike", videoLike)
+            val args = Bundle().apply {
+                putString("videoSrc", videoSrc)
+                putString("videoTitle", videoTitle)
+                putString("videoContent", videoContent)
+                putInt("videoLike", videoLike)
+                putString("taggingId", taggingId)
+            }
             fragment.arguments = args
             return fragment
         }
@@ -42,76 +54,83 @@ class ScannerVideoFragment : Fragment() {
             videoTitle = it.getString("videoTitle") ?: ""
             videoContent = it.getString("videoContent") ?: ""
             videoLike = it.getInt("videoLike", 0)
+            taggingId = it.getString("taggingId") ?: ""
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentScannerVideoBinding.inflate(inflater, container, false)
 
-        //== 비디오 설정 ==//
-        // MediaController를 VideoView에 연결
-        val mediaController = MediaController(requireContext())
-        mediaController.setAnchorView(binding.videoView)
+        //== Video 설정 ==//
+        setupVideoPlayer()
 
-        val uri = Uri.parse(videoSrc)
-        
-        //url 설정
-        binding.videoView.setMediaController(mediaController)
-        binding.videoView.setVideoURI(uri)
-        binding.videoView.requestFocus()
-        //title 설정
-        binding.scannerTvTitle.text = videoTitle
-        //설명 설정
-        binding.scannerTvDetail.text = videoContent
-        //bookmark 설정
-        binding.scannerTvBookmark.text = videoLike.toString()
-
-        // 비디오 재생 시작
-        binding.videoView.start()
-
-        
         //== 북마크 설정 ==//
+        // 북마크 상태 초기화
+        val userId = SharedPreferencesUtil(requireContext()).getUser().userId
+        if (userId.isNotEmpty()) {
+            viewModel.initializeBookmarkState(userId, taggingId)
+        } else {
+            Log.e("BOOKMARK", "사용자 ID가 비어있습니다.")
+        }
 
-        // 북마크 초기 상태 설정
-        updateBookmarkIcon()
+        // LiveData 관찰
+        setupObservers()
 
-        // 북마크 클릭 이벤트 리스너 설정
+        // 북마크 클릭 이벤트 리스너
         binding.scannerLlBookmark.setOnClickListener {
-            bookmarkClicked = !bookmarkClicked // 상태 토글
-            updateBookmarkIcon()
-            // TODO: DB에서 북마크 수 증가 + 내 북마크 리스트에 추가
-
-            if (bookmarkClicked) {
-                // TODO: DB에서 북마크 수 증가 + 내 북마크 리스트에 추가
+            if (userId.isNotEmpty()) {
+                viewModel.toggleBookmark(userId, taggingId)
             } else {
-                // TODO: DB에서 북마크 수 감소 + 내 북마크 리스트에서 제거
+                Log.e("BOOKMARK", "사용자 ID가 비어있습니다.")
             }
         }
 
         return binding.root
     }
 
-    private fun updateBookmarkIcon() {
-        if (bookmarkClicked) {
-            binding.scannerIvBookmark.setImageResource(R.drawable.scanner_bookmark_icon_cliked)
-        } else {
-            binding.scannerIvBookmark.setImageResource(R.drawable.scanner_bookmark_icon)
+    private fun setupVideoPlayer() {
+        val mediaController = MediaController(requireContext())
+        mediaController.setAnchorView(binding.videoView)
+
+        binding.videoView.apply {
+            setMediaController(mediaController)
+            setVideoURI(Uri.parse(videoSrc))
+            requestFocus()
+            start()
+        }
+
+        binding.scannerTvTitle.text = videoTitle
+        binding.scannerTvDetail.text = videoContent
+        binding.scannerTvBookmark.text = videoLike.toString()
+    }
+
+    private fun setupObservers() {
+        viewModel.bookmarkClicked.observe(viewLifecycleOwner) { isClicked ->
+            updateBookmarkIcon(isClicked)
+        }
+
+        viewModel.bookmarkResponse.observe(viewLifecycleOwner) { responseMessage ->
+            Log.d("BOOKMARK", responseMessage)
+        }
+
+        viewModel.bookmarkCount.observe(viewLifecycleOwner) { count ->
+            binding.scannerTvBookmark.text = count.toString() // 북마크 수 실시간 업데이트
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+    private fun updateBookmarkIcon(isClicked: Boolean) {
+        if (isClicked) {
+            binding.scannerIvBookmark.setImageResource(R.drawable.scanner_bookmark_icon_cliked)
+            Log.d("BOOKMARK", "북마크 아이콘: 클릭됨")
+        } else {
+            binding.scannerIvBookmark.setImageResource(R.drawable.scanner_bookmark_icon)
+            Log.d("BOOKMARK", "북마크 아이콘: 클릭되지 않음")
+        }
     }
 
-    override fun onStop() {
-        super.onStop()
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
-            View.VISIBLE
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

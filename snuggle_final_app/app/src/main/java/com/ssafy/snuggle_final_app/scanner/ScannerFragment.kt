@@ -48,7 +48,8 @@ class ScannerFragment : Fragment() {
                         it.videoSrc,
                         it.videoTitle,
                         it.videoContent,
-                        it.videoLike
+                        it.videoLike,
+                        it.taggingId
                     )
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.main_frameLayout, videoFragment)
