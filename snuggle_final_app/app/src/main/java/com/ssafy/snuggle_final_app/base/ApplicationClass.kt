@@ -16,7 +16,7 @@ class ApplicationClass : Application() {
 //    val SERVER_URL = "http://192.168.33.117:8080/"
 //    val SERVER_URL = "http://192.168.33.118:8080/"
 //    val SERVER_URL = "http://192.168.0.3:8080/"
-    val SERVER_URL = "http://192.168.0.40:8080/"
+    val SERVER_URL = "http://172.30.1.17:8080/"
 
     companion object {
         // 전역변수 문법을 통해 Retrofit 인스턴스를 앱 실행시 1번만 생성하여 사용 (Singleton)

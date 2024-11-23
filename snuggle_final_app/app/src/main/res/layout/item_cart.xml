@@ -84,7 +84,7 @@
                     app:srcCompat="@drawable/cart_minus" />
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/cart_tv_product_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="7dp"

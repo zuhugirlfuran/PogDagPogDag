@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -111,15 +112,8 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
 
         orderButton.setOnClickListener {
-            // 다이얼로그 종료
             bottomSheetDialog.dismiss()
-
-            // OrderFragment로 이동
-//            val transaction = parentFragmentManager.beginTransaction()
-//            transaction.replace(R.id.main_frameLayout, OrderFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
-//            transaction.addToBackStack(null)
-//            transaction.commit()
-
+            addItemToCart(quantity)
             mainActivity.addToStackFragment(OrderFragment())
         }
 
@@ -127,15 +121,8 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         val cartBtn = dialogView.findViewById<Button>(R.id.product_detail_btn_cart)
         cartBtn.setOnClickListener {
             bottomSheetDialog.dismiss()
-
-            // OrderFragment로 이동
-//            val transaction = parentFragmentManager.beginTransaction()
-//            transaction.replace(R.id.main_frameLayout, CartFragment()) // `R.id.main_frameLayout`은 프래그먼트 교체할 컨테이너 ID
-//            transaction.addToBackStack(null)
-//            transaction.commit()
-
-            mainActivity.addToStackFragment(CartFragment())
-
+            addItemToCart(quantity)
+            Toast.makeText(requireContext(), "상품이 장바구니에 담겼습니다.", Toast.LENGTH_SHORT).show()
         }
 
         bottomSheetDialog.show()
