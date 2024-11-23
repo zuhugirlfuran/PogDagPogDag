@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,9 +19,11 @@ import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.cart.CartFragment
+import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
+import com.ssafy.snuggle_final_app.main.MainActivityViewModel
 import com.ssafy.snuggle_final_app.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
@@ -38,6 +41,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     private lateinit var adapter: ProductDetailAdapter
     private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
     private val commentViewModel: CommentViewModel by viewModels()
+
+    private val activityViewModel: MainActivityViewModel by activityViewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,20 +102,37 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val dialogView = layoutInflater.inflate(R.layout.dialog_bottom_order, null)
         bottomSheetDialog.setContentView(dialogView)
+        val plusButton = dialogView.findViewById<ImageButton>(R.id.product_detail_btn_plus)
+        val minusButton = dialogView.findViewById<ImageButton>(R.id.product_detail_btn_minus)
+        val quantityTV = dialogView.findViewById<TextView>(R.id.product_detail_tv_quantity)
+
 
         // 다이얼로그의 '구매' 버튼 클릭 시 처리
         val orderButton = dialogView.findViewById<Button>(R.id.product_detail_btn_purchase)
-        val productName = dialogView.findViewById<TextView>(R.id.dialog_order_name)
-        val productPrice = dialogView.findViewById<TextView>(R.id.dialog_order_price)
 
-        // ViewModel에서 현재 상품 정보 가져오기
-        val product = viewModel.productInfo.value
+        val productName = dialogView.findViewById<TextView>(R.id.product_detail_tv_title)
+        productName.text = binding.productDetailTvName.text
 
-        // 상품 정보 설정
-        product?.let {
-            productName.text = it.productName
-            productPrice.text = makeComma(it.productPrice)
+        var quantity = 1
+        quantityTV.text = quantity.toString()
+
+        val productPrice = viewModel.productInfo.value?.productPrice ?: 0
+        val priceTv = dialogView.findViewById<TextView>(R.id.product_detail_tv_price)
+
+        updateDialogPrice(priceTv, productPrice, quantity)
+
+        plusButton.setOnClickListener {
+            quantity++
+            quantityTV.text = quantity.toString()
+            updateDialogPrice(priceTv, productPrice, quantity)
         }
+
+        minusButton.setOnClickListener {
+            if (quantity > 1) quantity--
+            quantityTV.text = quantity.toString()
+            updateDialogPrice(priceTv, productPrice, quantity)
+        }
+
 
         orderButton.setOnClickListener {
             bottomSheetDialog.dismiss()
@@ -126,6 +149,26 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
 
         bottomSheetDialog.show()
+    }
+
+    private fun updateDialogPrice(priceTV: TextView, unitPrice: Int, quantity: Int) {
+        val totalPrice = unitPrice * quantity
+        priceTV.text = "${makeComma(totalPrice)}"
+    }
+
+    private fun addItemToCart(quantity: Int) {
+        viewModel.productInfo.value?.let { product ->
+            val cartItem = Cart(
+                productId = product.productId, // 추가된 productId 전달
+                img = product.productImg,
+                title = product.productName,
+                productCnt = quantity,
+                price = product.productPrice,
+                deliveryDate = "2024-12-25T12:23:15" // 샘플 배송 날짜
+            )
+            Log.d("CartCreation", "Created Cart Item: Product ID=${cartItem.productId}, Title=${cartItem.title}")
+            activityViewModel.addShoppingList(cartItem)
+        }
     }
 
     private fun showCommentDialog() {

@@ -40,7 +40,10 @@ class CartFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
 
         // Adapter 초기화
-        adapter = CartAdapter(requireContext(), mutableListOf()) // 초기 데이터는 빈 리스트
+        // Adapter 초기화
+        adapter = CartAdapter(requireContext(), mutableListOf()) { position ->
+            deleteItem(position) // 삭제 처리
+        }
 
         // 리스트뷰와 어댑터 연결
         binding.cartLv.adapter = adapter
@@ -55,6 +58,14 @@ class CartFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    // 삭제 처리 함수
+    private fun deleteItem(position: Int) {
+        val currentList = viewModel.shoppingList.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
+        currentList.removeAt(position) // 아이템 삭제
+        viewModel.updateShoppingList(currentList) // 업데이트
+        updateTotal(currentList) // 총 개수와 총 금액 업데이트
     }
 
     private fun updateTotal(shoppingList: List<Cart>) {

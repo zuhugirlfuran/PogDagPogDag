@@ -13,7 +13,8 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 
 class CartAdapter(
     private val context: Context,
-    private var shoppingList: MutableList<Cart>
+    private var shoppingList: MutableList<Cart>,
+    private val onDeleteClickListener: (Int) -> Unit // 추가
 ) : BaseAdapter() {
 
     override fun getCount(): Int = shoppingList.size
@@ -32,6 +33,7 @@ class CartAdapter(
         val productCount = view.findViewById<TextView>(R.id.cart_tv_product_count)
         val productPrice = view.findViewById<TextView>(R.id.cart_tv_price)
         val productImage = view.findViewById<ImageView>(R.id.cart_iv_product)
+        val deleteButton = view.findViewById<ImageView>(R.id.cart_ib_delete) // 삭제 버튼
 
         productTitle.text = cart.title
         productDelivery.text = cart.deliveryDate
@@ -41,10 +43,14 @@ class CartAdapter(
         // 이미지 로드 (Glide를 사용하는 경우)
         Glide.with(context).load(cart.img).into(productImage)
 
+        // 삭제 버튼 클릭 리스너 추가
+        deleteButton.setOnClickListener {
+            onDeleteClickListener(position) // 아이템 위치를 상위에 전달
+        }
+
         return view
     }
 
-    // 데이터를 갱신하는 메서드 추가
     fun updateData(newShoppingList: List<Cart>) {
         shoppingList.clear()
         shoppingList.addAll(newShoppingList)

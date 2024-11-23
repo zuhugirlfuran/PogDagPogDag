@@ -15,4 +15,9 @@ class MainActivityViewModel : ViewModel() {
         list.add(cartItem)
         _shoppingList.value = list
     }
+
+    // Update shopping list
+    fun updateShoppingList(updatedList: List<Cart>) {
+        _shoppingList.value = updatedList.toMutableList()
+    }
 }

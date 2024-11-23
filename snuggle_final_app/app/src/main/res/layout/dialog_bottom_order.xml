@@ -17,10 +17,10 @@
         android:paddingBottom="16dp">
 
         <TextView
-            android:id="@+id/dialog_order_name"
+            android:id="@+id/product_detail_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="푸딩한접시"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -37,19 +37,22 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/product_detail_btn_minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:src="@drawable/order_btn_minus" />
 
             <TextView
+                android:id="@+id/product_detail_tv_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="0" />
+                android:text="1" />
 
             <ImageButton
+                android:id="@+id/product_detail_btn_plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -58,11 +61,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/dialog_order_price"
+            android:id="@+id/product_detail_tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text=""
+            android:text="7,000원"
             android:textStyle="bold" />
 
 
