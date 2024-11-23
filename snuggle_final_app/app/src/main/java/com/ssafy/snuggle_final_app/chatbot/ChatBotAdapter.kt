@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.snuggle_final_app.databinding.ItemChatChatbotBinding
 import com.ssafy.snuggle_final_app.databinding.ItemChatUserBinding
 
-data class ChatMessage(val text: String, val isUser: Boolean)
-
-class ChatBotAdapter (private val messages: List<ChatMessage>) :
+class ChatBotAdapter(private val messages: List<ChatMessage>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -17,7 +15,7 @@ class ChatBotAdapter (private val messages: List<ChatMessage>) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (messages[position].isUser) VIEW_TYPE_USER else VIEW_TYPE_CHATBOT
+        return if (messages[position].sentBy == ChatMessage.SENT_BY_ME) VIEW_TYPE_USER else VIEW_TYPE_CHATBOT
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -45,15 +43,15 @@ class ChatBotAdapter (private val messages: List<ChatMessage>) :
 
     inner class UserViewHolder(private val binding: ItemChatUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatMessage) {
-            binding.textMessage.text = message.text
-            // Add time logic here if needed
+            binding.textMessageUser.text = message.message
+            binding.textTime.text = message.time ?: ""
         }
     }
 
     inner class ChatBotViewHolder(private val binding: ItemChatChatbotBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatMessage) {
-            binding.textMessage.text = message.text
-            // Add time logic here if needed
+            binding.textMessageBot.text = message.message
+            binding.textTime.text = message.time ?: ""
         }
     }
 }
