@@ -14,8 +14,16 @@ public interface CategoryService {
 	Category select(int cId);
 
 	/**
+     * 모든 카테고리 조회
+     * @param
+     */
+	List<Category> selectAll();
+
+	/**
      * 카테고리 id에 따른 상품 리스트들을 조회
      * @param cId
      */
 	List<Product> selectProductsByCategory(int cId);
+
+
 }

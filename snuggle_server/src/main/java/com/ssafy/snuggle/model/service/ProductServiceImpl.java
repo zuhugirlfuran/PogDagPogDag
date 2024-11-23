@@ -29,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public ProductWithComment selectWithComment(int productId) {
-		
+
 		// comment 정보
 		List<CommentInfo> comments = cDao.selectByProduct(productId);
 		ProductWithComment product = pDao.selectWithInfo(productId);
@@ -46,13 +46,24 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getBestProduct() {
-		
+
 		return pDao.selectBestProduct();
 	}
 
 	@Override
 	public List<Product> getNewProduct() {
 		return pDao.selectNewProduct();
+	}
+
+	@Override
+	public List<Product> getSortDesc() {
+
+		return pDao.selectSortDesc();
+	}
+
+	@Override
+	public List<Product> getSortAsc() {
+		return pDao.selectSortAsc();
 	}
 
 }

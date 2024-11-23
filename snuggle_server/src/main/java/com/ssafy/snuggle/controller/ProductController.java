@@ -66,19 +66,34 @@ public class ProductController {
 
 		return map;
 	}
-	
+
 	@GetMapping("/bestProduct")
 	@Operation(summary = "best Product를 조회한다. 상품 likeCount가 많은 순서대로 5개만 보여준다.")
 	public ResponseEntity<List<Product>> getBestProduct() {
 
 		return new ResponseEntity<List<Product>>(productService.getBestProduct(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/newProduct")
 	@Operation(summary = "New Product를 조회한다. 새로 등록된 상품 5개만 보여준다.")
 	public ResponseEntity<List<Product>> getNewProduct() {
 
 		return new ResponseEntity<List<Product>>(productService.getNewProduct(), HttpStatus.OK);
+	}
+
+
+	@GetMapping("/sortDesc")
+	@Operation(summary = "낮은 가격순으로 정렬해 조회한다.")
+	public ResponseEntity<List<Product>> getSortDesc() {
+
+		return new ResponseEntity<List<Product>>(productService.getSortDesc(), HttpStatus.OK);
+	}
+
+	@GetMapping("/sortAsc")
+	@Operation(summary = "높은 가격순으로 정렬해 조회한다.")
+	public ResponseEntity<List<Product>> getSortAsc() {
+
+		return new ResponseEntity<List<Product>>(productService.getSortAsc(), HttpStatus.OK);
 	}
 
 }

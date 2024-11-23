@@ -58,4 +58,17 @@ public class CategoryController {
 		return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
 	}
 
+	@GetMapping()
+	@Operation(summary = "모든 Category 조회")
+	public ResponseEntity<?> getAllCategory() {
+
+		List<Category> categoryList = new ArrayList<>();
+		categoryList = categoryService.selectAll();
+		if (categoryList == null) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+
+		return new ResponseEntity<List<Category>>(categoryList, HttpStatus.OK);
+	}
+
 }

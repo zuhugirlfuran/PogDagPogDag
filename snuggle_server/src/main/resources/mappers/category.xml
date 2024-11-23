@@ -14,6 +14,11 @@
 		WHERE c_id = #{cId}
 	</select>
 
+	<!-- 모든 카테고리 조회 -->
+	<select id="selectAll" resultType="Category">
+		SELECT category_name
+		FROM t_category
+	</select>
 
 	<!-- 카테고리에 따른 상품 리스트 조회 -->	
 	<select id="selectProductsByCategory" parameterType="int"
