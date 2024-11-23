@@ -176,7 +176,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     // 부트페이 결제
     private fun openPayment(shoppingList: List<Cart>) {
         val totalPrice = shoppingList.sumOf { it.productCnt * it.price }.toDouble()
-        val totalCount = shoppingList.sumOf { it.productCnt }.toDouble()
+        val totalCount = shoppingList.sumOf { it.productCnt }.toInt()
         val itemNames = shoppingList.map { it.title }
         val itemName = if (totalCount > 1) {
             "${itemNames[0]} 외 ${totalCount.toInt() - 1}개"
