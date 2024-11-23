@@ -14,15 +14,14 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ssafy.snuggle_final_app.cart.CartFragment
-import com.ssafy.snuggle_final_app.chatbot.ChatBotFragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
-import com.ssafy.snuggle_final_app.main.MainFragment
-import com.ssafy.snuggle_final_app.main.NotificationActivity
-import com.ssafy.snuggle_final_app.mypage.MypageFragment
-import com.ssafy.snuggle_final_app.product.ProductFragment
-import com.ssafy.snuggle_final_app.scanner.ScannerFragment
+import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
+import com.ssafy.snuggle_final_app.ui.main.MainFragment
+import com.ssafy.snuggle_final_app.ui.main.NotificationActivity
+import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.ui.product.ProductFragment
+import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
 import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 초기 프래그먼트 설정 (MainFragment)
-        replaceFragment(MainFragment())
+        addToStackFragment(MainFragment())
 
         val bottomNavigation = binding.bottomNavigation
         bottomNavigation.selectedItemId = R.id.home
@@ -81,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         // appBar_cart 버튼 클릭 리스너 설정
         val cartButton = findViewById<ImageButton>(R.id.app_bar_ib_cart)
         cartButton.setOnClickListener {
-            replaceFragment(CartFragment())
+            replaceFragment(com.ssafy.snuggle_final_app.ui.cart.CartFragment())
         }
 
         // appBar logo 클릭 시 메인 프레그먼트로 이동
@@ -107,14 +106,17 @@ class MainActivity : AppCompatActivity() {
 
     fun addToStackFragment(fragment: Fragment) {
         val fragmentTag = fragment.javaClass.simpleName
-        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
+//        val currentFragment = supportFragmentManager.findFragmentByTag(fragmentTag)
 
-        if (currentFragment == null) { // 동일한 태그의 프래그먼트가 없을 때만 추가
-            supportFragmentManager.beginTransaction()
+//        if (currentFragment != null) {
+//            Log.d("FragmentTransaction", "Adding fragment: ${fragment.javaClass.simpleName} ${currentFragment.tag}")
+//            return
+//        }
+        supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frameLayout, fragment, fragmentTag)
                 .addToBackStack(fragmentTag)
                 .commit()
-        }
+//        }
     }
 
     fun fragmentBackPressed(

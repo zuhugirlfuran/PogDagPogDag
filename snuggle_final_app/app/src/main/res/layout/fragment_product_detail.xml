@@ -26,8 +26,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:src="@drawable/item01" />
+                android:scaleType="fitCenter" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -39,7 +38,7 @@
                     android:id="@+id/product_detail_tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="푸딩한접시"
+                    android:text=""
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/product_detail_btn_like"
@@ -48,7 +47,7 @@
 
                 <ImageButton
                     android:id="@+id/product_detail_btn_like"
-                    android:layout_width="20dp"
+                    android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginBottom="5dp"
@@ -61,7 +60,7 @@
                     android:id="@+id/product_detail_tv_likecount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="4dp"
                     android:text="0"
                     app:layout_constraintBottom_toBottomOf="@id/product_detail_btn_like"
                     app:layout_constraintStart_toEndOf="@+id/product_detail_btn_like" />
@@ -80,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginTop="13dp"
-                android:text="5,000원"
+                android:text=""
                 android:textSize="24sp"
                 android:textStyle="bold" />
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFAE6">
@@ -10,41 +11,40 @@
         android:orientation="vertical">
 
         <!-- 검색창 -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp">
 
 
-            <EditText
+            <ImageButton
                 android:id="@+id/search_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
-                android:layout_weight="1"
-                android:background="@drawable/main_search_box"
+                android:background="@drawable/btn_search"
                 android:fontFamily="sans-serif"
-                android:hint="제품 이름을 입력하세요."
-                android:inputType="text"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textColor="#333333"
-                android:textColorHint="#D1D1D1"
-                android:textSize="15sp" />
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/search_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/search_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="8dp"
                 android:background="@drawable/product_btn_search"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                app:layout_constraintBottom_toBottomOf="@+id/search_edit_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/search_edit_text"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- 배너 -->
         <LinearLayout
