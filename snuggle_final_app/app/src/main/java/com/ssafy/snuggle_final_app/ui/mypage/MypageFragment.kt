@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.mypage
+package com.ssafy.snuggle_final_app.ui.mypage
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.network.RetrofitClient
-import com.ssafy.snuggle_final_app.data.service.UserService
-import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
 import com.ssafy.snuggle_final_app.base.ApplicationClass.Companion.sharedPreferencesUtil
-import com.ssafy.snuggle_final_app.data.service.UserService
+import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
+import com.ssafy.snuggle_final_app.mypage.BookmarkFragment
+import com.ssafy.snuggle_final_app.mypage.LikedListFragment
+import com.ssafy.snuggle_final_app.mypage.OrderListFragment
 
 private const val TAG = "MypageFragment_싸피"
 
@@ -50,6 +50,7 @@ class MypageFragment : Fragment() {
         menuCart.setBackgroundColor(Color.parseColor("#FFE57D"))
         menuNotification.setBackgroundColor(Color.parseColor("#FFE57D"))
 
+
         //=== User 정보 가져오기 ==//
         //** 혹시 안불러와진다면 server 코드에서 userW -> W 삭제 && id -> userId로 이름 변경하세욥
         val userId = sharedPreferencesUtil.getUser().userId
@@ -60,10 +61,9 @@ class MypageFragment : Fragment() {
         if (userId.isEmpty()) {
             Log.e(TAG, "로그인된 사용자 ID를 찾을 수 없습니다.")
             return
-        } else{
+        } else {
 
         }
-
 
 
         //=== 주문 내역으로 이동==//

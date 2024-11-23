@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.data.model.dto.Order
 import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderListBinding
+import com.ssafy.snuggle_final_app.ui.mypage.OrderListAdapter
 
 class OrderListFragment : Fragment() {
     private var _binding: FragmentOrderListBinding? = null
@@ -21,21 +22,33 @@ class OrderListFragment : Fragment() {
 
         // Adapter 연결
         val dataList = listOf(
-            Pair(
-                Order(orderId = 1, userId = "id01", addressId = 101, totalPrice = 5000.0),
-                listOf(
+            Order(
+                orderId = 1,
+                userId = "id01",
+                addressId = 101,
+                totalPrice = 5000.0,
+                details = listOf(
                     OrderDetail(
-                        detailId = 1, orderId = 1, productId = 1, quantity = 1,
-                        orderTime = "2024-12-25T12:23:15", completed = "N"
+                        orderId = 1,
+                        productId = 1,
+                        quantity = 1,
+                        orderTime = "2024-12-25T12:23:15",
+                        completed = "N"
                     )
                 )
             ),
-            Pair(
-                Order(orderId = 2, userId = "id01", addressId = 101, totalPrice = 15000.0),
-                listOf(
+            Order(
+                orderId = 2,
+                userId = "id01",
+                addressId = 101,
+                totalPrice = 15000.0,
+                details = listOf(
                     OrderDetail(
-                        detailId = 2, orderId = 2, productId = 2, quantity = 2,
-                        orderTime = "2024-12-25T14:45:10", completed = "Y"
+                        orderId = 2,
+                        productId = 2,
+                        quantity = 2,
+                        orderTime = "2024-12-25T14:45:10",
+                        completed = "Y"
                     )
                 )
             )

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.chatbot.ChatMessage
 import com.ssafy.snuggle_final_app.databinding.FragmentChatBotBinding
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -82,7 +83,7 @@ class ChatBotFragment : Fragment() {
         binding.recyclerViewChat.scrollToPosition(messages.size - 1)
     }
 
-    
+
     private fun callAPI(question: String) {
         // Add a loading indicator
         val loadingMessage = ChatMessage("...", ChatMessage.SENT_BY_BOT, null)
@@ -97,7 +98,10 @@ class ChatBotFragment : Fragment() {
                 // 이건 프롬프트로 보내는 설정
                 put(JSONObject().apply {
                     put("role", "system")
-                    put("content", "너는 한국어로만 답변할 수 있어. 우리 어플 이름은 폭닥폭닥이고, 털실과 관련된 제품 및 diy 키트를 판매하고 있어. 고객들에게 친절한 상담 부탁해.")
+                    put(
+                        "content",
+                        "너는 한국어로만 답변할 수 있어. 우리 어플 이름은 폭닥폭닥이고, 털실과 관련된 제품 및 diy 키트를 판매하고 있어. 고객들에게 친절한 상담 부탁해."
+                    )
                 })
                 // 이걸 사용자가 보내는 메시지
                 put(JSONObject().apply {
@@ -108,7 +112,7 @@ class ChatBotFragment : Fragment() {
             jsonObject.put("messages", messagesArray)
             // 챗봇이 답변하는 값의 길이.
             // 너무 길어지면 답변하는 시간이 오래 걸려 챗봇이 터질 수 있음
-            jsonObject.put("max_tokens", 1000) 
+            jsonObject.put("max_tokens", 1000)
             jsonObject.put("temperature", 0)
         } catch (e: JSONException) {
             e.printStackTrace()

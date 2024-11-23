@@ -2,7 +2,6 @@ package com.ssafy.snuggle_final_app
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.NfcAdapter
 import android.nfc.Tag
@@ -14,7 +13,6 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
@@ -22,7 +20,6 @@ import com.ssafy.snuggle_final_app.ui.main.NotificationActivity
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
 import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
-import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -113,9 +110,9 @@ class MainActivity : AppCompatActivity() {
 //            return
 //        }
         supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frameLayout, fragment, fragmentTag)
-                .addToBackStack(fragmentTag)
-                .commit()
+            .replace(R.id.main_frameLayout, fragment, fragmentTag)
+            .addToBackStack(fragmentTag)
+            .commit()
 //        }
     }
 
@@ -155,7 +152,10 @@ class MainActivity : AppCompatActivity() {
                 if (ndefMessage != null) {
                     val records = ndefMessage.records
                     for (record in records) {
-                        if (record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(NdefRecord.RTD_TEXT)) {
+                        if (record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(
+                                NdefRecord.RTD_TEXT
+                            )
+                        ) {
                             val text = parseTextRecord(record)
                             Log.d("NFC_TAG", "읽은 텍스트 데이터: $text")
                             sendNfcDataToFragment(text)
@@ -173,14 +173,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
     private fun parseTextRecord(record: NdefRecord): String {
         val payload = record.payload
-        val textEncoding = if ((payload[0].toInt() and 0x80) == 0) Charsets.UTF_8 else Charsets.UTF_16
+        val textEncoding =
+            if ((payload[0].toInt() and 0x80) == 0) Charsets.UTF_8 else Charsets.UTF_16
         val languageCodeLength = payload[0].toInt() and 0x3F
-        return String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, textEncoding)
+        return String(
+            payload,
+            languageCodeLength + 1,
+            payload.size - languageCodeLength - 1,
+            textEncoding
+        )
     }
-
 
 
     private fun sendNfcDataToFragment(payload: String) {
@@ -192,9 +196,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("NFC_TAG", "현재 Fragment는 ScannerFragment가 아닙니다.")
         }
     }
-
-
-
 
 
 }

@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.databinding.FragmentBannerDetailBinding
-import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
-import com.ssafy.snuggle_final_app.order.OrderFragment
-
 
 
 class BannerDetailFragment : Fragment() {

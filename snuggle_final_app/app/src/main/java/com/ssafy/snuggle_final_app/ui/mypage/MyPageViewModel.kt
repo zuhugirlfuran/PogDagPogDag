@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.mypage
+package com.ssafy.snuggle_final_app.ui.mypage
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -11,6 +11,7 @@ import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
 private const val TAG = "MyPageViewModel_싸피"
+
 class MyPageViewModel : ViewModel() {
 
     // 유저 정보 가져오기
@@ -34,7 +35,6 @@ class MyPageViewModel : ViewModel() {
             })
         }
     }
-
 
 
     // 공통으로 API 호출을 안전하게 처리하는 함수
