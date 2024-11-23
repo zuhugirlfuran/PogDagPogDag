@@ -32,6 +32,8 @@ class ChatBotFragment : Fragment() {
         .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)   // 쓰기 타임아웃 30초
         .build()
 
+    // OpenAI 유료 API KEY.
+    // 유료 버전이 아니면 안됨
     private val apiKey =
         "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"
 
@@ -53,25 +55,26 @@ class ChatBotFragment : Fragment() {
             it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.GONE
         }
 
-        // Set up RecyclerView
+        // 여기에 채팅들이 주르륵
         adapter = ChatBotAdapter(messages)
         binding.recyclerViewChat.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewChat.adapter = adapter
 
-        // Send message when button is clicked
+        // 보내기 버튼 누르면 채팅 진행
         binding.buttonSend.setOnClickListener {
             val messageText = binding.editTextChat.text.toString().trim()
             if (messageText.isNotEmpty()) {
-                // Add user message
+                // User의 메시지
                 addToChat(messageText, ChatMessage.SENT_BY_ME)
-                // Call OpenAI API
+                // OpenAI API 호춯
                 callAPI(messageText)
-                // Clear input field
+                // TextView 입력값 지우기
                 binding.editTextChat.text.clear()
             }
         }
     }
 
+    // 어댑터를 통해 recyclerview에 채팅 기록 추가
     private fun addToChat(message: String, sentBy: String) {
         val currentTime = getCurrentTime()
         messages.add(ChatMessage(message, sentBy, currentTime))
@@ -79,6 +82,7 @@ class ChatBotFragment : Fragment() {
         binding.recyclerViewChat.scrollToPosition(messages.size - 1)
     }
 
+    
     private fun callAPI(question: String) {
         // Add a loading indicator
         val loadingMessage = ChatMessage("...", ChatMessage.SENT_BY_BOT, null)
@@ -90,17 +94,21 @@ class ChatBotFragment : Fragment() {
         try {
             jsonObject.put("model", "gpt-4")
             val messagesArray = JSONArray().apply {
+                // 이건 프롬프트로 보내는 설정
                 put(JSONObject().apply {
                     put("role", "system")
                     put("content", "너는 한국어로만 답변할 수 있어. 우리 어플 이름은 폭닥폭닥이고, 털실과 관련된 제품 및 diy 키트를 판매하고 있어. 고객들에게 친절한 상담 부탁해.")
                 })
+                // 이걸 사용자가 보내는 메시지
                 put(JSONObject().apply {
                     put("role", "user")
                     put("content", question)
                 })
             }
             jsonObject.put("messages", messagesArray)
-            jsonObject.put("max_tokens", 1000)
+            // 챗봇이 답변하는 값의 길이.
+            // 너무 길어지면 답변하는 시간이 오래 걸려 챗봇이 터질 수 있음
+            jsonObject.put("max_tokens", 1000) 
             jsonObject.put("temperature", 0)
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -111,8 +119,11 @@ class ChatBotFragment : Fragment() {
             jsonObject.toString()
         )
         val request = Request.Builder()
+            // 이 주소로 메시지를 보내야 함
             .url("https://api.openai.com/v1/chat/completions")
+            // 이건 필수 header값으로 넘겨야 하는 거
             .header("Authorization", "Bearer $apiKey")
+            // json 형식의 message를 넘김
             .post(body)
             .build()
 
@@ -120,7 +131,7 @@ class ChatBotFragment : Fragment() {
             override fun onFailure(call: Call, e: IOException) {
                 if (isAdded) { // Fragment가 활성화 상태인지 확인
                     requireActivity().runOnUiThread {
-                        // Remove loading indicator
+                        // 로딩되는 동안 떴던 "..." 삭제
                         messages.remove(loadingMessage)
                         addResponse("Failed to load response: ${e.message}")
                     }
@@ -140,7 +151,6 @@ class ChatBotFragment : Fragment() {
 
                             if (isAdded) { // Fragment가 활성화 상태인지 확인
                                 requireActivity().runOnUiThread {
-                                    // Remove loading indicator
                                     messages.remove(loadingMessage)
                                     addResponse(result ?: "No response")
                                 }
@@ -148,7 +158,6 @@ class ChatBotFragment : Fragment() {
                         } else {
                             if (isAdded) {
                                 requireActivity().runOnUiThread {
-                                    // Remove loading indicator
                                     messages.remove(loadingMessage)
                                     addResponse("No response from API")
                                 }
@@ -175,6 +184,7 @@ class ChatBotFragment : Fragment() {
         })
     }
 
+    // 챗봇의 채팅도 recyclerview에 추가
     private fun addResponse(response: String) {
         addToChat(response, ChatMessage.SENT_BY_BOT)
     }
