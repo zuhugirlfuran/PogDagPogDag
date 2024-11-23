@@ -75,8 +75,13 @@ dependencies {
     implementation ("androidx.navigation:navigation-fragment-ktx:2.7.0")
     implementation ("androidx.navigation:navigation-ui-ktx:2.7.0")
 
-    //openAI Chat bot
+    //openAI Chatbot
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
-
+    // 부트페이 결제를 위해 추가
+    implementation("com.github.bootpay:client_android_java:3.3.04") {
+//        exclude group: "com.android.support" // Support 라이브러리 제거
+        exclude("com.android.support")
+    }
+    implementation("androidx.webkit:webkit:1.8.0")
 }

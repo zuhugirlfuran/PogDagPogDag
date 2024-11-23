@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 부트페이 결제를 위해 추가 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
     <application
         android:name=".base.ApplicationClass"
         android:allowBackup="true"
@@ -48,6 +51,17 @@
             <!--             <category android:name="android.intent.category.LAUNCHER" />-->
             <!--             </intent-filter>-->
 
+        </activity>
+
+        <!-- Bootpay 결제 Activity 추가 -->
+        <activity
+            android:name="kr.co.bootpay.BootpayInnerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
 
 
