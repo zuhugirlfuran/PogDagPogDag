@@ -143,7 +143,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                     RetrofitUtil.productService.getProductWithComments(productId)
                 }, { productInfo ->
                     _productInfo.value = productInfo
-                    Log.d("ProductInfo", "상품 정보 불러오기 성공")
+                    Log.d("ProductInfo", "상품 정보 불러오기 성공 $productInfo")
 
                 }, { exception ->
                     Log.e("ProductInfo", "상품 정보 불러오기 오류: ${exception.message}")

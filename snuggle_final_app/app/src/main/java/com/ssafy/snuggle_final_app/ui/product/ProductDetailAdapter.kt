@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.ssafy.snuggle_final_app.base.ApplicationClass
-import com.ssafy.snuggle_final_app.databinding.ItemProductDetailListBinding
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
+import com.ssafy.snuggle_final_app.databinding.ItemProductDetailListBinding
 
 class ProductDetailAdapter
     (
@@ -42,6 +42,7 @@ class ProductDetailAdapter
                 binding.commentEtContent.setText(binding.commentTvContent.text)  // et에 값 세팅
 
             }
+
             // 삭제 버튼 클릭 시
             binding.commentIbDelete.setOnClickListener {
                 val position = adapterPosition
@@ -68,7 +69,6 @@ class ProductDetailAdapter
     }
 
     fun submitList(list: List<Comment>) {
-        commentList = listOf()
         commentList = list
         notifyDataSetChanged()
     }
@@ -84,7 +84,6 @@ class ProductDetailAdapter
         )
         return ProductDetailViewHolder(binding)
     }
-
 
     override fun onBindViewHolder(
         holder: ProductDetailViewHolder,

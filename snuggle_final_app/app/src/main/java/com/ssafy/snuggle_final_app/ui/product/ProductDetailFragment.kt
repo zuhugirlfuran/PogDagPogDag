@@ -1,5 +1,7 @@
 package com.ssafy.snuggle_final_app.ui.product
 
+import OrderViewModel
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +10,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -15,19 +18,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ssafy.snuggle_final_app.MainActivity
-import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
-import com.ssafy.snuggle_final_app.ui.cart.CartFragment
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
-import com.ssafy.snuggle_final_app.main.MainActivityViewModel
-import com.ssafy.snuggle_final_app.order.OrderFragment
+import com.ssafy.snuggle_final_app.ui.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
-import org.w3c.dom.Text
 import java.util.Date
 
 private const val TAG = "ProductDetailFragment"
@@ -39,10 +39,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
     private lateinit var mainActivity: MainActivity
     private lateinit var adapter: ProductDetailAdapter
-    private val viewModel: ProductDetailFragmentViewModel by activityViewModels()
+    private val orderViewModel: OrderViewModel by activityViewModels()
+    private val productDetailViewModel: ProductDetailFragmentViewModel by activityViewModels()
     private val commentViewModel: CommentViewModel by viewModels()
-
-    private val activityViewModel: MainActivityViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,26 +50,19 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 화면 전환 이벤트
-//        mainActivity.fragmentBackPressed(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-//            override fun handleOnBackPressed() {
-//                viewModel.setCheck(true) // 체크 플래그 설정
-//                parentFragmentManager.popBackStack() // 이전 Fragment로 이동
-//            }
-//        })
 
         // 어댑터 초기화
         initAdapter()
 
-        val productId = viewModel.productId
+        val productId = productDetailViewModel.productId
         val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
 
         if (productId > 0) {
-            viewModel.getProductWithComments(productId)
-            viewModel.isLikeStatus(userId, productId)
+            productDetailViewModel.getProductWithComments(productId)
+            productDetailViewModel.isLikeStatus(userId, productId)
         }
 
         observeViewModel()
@@ -92,96 +84,101 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
             val today = CommonUtils.dateformatYMD(Date())
             Log.d(TAG, "onViewCreated: userId ${userId} productId ${productId}")
-            viewModel.likeProduct(Like(userId, productId, today))
+            productDetailViewModel.likeProduct(Like(userId, productId, today))
         }
 
         commentViewModel.fetchComments(productId)
     }
 
+    // 주문하기 다이얼로그
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showOrderDialog() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val dialogView = layoutInflater.inflate(R.layout.dialog_bottom_order, null)
         bottomSheetDialog.setContentView(dialogView)
+
         val plusButton = dialogView.findViewById<ImageButton>(R.id.product_detail_btn_plus)
         val minusButton = dialogView.findViewById<ImageButton>(R.id.product_detail_btn_minus)
-        val quantityTV = dialogView.findViewById<TextView>(R.id.product_detail_tv_quantity)
+        val quantityTV = dialogView.findViewById<TextView>(R.id.product_detail_tv_quantity)  // 수량
+        val priceTv = dialogView.findViewById<TextView>(R.id.product_detail_tv_price)  // 가격
+        val productName = dialogView.findViewById<TextView>(R.id.product_detail_tv_title)  // 상품 이름
 
-
-        // 다이얼로그의 '구매' 버튼 클릭 시 처리
-        val orderButton = dialogView.findViewById<Button>(R.id.product_detail_btn_purchase)
-
-        val productName = dialogView.findViewById<TextView>(R.id.product_detail_tv_title)
+        // 초기값
         productName.text = binding.productDetailTvName.text
-
         var quantity = 1
         quantityTV.text = quantity.toString()
+        val productPrice = binding.productDetailTvPrice.text.toString()
+        val price = productPrice.filter { it.isDigit() }.toInt()
+        Log.d(TAG, "상품 가격 다이얼로그: $productPrice")
 
-        val productPrice = viewModel.productInfo.value?.productPrice ?: 0
-        val priceTv = dialogView.findViewById<TextView>(R.id.product_detail_tv_price)
+        // 다이얼로그 정보 업데이트
+        updateDialogPrice(priceTv, price, quantity)
 
-        updateDialogPrice(priceTv, productPrice, quantity)
-
+        // + 버튼
         plusButton.setOnClickListener {
             quantity++
             quantityTV.text = quantity.toString()
-            updateDialogPrice(priceTv, productPrice, quantity)
+            updateDialogPrice(priceTv, price, quantity)
         }
 
+        // - 버튼
         minusButton.setOnClickListener {
             if (quantity > 1) quantity--
             quantityTV.text = quantity.toString()
-            updateDialogPrice(priceTv, productPrice, quantity)
+            updateDialogPrice(priceTv, price, quantity)
         }
 
-
+        // 다이얼로그 '바로 구매' 버튼
+        val orderButton = dialogView.findViewById<Button>(R.id.product_detail_btn_purchase)
         orderButton.setOnClickListener {
             bottomSheetDialog.dismiss()
-            addItemToCart(quantity)
-            mainActivity.addToStackFragment(OrderFragment())
+            addItemToCart(quantity)  // 상품에 추가
+            mainActivity.addToStackFragment(OrderFragment())  // 주문하기 페이지로 이동
         }
 
         // 다이얼로그의 '장바구니' 버튼 클릭 시 처리
         val cartBtn = dialogView.findViewById<Button>(R.id.product_detail_btn_cart)
         cartBtn.setOnClickListener {
             bottomSheetDialog.dismiss()
-            addItemToCart(quantity)
+            addItemToCart(quantity)   // 장바구니 페이지로 상품 수량 전달
             Toast.makeText(requireContext(), "상품이 장바구니에 담겼습니다.", Toast.LENGTH_SHORT).show()
         }
 
         bottomSheetDialog.show()
     }
 
+    // 다이얼로그 가격 업데이트
     private fun updateDialogPrice(priceTV: TextView, unitPrice: Int, quantity: Int) {
         val totalPrice = unitPrice * quantity
-        priceTV.text = "${makeComma(totalPrice)}"
+        priceTV.text = makeComma(totalPrice)
     }
 
+    // cart로 아이템 이동
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun addItemToCart(quantity: Int) {
-        val productId = viewModel.productId // ViewModel에서 현재 선택된 productId를 가져옴
-        val productInfo = viewModel.productInfo.value
-
-        if (productId > 0 && productInfo != null) { // 유효한 productId인지 확인
-            val cartItem = Cart(
-                productId = productId, // productId를 직접 설정
-                img = productInfo.productImg,
-                title = productInfo.productName,
-                productCnt = quantity,
-                price = productInfo.productPrice,
-                deliveryDate = "2024-12-25T12:23:15" // 샘플 배송 날짜
-            )
-            Log.d(
-                "CartCreation",
-                "Created Cart Item: Product ID=${cartItem.productId}, Title=${cartItem.title}"
-            )
-            activityViewModel.addShoppingList(cartItem)
-            Toast.makeText(requireContext(), "상품이 장바구니에 담겼습니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            Log.e("CartCreation", "Invalid productId or productInfo")
-            Toast.makeText(requireContext(), "상품 정보를 불러오지 못했습니다.", Toast.LENGTH_SHORT).show()
+        val productId = productDetailViewModel.productId // ViewModel에서 현재 선택된 productId를 가져옴
+        productDetailViewModel.productInfo.value.let { item ->
+            item?.let {
+                Cart(
+                    productId = productId, // productId를 직접 설정
+                    img = item.productImg,
+                    title = it.productName,
+                    productCnt = quantity,
+                    price = item.productPrice,
+                    deliveryDate = "" // 샘플 배송 날짜
+                ).apply {
+                    Log.d(
+                        "CartCreation",
+                        "Created Cart Item: Product ID=${this.productId}, Title=${this.title}"
+                    )
+                    orderViewModel.addShoppingList(this)
+                    Toast.makeText(requireContext(), "상품이 장바구니에 담겼습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-
+    /** 댓글 추가 다이얼로그 **/
     private fun showCommentDialog() {
 
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_comment, null)
@@ -195,7 +192,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         dialogButton.setOnClickListener {  // 확인 버튼
             val inputText = dialogInput.text.toString()
             if (inputText.isNotEmpty()) {
-                val productId = viewModel.productId
+                val productId = productDetailViewModel.productId
                 val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
                 val newComment = Comment(
                     comment = inputText,
@@ -212,6 +209,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         dialog.show()
     }
 
+    /** 상품 상세 데이터 불러오기 **/
     private fun initAdapter() {
 
         adapter = ProductDetailAdapter(emptyList(), this)
@@ -220,9 +218,10 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         binding.productDetailRecyclerview.layoutManager = LinearLayoutManager(requireContext())
     }
 
+    /** 상품 상세 데이터 감시하기 위한 viewmodel observe **/
     private fun observeViewModel() {
         // 상품 정보 불러오기
-        viewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
+        productDetailViewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
 
             Log.d(TAG, "observeViewModel: $productInfo")
             productInfo?.let {
@@ -244,9 +243,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
 
         // 좋아요 눌렀을 때
-        viewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
+        productDetailViewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
 
-            val likeCount = viewModel.productInfo.value?.likeCount ?: 0
+            val likeCount = productDetailViewModel.productInfo.value?.likeCount ?: 0
             binding.productDetailTvLikecount.text = likeCount.toString() // likeCount 업데이트
             Log.d(TAG, "observ: ${likeCount}")
             if (isLiked) {
@@ -257,6 +256,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
     }
 
+    /** 댓글 리스트 상태 감시를 위한 옵저버 **/
     private fun observeCommentViewModel() {
         // 댓글 기능
         commentViewModel.comments.observe(viewLifecycleOwner) { comments ->
@@ -265,11 +265,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.clearData()
-    }
-
+    /** 댓글 상태 변화감지를 위한 click 리스너 **/
     override fun onUpdateClick(comment: Comment, position: Int, updatedComment: String) {
 
         if (comment.commentId > 0) {
@@ -281,7 +277,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
     }
 
-
     override fun onDeleteClick(comment: Comment, position: Int) {
         commentViewModel.deleteComment(comment.commentId)
         adapter.notifyItemRemoved(position)
@@ -289,10 +284,15 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
     override fun onInsertClick(comment: Comment, position: Int) {
         commentViewModel.addComment(comment)
-        adapter.notifyItemInserted(0)
-        // RecyclerView를 가장 위로 스크롤
-        binding.productDetailRecyclerview.scrollToPosition(0)
+        adapter.notifyItemInserted(position)
     }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        productDetailViewModel.clearData()
+    }
+
 
 //    private fun showDeleteDialog(comment: Comment, onCommentDeleted: (Comment) -> Unit) {
 //        // 다이얼로그 또는 다른 UI로 수정 입력받기

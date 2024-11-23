@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
-import com.ssafy.snuggle_final_app.data.service.CommentService
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
@@ -34,8 +33,10 @@ class CommentViewModel : ViewModel() {
             safeApiCall({
                 RetrofitUtil.commentService.addComment(comment)
             }, { commentId ->
-                if (commentId > 0) {
-                    _comments.value = _comments.value?.plus(comment)
+                if (commentId >= 0) {
+                    _comments.value = _comments.value?.toMutableList()?.apply {
+                        add(0, comment)
+                    }
                 } else {
                     Log.e("Comment", "댓글 추가 실패. 반환된 ID: $commentId")
                 }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import com.ssafy.smartstore_jetpack.base.BaseActivity
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.databinding.ActivityLoginBinding
-import com.ssafy.snuggle_final_app.login.JoinFragment
-import com.ssafy.snuggle_final_app.login.LoginFragment
+import com.ssafy.snuggle_final_app.ui.login.JoinFragment
+import com.ssafy.snuggle_final_app.ui.login.LoginFragment
 
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>(ActivityLoginBinding::inflate) {

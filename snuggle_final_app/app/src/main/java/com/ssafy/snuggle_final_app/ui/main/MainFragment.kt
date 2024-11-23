@@ -15,10 +15,9 @@ import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
-import com.ssafy.snuggle_final_app.product.ProductDetailFragment
-import com.ssafy.snuggle_final_app.product.ProductDetailFragmentViewModel
-import com.ssafy.snuggle_final_app.search.SearchFragment
-import com.ssafy.snuggle_final_app.search.SearchViewModel
+import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragment
+import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragmentViewModel
+import com.ssafy.snuggle_final_app.ui.search.SearchFragment
 
 private const val TAG = "MainFragment"
 class MainFragment : BaseFragment<FragmentMainBinding>(

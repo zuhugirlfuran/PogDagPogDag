@@ -1,88 +1,88 @@
 package com.ssafy.snuggle_final_app.ui.cart
 
+import CartAdapter
+import OrderViewModel
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.databinding.FragmentCartBinding
-import com.ssafy.snuggle_final_app.main.MainActivityViewModel
-import com.ssafy.snuggle_final_app.order.OrderFragment
+import com.ssafy.snuggle_final_app.ui.order.OrderFragment
+import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 
 
-class CartFragment : Fragment() {
-
-    private var _binding: FragmentCartBinding? = null
-    private val binding get() = _binding!!
+class CartFragment : BaseFragment<FragmentCartBinding>(
+    FragmentCartBinding::bind,
+    R.layout.fragment_cart
+) {
 
     private lateinit var mainActivity: MainActivity
-    private lateinit var viewModel: MainActivityViewModel
-    private lateinit var adapter: com.ssafy.snuggle_final_app.ui.cart.CartAdapter
+    private val orderViewModel: OrderViewModel by activityViewModels()
+    private lateinit var adapter: CartAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivity = context as MainActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCartBinding.inflate(inflater, container, false)
-
-
-        // ViewModel 초기화
-        viewModel = ViewModelProvider(requireActivity())[MainActivityViewModel::class.java]
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         // Adapter 초기화
-        // Adapter 초기화
-        adapter = com.ssafy.snuggle_final_app.ui.cart.CartAdapter(
-            requireContext(),
-            mutableListOf()
-        ) { position ->
-            deleteItem(position) // 삭제 처리
-        }
+        adapter = CartAdapter(requireContext(), mutableListOf(),
+            onDeleteClickListener = { position -> deleteItem(position) }, // 삭제 처리
+            onQuantityChange = { updatedList -> updateTotal(updatedList) } // 수량 변경 처리
+        )
 
         // 리스트뷰와 어댑터 연결
         binding.cartLv.adapter = adapter
 
-//        val adapter = CartAdapter(requireContext(), dataList)
-//        binding.cartLv.adapter = adapter
-
         // ViewModel의 shoppingList를 관찰하여 업데이트
-        viewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
+        orderViewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
             logProductIds(shoppingList)
 
             adapter.updateData(shoppingList) // 어댑터 데이터 갱신
             updateTotal(shoppingList)
         }
-
-        return binding.root
+        
+        // 장바구니로 이동 버튼
+        binding.cartBtnOrder.setOnClickListener {
+            if (orderViewModel.shoppingCart.value.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), "장바구니가 비어 있습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                mainActivity.replaceFragment(OrderFragment()) // OrderFragment로 이동
+            }
+        }
     }
+
 
     // 삭제 처리 함수
     private fun deleteItem(position: Int) {
-        val currentList = viewModel.shoppingCart.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
+        val currentList =
+            orderViewModel.shoppingCart.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
 
         if (position in currentList.indices) { // 유효한 인덱스인지 확인
             val removedCart = currentList[position] // 삭제된 아이템 확인
             currentList.removeAt(position) // 아이템 삭제
-            viewModel.updateShoppingList(currentList) // ViewModel에 업데이트
+
+            orderViewModel.updateShoppingList(currentList) // ViewModel에 업데이트
             adapter.updateData(currentList) // 어댑터에 변경된 리스트 반영
             updateTotal(currentList) // 총 개수와 총 금액 업데이트
 
             // 삭제된 productId 로그 출력
             logRemovedProductId(removedCart)
         } else {
-            android.util.Log.e("CartFragment", "Invalid position: $position for list size ${currentList.size}")
+            android.util.Log.e(
+                "CartFragment",
+                "Invalid position: $position for list size ${currentList.size}"
+            )
         }
     }
-
 
     private fun updateTotal(shoppingList: List<Cart>) {
         var totalCount = 0
@@ -94,16 +94,9 @@ class CartFragment : Fragment() {
         }
 
         binding.cartTvTotalCount.text = "총 ${totalCount}개"
-        binding.cartTvTotalPrice.text = "${totalPrice}원"
+        binding.cartTvTotalPrice.text = makeComma(totalPrice)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.cartBtnOrder.setOnClickListener {
-            mainActivity.replaceFragment(OrderFragment())
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -116,12 +109,6 @@ class CartFragment : Fragment() {
         // Activity의 BottomNavigationView를 다시 보임
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
             View.VISIBLE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        _binding = null
     }
 
     // productId 로그 출력

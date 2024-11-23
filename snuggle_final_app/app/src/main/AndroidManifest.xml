@@ -25,7 +25,7 @@
         <!--                <category android:name="android.intent.category.LAUNCHER" />-->
         <!--            </intent-filter>-->
         <activity
-            android:name=".main.NotificationActivity"
+            android:name=".ui.main.NotificationActivity"
             android:exported="false"
             android:theme="@style/Theme.Snuggle_final_app" />
         <activity
@@ -41,17 +41,14 @@
             android:name=".MainActivity"
             android:exported="true">
 
-<!--             <intent-filter>-->
-<!--             <action android:name="android.intent.action.MAIN" />-->
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
 
 
-<!--             <category android:name="android.intent.category.LAUNCHER" />-->
-<!--             </intent-filter>-->
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
 
         </activity>
-
-
-
 
 
     </application>

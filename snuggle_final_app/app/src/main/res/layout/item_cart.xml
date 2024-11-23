@@ -76,7 +76,7 @@
                     android:textStyle="bold" />
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/cart_btn_minus"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:background="@color/white"
@@ -92,7 +92,7 @@
                     android:text="1" />
 
                 <ImageButton
-                    android:id="@+id/imageButton3"
+                    android:id="@+id/cart_btn_plus"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
                     android:layout_marginRight="17dp"
