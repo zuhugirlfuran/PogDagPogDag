@@ -1,5 +1,6 @@
 package com.ssafy.snuggle_final_app.order
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,14 +28,25 @@ class OrderViewModel(private val orderService: OrderService) : ViewModel() {
     private val _orderDetail = MutableLiveData<OrderResponse>()
     val orderDetail: LiveData<OrderResponse> get() = _orderDetail
 
-    suspend fun makeOrder(order: Order): Int {
-        val response = orderService.makeOrder(order)
-        if (response.isSuccessful) {
-            return response.body() ?: throw IllegalStateException("서버에서 orderId가 반환되지 않았습니다.")
-        } else {
-            throw IllegalStateException("서버 응답 실패: ${response.code()}")
+    private val _isOrderMaked = MutableLiveData<Int>()
+    val isOrderMaked: LiveData<Int> get() = _isOrderMaked
+
+    suspend fun makeOrder(order: Order) {
+        viewModelScope.launch {
+            val response = orderService.makeOrder(order)
+            if (response.isSuccessful) {
+                    _isOrderMaked.value = response.body()
+                Log.d("OrderViewModel", "Order successful: ${response.body()}")
+                response.body() ?: throw IllegalStateException("서버에서 orderId가 반환되지 않았습니다.")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                Log.e("OrderViewModel", "Order failed: ${response.code()} - $errorBody")
+                throw HttpException(response)
+            }
         }
+
     }
+
 
     fun getOrderDetail(orderId: Int) {
         viewModelScope.launch {

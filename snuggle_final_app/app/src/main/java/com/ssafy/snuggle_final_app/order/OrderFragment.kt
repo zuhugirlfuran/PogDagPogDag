@@ -88,6 +88,14 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("OrderFragment", "onViewCreated called")
+        viewModel.shoppingCart.value?.forEach { cart ->
+            Log.d(
+                "OrderFragment",
+                "Product ID in Cart: ${cart.productId}, Quantity: ${cart.productCnt}"
+            )
+        }
+
         binding.orderBtn.setOnClickListener {
 
             makeOrder()
@@ -117,73 +125,71 @@ class OrderFragment : Fragment() {
                 return
             }
 
-            val userId = "id 01" // 고정된 사용자 ID
-            val addressId = 1    // 고정된 주소 ID
-            val orderTime =
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+            // 총 가격 계산
+            val totalPrice = shoppingList.sumOf { it.productCnt * it.price }
 
+            // 주문 세부사항(OrderDetail) 생성
             val orderDetails = shoppingList.map { cart ->
                 OrderDetail(
-                    dId = 0, // 서버에서 생성
                     orderId = 0, // 서버에서 생성
                     productId = cart.productId,
                     quantity = cart.productCnt,
-                    orderTime = orderTime,
+                    orderTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
+                        Date()
+                    ),
                     completed = "N" // 초기 상태
                 )
             }
 
+            // 주문(Order) 객체 생성
             val order = Order(
                 orderId = 0, // 서버에서 생성
-                userId = userId,
-                addressId = addressId,
+                userId = "id 01", // 고정된 사용자 ID
+                addressId = 1, // 고정된 주소 ID
+                totalPrice = totalPrice.toDouble(),
                 details = orderDetails
             )
 
+            // 요청 데이터 로그 출력
+            Log.d("OrderFragment", "Sending Order Data: ${Gson().toJson(order)}")
+
             // 서버에 주문 요청
-            lifecycleScope.launch {
-                runCatching {
-                    orderViewModel.makeOrder(order)
-                }.onSuccess { orderId ->
-                    Toast.makeText(context, "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+//            lifecycleScope.launch {
+//            try {
+            orderViewModel.isOrderMaked.observe(viewLifecycleOwner) { isOrdered ->
+                if (isOrdered > 0) {
+                    val orderId = orderViewModel.makeOrder(order)
+                    Toast.makeText(context, "주문이 완료되었습니다. Order ID: $orderId", Toast.LENGTH_SHORT)
+                        .show()
 
-                    Log.d("OrderRequest", Gson().toJson(order))
+                    // 로그 추가: 성공한 주문 데이터
+                    Log.d("OrderFragment", "Order Success: ${Gson().toJson(order)}")
 
-
-                    // OrderCompleteFragment로 이동
-                    val orderCompleteFragment = OrderCompleteFragment()
-                    val bundle = Bundle().apply {
-                        putInt("orderId", orderId)
-                        putString("address", binding.orderEtAddr.text.toString())
-                        putString("name", binding.orderEtName.text.toString())
-                        putString("phone", binding.orderEtPhone.text.toString())
+                    // 주문 완료 화면으로 이동
+                    val orderCompleteFragment = OrderCompleteFragment().apply {
+                        arguments = Bundle().apply {
+                            putInt("orderId", orderId)
+                            putString("address", binding.orderEtAddr.text.toString())
+                            putString("name", binding.orderEtName.text.toString())
+                            putString("phone", binding.orderEtPhone.text.toString())
+                        }
                     }
-                    orderCompleteFragment.arguments = bundle
                     mainActivity.replaceFragment(orderCompleteFragment)
-                }.onFailure { e ->
-                    Log.d("OrderRequest", Gson().toJson(order))
-
-                    Toast.makeText(context, "주문에 실패했습니다: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            lifecycleScope.launch {
-                try {
-                    val response = orderViewModel.makeOrder(order)
-                    Log.d("OrderResponse", "Order ID: $response")
-                    Toast.makeText(context, "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
-                } catch (e: HttpException) {
-                    Log.e("OrderError", "HTTP Exception: ${e.response()?.errorBody()?.string()}")
-                    Toast.makeText(context, "주문 실패: HTTP 에러", Toast.LENGTH_SHORT).show()
-                } catch (e: Exception) {
-                    Log.e("OrderError", "Exception: ${e.message}")
-                    Toast.makeText(context, "주문 실패: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
         }
-    }
 
+//            } catch (e: HttpException) {
+//                Log.e("OrderFragment", "HTTP error during order: ${e.message}")
+//                Toast.makeText(context, "주문 실패: 서버 오류 (${e.message})", Toast.LENGTH_SHORT).show()
+//            } catch (e: Exception) {
+//                Log.e("OrderFragment", "Unexpected error during order: ${e.message}")
+//                Toast.makeText(context, "주문 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//        }
+    }
 
     override fun onResume() {
         super.onResume()

@@ -53,6 +53,8 @@ class CartFragment : Fragment() {
 
         // ViewModel의 shoppingList를 관찰하여 업데이트
         viewModel.shoppingCart.observe(viewLifecycleOwner) { shoppingList ->
+            logProductIds(shoppingList)
+
             adapter.updateData(shoppingList) // 어댑터 데이터 갱신
             updateTotal(shoppingList)
         }
@@ -63,10 +65,21 @@ class CartFragment : Fragment() {
     // 삭제 처리 함수
     private fun deleteItem(position: Int) {
         val currentList = viewModel.shoppingCart.value?.toMutableList() ?: return // 변경 가능 리스트로 복사
-        currentList.removeAt(position) // 아이템 삭제
-        viewModel.updateShoppingList(currentList) // 업데이트
-        updateTotal(currentList) // 총 개수와 총 금액 업데이트
+
+        if (position in currentList.indices) { // 유효한 인덱스인지 확인
+            val removedCart = currentList[position] // 삭제된 아이템 확인
+            currentList.removeAt(position) // 아이템 삭제
+            viewModel.updateShoppingList(currentList) // ViewModel에 업데이트
+            adapter.updateData(currentList) // 어댑터에 변경된 리스트 반영
+            updateTotal(currentList) // 총 개수와 총 금액 업데이트
+
+            // 삭제된 productId 로그 출력
+            logRemovedProductId(removedCart)
+        } else {
+            android.util.Log.e("CartFragment", "Invalid position: $position for list size ${currentList.size}")
+        }
     }
+
 
     private fun updateTotal(shoppingList: List<Cart>) {
         var totalCount = 0
@@ -106,5 +119,17 @@ class CartFragment : Fragment() {
         super.onDestroyView()
 
         _binding = null
+    }
+
+    // productId 로그 출력
+    private fun logProductIds(shoppingList: List<Cart>) {
+        shoppingList.forEach { cart ->
+            android.util.Log.d("CartFragment", "Product ID in Cart: ${cart.productId}")
+        }
+    }
+
+    // 삭제된 productId 로그 출력
+    private fun logRemovedProductId(cart: Cart) {
+        android.util.Log.d("CartFragment", "Removed Product ID: ${cart.productId}")
     }
 }
