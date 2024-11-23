@@ -1,7 +1,14 @@
 package com.ssafy.snuggle_final_app
 
+import android.app.PendingIntent
 import android.content.Intent
+import android.nfc.NdefMessage
+import android.nfc.NdefRecord
+import android.nfc.NfcAdapter
+import android.nfc.Tag
+import android.nfc.tech.Ndef
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
@@ -20,6 +27,7 @@ import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private var nfcAdapter: NfcAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +70,12 @@ class MainActivity : AppCompatActivity() {
 
                 else -> false
             }
+        }
+
+        //== nfc 설정 ==//
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+        if (nfcAdapter == null) {
+            println("NFC를 지원하지 않는 장치입니다.")
         }
 
         // appBar_cart 버튼 클릭 리스너 설정
@@ -109,5 +123,76 @@ class MainActivity : AppCompatActivity() {
     ) {
         onBackPressedDispatcher.addCallback(lifecycleOwner, callback)
     }
+
+    override fun onResume() {
+        super.onResume()
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+        )
+        nfcAdapter?.enableForegroundDispatch(this, pendingIntent, null, null)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        nfcAdapter?.disableForegroundDispatch(this)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
+        val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
+        if (tag != null) {
+            Log.d("NFC_TAG", "태그 감지됨: ${tag.id?.joinToString("") { byte -> "%02X".format(byte) }}")
+
+            val ndef = Ndef.get(tag)
+            if (ndef != null) {
+                ndef.connect()
+                val ndefMessage = ndef.ndefMessage
+                if (ndefMessage != null) {
+                    val records = ndefMessage.records
+                    for (record in records) {
+                        if (record.tnf == NdefRecord.TNF_WELL_KNOWN && record.type.contentEquals(NdefRecord.RTD_TEXT)) {
+                            val text = parseTextRecord(record)
+                            Log.d("NFC_TAG", "읽은 텍스트 데이터: $text")
+                            sendNfcDataToFragment(text)
+                        }
+                    }
+                } else {
+                    Log.d("NFC_TAG", "NDEF 메시지가 비어 있음")
+                    Log.d("NFC_TAG", "지원 기술 목록: ${tag.techList.joinToString()}")
+                }
+                ndef.close()
+            } else {
+                Log.d("NFC_TAG", "NDEF 형식을 지원하지 않는 태그")
+            }
+        }
+    }
+
+
+
+    private fun parseTextRecord(record: NdefRecord): String {
+        val payload = record.payload
+        val textEncoding = if ((payload[0].toInt() and 0x80) == 0) Charsets.UTF_8 else Charsets.UTF_16
+        val languageCodeLength = payload[0].toInt() and 0x3F
+        return String(payload, languageCodeLength + 1, payload.size - languageCodeLength - 1, textEncoding)
+    }
+
+
+
+    private fun sendNfcDataToFragment(payload: String) {
+        val fragment = supportFragmentManager.findFragmentById(R.id.main_frameLayout)
+        if (fragment is ScannerFragment) {
+            Log.d("NFC_TAG", "ScannerFragment 활성화, handleNfcTag 호출")
+            fragment.handleNfcTag(payload)
+        } else {
+            Log.d("NFC_TAG", "현재 Fragment는 ScannerFragment가 아닙니다.")
+        }
+    }
+
+
+
+
 
 }

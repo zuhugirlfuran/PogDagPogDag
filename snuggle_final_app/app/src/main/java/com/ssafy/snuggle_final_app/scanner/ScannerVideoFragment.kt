@@ -14,9 +14,36 @@ import com.ssafy.snuggle_final_app.databinding.FragmentScannerVideoBinding
 class ScannerVideoFragment : Fragment() {
     private var _binding: FragmentScannerVideoBinding? = null
     private val binding get() = _binding!!
+    private lateinit var videoSrc: String
+    private lateinit var videoTitle: String
+    private lateinit var videoContent: String
+    private var videoLike: Int = 0
 
     // 북마크 상태를 저장하는 변수
     private var bookmarkClicked = false
+
+    companion object {
+        fun newInstance(videoSrc: String, videoTitle: String, videoContent: String, videoLike: Int): ScannerVideoFragment {
+            val fragment = ScannerVideoFragment()
+            val args = Bundle()
+            args.putString("videoSrc", videoSrc)
+            args.putString("videoTitle", videoTitle)
+            args.putString("videoContent", videoContent)
+            args.putInt("videoLike", videoLike)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            videoSrc = it.getString("videoSrc") ?: ""
+            videoTitle = it.getString("videoTitle") ?: ""
+            videoContent = it.getString("videoContent") ?: ""
+            videoLike = it.getInt("videoLike", 0)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,17 +51,17 @@ class ScannerVideoFragment : Fragment() {
     ): View? {
         _binding = FragmentScannerVideoBinding.inflate(inflater, container, false)
 
-        // 테스트용 비디오 URL 설정
-        val videoUrl = "https://www.w3schools.com/html/mov_bbb.mp4"
-
+        // MediaController를 VideoView에 연결
         val mediaController = MediaController(requireContext())
         mediaController.setAnchorView(binding.videoView)
 
-        val uri = Uri.parse(videoUrl)
+        // 전달받은 비디오 URL 설정
+        val uri = Uri.parse(videoSrc)
         binding.videoView.setMediaController(mediaController)
         binding.videoView.setVideoURI(uri)
         binding.videoView.requestFocus()
 
+        // 비디오 재생 시작
         binding.videoView.start()
 
         // 북마크 초기 상태 설정

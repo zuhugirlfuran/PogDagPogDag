@@ -9,5 +9,8 @@ class RetrofitUtil {
         val likeService = ApplicationClass.retrofit.create(LikeService::class.java)
         val productService = ApplicationClass.retrofit.create(ProductService::class.java)
         val userService = ApplicationClass.retrofit.create(UserService::class.java)
+        val taggingService = ApplicationClass.retrofit.create(TaggingService::class.java)
+
     }
 }
+
