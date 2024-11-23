@@ -64,71 +64,19 @@
                     android:layout_marginVertical="16dp"
                     android:background="#CCCCCC" />
 
-                <TableRow>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="푸딩한정식" />
+                    <ListView
+                        android:id="@+id/order_complete_lv"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:clipToPadding="false"
+                        android:divider="@android:color/transparent" />
+                </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="100"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="7,000원"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="도시락세트" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="2"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="16,000원"
-                        android:textStyle="bold" />
-                </TableRow>
-
-                <TableRow>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="도토리묵잡자" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="1"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="7,000원"
-                        android:textStyle="bold" />
-                </TableRow>
 
                 <View
                     android:layout_width="match_parent"
@@ -144,17 +92,19 @@
                         android:text="총 결제금액" />
 
                     <TextView
+                        android:id="@+id/order_complete_total_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="4"
+                        android:text="0"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/order_complete_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="30,000원"
+                        android:text="0원"
                         android:textStyle="bold" />
                 </TableRow>
             </TableLayout>
@@ -191,6 +141,7 @@
                         android:text="결제일자" />
 
                     <TextView
+                        android:id="@+id/order_complete_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -246,7 +197,8 @@
                         android:text="배송지" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/order_complete_addr"
+                        android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
                         android:textAlignment="textEnd"
@@ -264,6 +216,7 @@
                         android:text="이름" />
 
                     <TextView
+                        android:id="@+id/order_complete_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
@@ -279,6 +232,7 @@
                         android:text="연락처" />
 
                     <TextView
+                        android:id="@+id/order_complete_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"

@@ -42,7 +42,7 @@ class OrderListAdapter(
         deliverTextView.text = if (isCompleted) "배송완료" else "배송중"
 
         // 총 가격 표시
-        priceTextView.text = "${order.totalPrice.toInt()}원"
+//        priceTextView.text = "${order.totalPrice.toInt()}원"
 
         // 이미지 설정 (임시로 고정 이미지)
         img.setImageResource(R.drawable.item03)

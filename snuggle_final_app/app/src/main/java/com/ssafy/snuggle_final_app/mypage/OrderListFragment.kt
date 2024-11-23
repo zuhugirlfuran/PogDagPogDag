@@ -20,29 +20,29 @@ class OrderListFragment : Fragment() {
         _binding = FragmentOrderListBinding.inflate(inflater, container, false)
 
         // Adapter 연결
-        val dataList = listOf(
-            Pair(
-                Order(orderId = 1, userId = "id01", addressId = 101, totalPrice = 5000.0),
-                listOf(
-                    OrderDetail(
-                        detailId = 1, orderId = 1, productId = 1, quantity = 1,
-                        orderTime = "2024-12-25T12:23:15", completed = "N"
-                    )
-                )
-            ),
-            Pair(
-                Order(orderId = 2, userId = "id01", addressId = 101, totalPrice = 15000.0),
-                listOf(
-                    OrderDetail(
-                        detailId = 2, orderId = 2, productId = 2, quantity = 2,
-                        orderTime = "2024-12-25T14:45:10", completed = "Y"
-                    )
-                )
-            )
-        )
+//        val dataList = listOf(
+//            Pair(
+//                Order(orderId = 1, userId = "id01", addressId = 101, totalPrice = 5000.0),
+//                listOf(
+//                    OrderDetail(
+//                        detailId = 1, orderId = 1, productId = 1, quantity = 1,
+//                        orderTime = "2024-12-25T12:23:15", completed = "N"
+//                    )
+//                )
+//            ),
+//            Pair(
+//                Order(orderId = 2, userId = "id01", addressId = 101, totalPrice = 15000.0),
+//                listOf(
+//                    OrderDetail(
+//                        detailId = 2, orderId = 2, productId = 2, quantity = 2,
+//                        orderTime = "2024-12-25T14:45:10", completed = "Y"
+//                    )
+//                )
+//            )
+//        )
 
-        val adapter = OrderListAdapter(requireContext(), dataList)
-        binding.orderlistLv.adapter = adapter
+//        val adapter = OrderListAdapter(requireContext(), dataList)
+//        binding.orderlistLv.adapter = adapter
 
         return binding.root
     }
