@@ -6,10 +6,10 @@
 <mapper namespace="com.ssafy.snuggle.model.dao.CommentDao">
 
 	<!-- Comment 입력 -->
-	<insert id="insert" parameterType="Comment">
-		INSERT INTO t_comment
-		(product_id, user_id, comment)
-		VALUES (#{productId}, #{userId}, #{comment})
+	<insert id="insert" parameterType="Comment" useGeneratedKeys="true" keyProperty="commentId">
+	    INSERT INTO t_comment
+	    (product_id, user_id, comment)
+	    VALUES (#{productId}, #{userId}, #{comment})
 	</insert>
 
 	<!-- Comment 수정 -->

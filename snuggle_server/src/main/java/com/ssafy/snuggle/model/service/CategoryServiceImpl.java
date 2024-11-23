@@ -25,4 +25,10 @@ public class CategoryServiceImpl implements CategoryService {
 		return cDao.selectProductsByCategory(cId);
 	}
 
+	@Override
+	public List<Category> selectAll() {
+		
+		return cDao.selectAll();
+	}
+
 }

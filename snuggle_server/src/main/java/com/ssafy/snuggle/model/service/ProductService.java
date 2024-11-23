@@ -37,5 +37,22 @@ public interface ProductService {
 	 * @return
 	 */
 	List<Product> getNewProduct();
+	
+	/**
+	 * 가격 내림차순(낮은 가격순)으로 정렬
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> getSortDesc();
+	
+	/**
+	 * 가격 오름차순(높은 가격순)으로 정렬
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> getSortAsc();
+	
 
 }

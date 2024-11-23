@@ -26,14 +26,14 @@ public class CommentController {
 	private CommentService commentService;
 
 	@PutMapping()
-	@Operation(summary = "Comment 객체를 수정한다. 성공하면 true를 리턴한다. 벗어나면 false를 리턴한다.")
+	@Operation(summary = "Comment 객체를 수정한다. 성공하면 comment_id를 반환한다.")
 	public ResponseEntity<?> updateComment(@RequestBody Comment comment) {
 
 		int result = -1;
-
+		System.out.println(comment.getComment());
 		result = commentService.updateComment(comment);
 		if (result == 1) {
-			return new ResponseEntity<Integer>(result, HttpStatus.OK);
+			return new ResponseEntity<Integer>(comment.getCommentId(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
@@ -41,12 +41,12 @@ public class CommentController {
 	}
 	
 	@PostMapping()
-	@Operation(summary = "Comment 객체를 추가한다. 성공하면 true를 리턴한다. 벗어나면 false를 리턴한다.")
+	@Operation(summary = "Comment 객체를 추가한다. 성공하면 생성된 댓글 ID(commentId)를 리턴한다.")
 	public ResponseEntity<?> addComment(@RequestBody Comment comment) {
 
 		int result = commentService.addComment(comment);
 		if (result == 1) {
-			return new ResponseEntity<Integer>(result, HttpStatus.CREATED);
+			return new ResponseEntity<Integer>(comment.getCommentId(), HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}

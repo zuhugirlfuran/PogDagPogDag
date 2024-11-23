@@ -37,4 +37,21 @@ public interface ProductDao {
 	 * @return
 	 */
 	List<Product> selectNewProduct();
+	
+	/**
+	 * 가격 내림차순(낮은 가격순)으로 정렬
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> selectSortDesc();
+	
+	/**
+	 * 가격 오름차순(높은 가격순)으로 정렬
+	 * 
+	 * @param 
+	 * @return
+	 */
+	List<Product> selectSortAsc();
+	
 }

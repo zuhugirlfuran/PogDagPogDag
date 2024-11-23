@@ -14,6 +14,13 @@ public interface CategoryDao {
      */
 	Category select(int cId);
 	
+
+	/**
+     * 모든 카테고리 조회
+     * @param
+     * @return
+     */
+	List<Category> selectAll();
 	
 	/**
      * 카테고리 id에 따른 product 리스트 조회

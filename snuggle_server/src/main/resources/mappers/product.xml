@@ -34,13 +34,23 @@
 	<select id="selectBestProduct" resultType="Product">
 		select * from t_product 
 		order by like_count desc
-		limit 5
 	</select>
 	
 	<!-- New Product를 조회 -->
 	<select id="selectNewProduct" resultType="Product">
 		select * from t_product 
 		order by product_id desc
-		limit 5
+	</select>
+	
+	<!-- 가격 내림차순(낮은 가격순) -->
+	<select id="selectSortDesc" resultType="Product">
+		select * from t_product 
+		order by price desc
+	</select>
+	
+	<!-- 가격 오름차순(높은 가격순) -->
+	<select id="selectSortAsc" resultType="Product">
+		select * from t_product 
+		order by price
 	</select>
 </mapper>

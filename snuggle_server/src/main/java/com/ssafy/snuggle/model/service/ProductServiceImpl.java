@@ -55,4 +55,15 @@ public class ProductServiceImpl implements ProductService {
 		return pDao.selectNewProduct();
 	}
 
+	@Override
+	public List<Product> getSortDesc() {
+		
+		return pDao.selectSortDesc();
+	}
+
+	@Override
+	public List<Product> getSortAsc() {
+		return pDao.selectSortAsc();
+	}
+
 }

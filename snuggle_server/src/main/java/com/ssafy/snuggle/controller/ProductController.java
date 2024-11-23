@@ -80,5 +80,20 @@ public class ProductController {
 
 		return new ResponseEntity<List<Product>>(productService.getNewProduct(), HttpStatus.OK);
 	}
+	
+
+	@GetMapping("/sortDesc")
+	@Operation(summary = "낮은 가격순으로 정렬해 조회한다.")
+	public ResponseEntity<List<Product>> getSortDesc() {
+
+		return new ResponseEntity<List<Product>>(productService.getSortDesc(), HttpStatus.OK);
+	}
+	
+	@GetMapping("/sortAsc")
+	@Operation(summary = "높은 가격순으로 정렬해 조회한다.")
+	public ResponseEntity<List<Product>> getSortAsc() {
+
+		return new ResponseEntity<List<Product>>(productService.getSortAsc(), HttpStatus.OK);
+	}
 
 }
