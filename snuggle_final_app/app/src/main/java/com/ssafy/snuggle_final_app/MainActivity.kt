@@ -8,15 +8,14 @@ import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.ssafy.snuggle_final_app.cart.CartFragment
-import com.ssafy.snuggle_final_app.chatbot.ChatBotFragment
 
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
-import com.ssafy.snuggle_final_app.main.MainFragment
-import com.ssafy.snuggle_final_app.main.NotificationActivity
-import com.ssafy.snuggle_final_app.mypage.MypageFragment
-import com.ssafy.snuggle_final_app.product.ProductFragment
-import com.ssafy.snuggle_final_app.scanner.ScannerFragment
+import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
+import com.ssafy.snuggle_final_app.ui.main.MainFragment
+import com.ssafy.snuggle_final_app.ui.main.NotificationActivity
+import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.ui.product.ProductFragment
+import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
 import java.util.Scanner
 
 class MainActivity : AppCompatActivity() {
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         // appBar_cart 버튼 클릭 리스너 설정
         val cartButton = findViewById<ImageButton>(R.id.app_bar_ib_cart)
         cartButton.setOnClickListener {
-            replaceFragment(CartFragment())
+            replaceFragment(com.ssafy.snuggle_final_app.ui.cart.CartFragment())
         }
 
         // appBar logo 클릭 시 메인 프레그먼트로 이동

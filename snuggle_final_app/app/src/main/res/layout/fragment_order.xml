@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".order.OrderFragment">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,15 +35,18 @@
                 android:stretchColumns="*">
 
                 <TableRow>
+
                     <TextView
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:text="상품" />
+
                     <TextView
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="개수" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,10 +81,12 @@
                     android:background="#CCCCCC" />
 
                 <TableRow>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="총 결제금액" />
+
                     <TextView
                         android:id="@+id/order_tv_total_count"
                         android:layout_width="wrap_content"
@@ -91,11 +94,12 @@
                         android:layout_gravity="center"
                         android:text="0"
                         android:textStyle="bold" />
+
                     <TextView
                         android:id="@+id/order_tv_total_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
+                        android:layout_gravity="start"
                         android:text="0원"
                         android:textStyle="bold" />
                 </TableRow>
@@ -126,11 +130,13 @@
                 android:stretchColumns="*">
 
                 <TableRow>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="결제방법" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -146,16 +152,18 @@
                     android:background="#CCCCCC" />
 
                 <TableRow>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|left"
                         android:text="간편결제" />
+
                     <CheckBox
+                        style="@style/CustomCheckBoxStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        style="@style/CustomCheckBoxStyle"
                         android:checked="true" />
                 </TableRow>
             </TableLayout>
@@ -191,7 +199,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="배송지" />

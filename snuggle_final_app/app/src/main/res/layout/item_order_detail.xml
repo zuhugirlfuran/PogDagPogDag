@@ -4,33 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".order.OrderAdapter">
+    tools:context=".ui.order.OrderAdapter">
 
-    <!-- TableRow container for each product row -->
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:visibility="gone"
             android:id="@+id/order_iv_product"
             android:layout_width="93dp"
             android:layout_height="93dp"
-            android:layout_marginRight="9dp"
+            android:layout_marginEnd="9dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/item03" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/order_tv_product_delivery"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="푸딩한정식"
+            android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:textColor="@android:color/black" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/order_tv_product_name"
@@ -38,19 +37,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="푸딩한정식"
-            android:textSize="15sp"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/order_tv_product_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
             android:layout_marginRight="10dp"
+            android:gravity="start"
             android:text="10"
-            android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:textSize="15sp"
-            android:textColor="@android:color/black" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/order_tv_product_price"
@@ -58,9 +57,9 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="7,000원"
-            android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:textSize="16sp"
-            android:textColor="@android:color/black" />
+            android:textStyle="bold" />
     </TableRow>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

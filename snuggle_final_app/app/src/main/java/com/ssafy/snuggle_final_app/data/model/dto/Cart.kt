@@ -6,7 +6,7 @@ data class Cart(
     val title: String,    // 상품 제목
     var productCnt: Int,  // 상품 수량
     val price: Int,       // 상품 가격 (단가)
-    val deliveryDate: String, // 배송 날짜
+    var deliveryDate: String, // 배송 날짜
     var totalPrice: Int = productCnt * price // 총 가격 계산
 ) {
     // 장바구니에 동일 상품 추가 시 수량과 가격 업데이트
