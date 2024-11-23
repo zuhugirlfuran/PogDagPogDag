@@ -35,7 +35,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/scanner_tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="11dp"
@@ -58,6 +58,7 @@
                     android:src="@drawable/scanner_bookmark_icon" />
 
                 <TextView
+                    android:id="@+id/scanner_tv_bookmark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="19"
@@ -67,7 +68,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/scanner_tv_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"

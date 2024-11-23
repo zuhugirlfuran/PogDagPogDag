@@ -51,18 +51,29 @@ class ScannerVideoFragment : Fragment() {
     ): View? {
         _binding = FragmentScannerVideoBinding.inflate(inflater, container, false)
 
+        //== 비디오 설정 ==//
         // MediaController를 VideoView에 연결
         val mediaController = MediaController(requireContext())
         mediaController.setAnchorView(binding.videoView)
 
-        // 전달받은 비디오 URL 설정
         val uri = Uri.parse(videoSrc)
+        
+        //url 설정
         binding.videoView.setMediaController(mediaController)
         binding.videoView.setVideoURI(uri)
         binding.videoView.requestFocus()
+        //title 설정
+        binding.scannerTvTitle.text = videoTitle
+        //설명 설정
+        binding.scannerTvDetail.text = videoContent
+        //bookmark 설정
+        binding.scannerTvBookmark.text = videoLike.toString()
 
         // 비디오 재생 시작
         binding.videoView.start()
+
+        
+        //== 북마크 설정 ==//
 
         // 북마크 초기 상태 설정
         updateBookmarkIcon()
@@ -83,7 +94,6 @@ class ScannerVideoFragment : Fragment() {
         return binding.root
     }
 
-    // 북마크 상태에 따라 아이콘 변경
     private fun updateBookmarkIcon() {
         if (bookmarkClicked) {
             binding.scannerIvBookmark.setImageResource(R.drawable.scanner_bookmark_icon_cliked)
@@ -94,13 +104,11 @@ class ScannerVideoFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        // Activity의 BottomNavigationView를 숨김
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
-        // Activity의 BottomNavigationView를 다시 보임
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
             View.VISIBLE
     }

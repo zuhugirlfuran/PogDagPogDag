@@ -33,13 +33,6 @@ class ScannerFragment : Fragment() {
     ): View? {
         _binding = FragmentScannerBinding.inflate(inflater, container, false)
 
-        // TODO: NFC 스캔 후 해당하는 제품 영상으로 이동하는 것으로 수정해야함
-//        binding.scannerLlReadypage.setOnClickListener {
-//            val bannerTransaction = parentFragmentManager.beginTransaction()
-//            bannerTransaction.replace(R.id.main_frameLayout, ScannerVideoFragment())
-//            bannerTransaction.addToBackStack(null)
-//            bannerTransaction.commit()
-//        }
         return binding.root
     }
 
