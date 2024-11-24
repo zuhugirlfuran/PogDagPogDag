@@ -15,23 +15,23 @@ private const val TAG = "MyPageViewModel_싸피"
 class MyPageViewModel : ViewModel() {
 
     // 유저 정보 가져오기
-    private val _userInfo = MutableLiveData<UserResponse>()
-    val userInfo: LiveData<UserResponse> get() = _userInfo
+    private val _userInfo = MutableLiveData<UserResponse?>()
+    val userInfo: MutableLiveData<UserResponse?> get() = _userInfo
 
     fun getUserInfo(userId: String) {
         viewModelScope.launch {
             safeApiCall({
                 RetrofitUtil.userService.getUserInfo(userId)
-            }, { userRes ->
-                if (userRes != null) {
-                    Log.d(TAG, "getUserInfo: userRes=${userRes.user}")
+            }, { response ->
+                if (response.isSuccessful) {
+                    val userRes = response.body()
+                    Log.d(TAG, "API Success: $userRes")
                     _userInfo.value = userRes
                 } else {
-                    Log.d(TAG, "getUserInfo: userRes is null")
-                    _userInfo.value = UserResponse(User())
+                    Log.e(TAG, "API Error: ${response.errorBody()?.string()}")
                 }
             }, { exception ->
-                Log.e(TAG, "Error in getUserInfo: ${exception.message}")
+                Log.e(TAG, "API Exception: ${exception.message}")
             })
         }
     }
