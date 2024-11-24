@@ -1,9 +1,12 @@
 package com.ssafy.snuggle_final_app
 
 import android.Manifest
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.Intent
 import android.nfc.NdefRecord
@@ -12,25 +15,37 @@ import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil.Companion.fcmService
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.fcm.NotificationViewModel
 import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
+import com.ssafy.snuggle_final_app.ui.mypage.CouponFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.ui.notification.NotificationActivity
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
 import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
 import com.ssafy.snuggle_final_app.util.PermissionChecker
+import org.altbeacon.beacon.Beacon
+import org.altbeacon.beacon.BeaconManager
+import org.altbeacon.beacon.BeaconParser
+import org.altbeacon.beacon.Identifier
+import org.altbeacon.beacon.RangeNotifier
+import org.altbeacon.beacon.Region
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -42,6 +57,8 @@ class MainActivity : AppCompatActivity() {
     private var nfcAdapter: NfcAdapter? = null
 
     private val notificationViewModel: NotificationViewModel by viewModels()
+
+    private lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     /** permission check **/
     private val checker = PermissionChecker(this)
@@ -57,6 +74,11 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Beacon관련
+        setBeacon()
+
+        sharedPreferencesUtil = SharedPreferencesUtil(this)
 
         // 권한 체크
         checkPermission()
@@ -141,17 +163,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 권한
+//    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+//    private fun checkPermission() {
+//        if (!checker.checkPermission(this, runtimePermissions)) {
+//            checker.setOnGrantedListener { //퍼미션 획득 성공일때
+//                init()
+//            }
+//            checker.requestPermissionLauncher.launch(runtimePermissions) // 권한없으면 창 띄움
+//        } else { //이미 전체 권한이 있는 경우
+//            init()
+//        }
+//    }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkPermission() {
-        if (!checker.checkPermission(this, runtimePermissions)) {
-            checker.setOnGrantedListener { //퍼미션 획득 성공일때
+        // Post Notifications 권한 체크
+        val notificationPermissionGranted = checker.checkPermission(this, runtimePermissions)
+        // Beacon 관련 권한 체크
+        val beaconPermissionGranted = checker.checkPermission(this, beaconRuntimePermission)
+
+        if (!notificationPermissionGranted || !beaconPermissionGranted) {
+            checker.setOnGrantedListener {
+                // 모든 권한 획득 후 초기화 및 스캔 시작
                 init()
+                startScan()
             }
-            checker.requestPermissionLauncher.launch(runtimePermissions) // 권한없으면 창 띄움
-        } else { //이미 전체 권한이 있는 경우
+
+            // 요청할 권한 그룹 설정
+            val permissionsToRequest = mutableListOf<String>()
+            if (!notificationPermissionGranted) {
+                permissionsToRequest.addAll(runtimePermissions)
+            }
+            if (!beaconPermissionGranted) {
+                permissionsToRequest.addAll(beaconRuntimePermission)
+            }
+
+            // 필요한 권한 요청
+            checker.requestPermissionLauncher.launch(permissionsToRequest.toTypedArray())
+        } else {
+            // 이미 모든 권한이 있는 경우
             init()
+            startScan()
         }
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -287,7 +341,165 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Beacon 관련
+    private val BEACON_UUID = "fda50693-a4e2-4fb1-afcf-c6eb07647825" // 우리반은 모두 동일.
+    private val BEACON_MAJOR = "10004"  // 우리반은 모두 동일.
+    private val BEACON_MINOR = "54480"  // 우리반은 모두 동일.
+    private val BLUETOOTH_ADDRESS = "00:81:F9:E2:45:74"
+    private val BEACON_DISTANCE = 10.0 //거리
+
+    private val beaconRuntimePermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        arrayOf(
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_ADVERTISE,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    } else {
+        arrayOf(
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+    }
+
+    // Beacon의 Region 설정
+    private val region = Region(
+        "estimote",
+        listOf(
+            Identifier.parse(BEACON_UUID),
+            Identifier.parse(BEACON_MAJOR),
+            Identifier.parse(BEACON_MINOR)
+        ),
+        BLUETOOTH_ADDRESS
+    )
+
+    private fun isYourBeacon(beacon: Beacon): Boolean {
+        return (beacon.id2.toString() == BEACON_MAJOR &&
+                beacon.id3.toString() == BEACON_MINOR &&
+                beacon.distance <= BEACON_DISTANCE
+                )
+    }
+
+    private lateinit var beaconManager: BeaconManager
+    private lateinit var bluetoothManager: BluetoothManager
+    private lateinit var bluetoothAdapter: BluetoothAdapter
+
+    private fun setBeacon(){
+        //BeaconManager 지정
+        beaconManager = BeaconManager.getInstanceForApplication(this)
+        beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
+        bluetoothManager = getSystemService(BLUETOOTH_SERVICE) as BluetoothManager
+        bluetoothAdapter = bluetoothManager.adapter
+    }
+
+    val handler = Handler(Looper.getMainLooper())
+    private fun startScan() {
+        // 블루투스 Enable 확인
+        if (!bluetoothAdapter.isEnabled) {
+            requestEnableBLE()
+            Log.d(TAG, "startScan: 블루투스가 켜지지 않았습니다.")
+            return
+        }
+
+        //detacting되는 해당 region의 beacon정보를 받는 클래스 지정.
+        beaconManager.addRangeNotifier(rangeNotifier)
+        beaconManager.startRangingBeacons(region)
+
+        handler.postDelayed({
+            stopScan()
+        }, 30_000)
+    }
+
+    private fun stopScan() {
+        Log.d(TAG, "stopScan: 비콘 스캔 종료")
+        beaconManager.stopMonitoring(region)
+        beaconManager.stopRangingBeacons(region)
+    }
+
+    private fun requestEnableBLE() {
+        val callBLEEnableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+        requestBLEActivity.launch(callBLEEnableIntent)
+        Log.d(TAG, "requestEnableBLE: ")
+    }
+
+    private val requestBLEActivity: ActivityResultLauncher<Intent> = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        // 사용자의 블루투스 사용이 가능한지 확인
+        if (bluetoothAdapter.isEnabled) {
+            startScan()
+        }
+    }
+
+    var rangeNotifier: RangeNotifier = object : RangeNotifier {
+        override fun didRangeBeaconsInRegion(beacons: MutableCollection<Beacon>?, region: Region?) {
+            Log.d(TAG, "didRangeBeaconsInRegion: $beacons")
+            beacons?.run {
+                forEach { beacon ->
+                    // Major, Minor로 Beacon 구별
+                    if (isYourBeacon(beacon)) {
+                        distance = beacon.distance
+                        // 한번만 띄우기 위한 조건
+                        if(distance <= 5.0){
+                            Log.d(TAG, "didRangeBeaconsInRegion: ${BLUETOOTH_ADDRESS}")
+                            Log.d(TAG, "didRangeBeaconsInRegion: 비콘과의 거리 ${distance}")
+
+                            if (sharedPreferencesUtil.isTodayEventDate()) {
+                                // 이미 이벤트가 실행된 기록이 있기 때문에 아무것도 하지 않음
+                            } else {
+                                // 오늘 날짜로 이벤트를 저장하고 이벤트 실행
+                                showEventDialog() // 이벤트 다이얼로그 1회만 호출
+                                sharedPreferencesUtil.saveCurrentDate()
+                            }
+
+                            stopScan()  // BLE 스캔 종료
+                        }
+
+                    }
+                    Log.d(TAG, "distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3
+                    )
+                }
+
+                if (beacons.isEmpty()) {
+                    Log.d(TAG, "didRangeBeaconsInRegion: 비콘 찾기 실패")
+                    // 비콘 찾기 실패
+                }
+            }
+        }
+    }
+
+    fun showEventDialog() {
+        Log.d(TAG, "showEventDialog: Attempting to display dialog")
+        if (!isFinishing && !isDestroyed) { // Activity가 유효한지 확인
+            Handler(Looper.getMainLooper()).post {
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.apply {
+                    setTitle("쿠폰 알림") // 다이얼로그 제목
+                    setMessage("쿠폰이 있습니다. 확인하시겠습니까?") // 다이얼로그 메시지
+                    setCancelable(true) // 뒤로가기나 터치로 취소 가능 여부
+                    setPositiveButton("확인") { dialog, _ ->
+                        replaceFragment(CouponFragment())
+                        dialog.dismiss() // 확인 버튼 클릭 시 다이얼로그 닫기
+                    }
+                    setNegativeButton("취소") { dialog, _ ->
+                        dialog.dismiss() // 취소 버튼 클릭 시 다이얼로그 닫기
+                    }
+                }
+                builder.create().show()
+            }
+        } else {
+            Log.d(TAG, "Activity is not valid for showing a dialog.")
+        }
+    }
+
+
     companion object {
+
+        var distance: Double = 19.0
+
         // Notification Channel ID
         const val DELIVERY_CHANNEL = "delivery"
         const val BROAD_CHANNEL = "broad"

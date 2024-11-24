@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.LoginActivity
+import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.ApplicationClass.Companion.sharedPreferencesUtil
@@ -26,7 +27,16 @@ class MypageFragment : Fragment() {
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var mainActivity: MainActivity
+
     private val viewModel: MyPageViewModel by viewModels()
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,6 +106,11 @@ class MypageFragment : Fragment() {
         //== 로그아웃 ==//
         binding.mypageBtnLogout.setOnClickListener {
             logout()
+        }
+
+        //== 쿠폰 ==//
+        binding.mypageBtnCoupon.setOnClickListener {
+            mainActivity.replaceFragment(CouponFragment())
         }
     }
 

@@ -91,4 +91,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
     implementation("com.google.firebase:firebase-messaging-ktx")
 
+    // Beacon 관련
+    implementation ("org.altbeacon:android-beacon-library:2.19")
+
 }
