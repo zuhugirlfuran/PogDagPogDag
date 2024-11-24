@@ -119,7 +119,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
     private fun updateCategorySpinner(categoryNames: List<String>) {
 
-        val categoryWithHint = mutableListOf("카테고리").apply {
+        val categoryWithHint = mutableListOf("전체").apply {
             addAll(categoryNames)
         }
 
@@ -131,7 +131,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
         binding.productDropdownCategory.adapter = spinnerAdapter
 
-        // 기본값으로 첫 번째 항목 선택(힌트)
+        // 기본 값으로 첫 번째 항목 선택(힌트)
         binding.productDropdownCategory.setSelection(0)
 
         binding.productDropdownCategory.onItemSelectedListener = object :
@@ -156,7 +156,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
                     // 매칭된 카테고리의 cId로 상품 필터링
                     if (selectedCategory != null) {
-                        // Toast.makeText(requireContext(), "선택된 카테고리: $position $selectedCategoryName", Toast.LENGTH_SHORT).show()
                         categoryViewModel.getProductByCategory(selectedCategory.cId)
                     } else {
                         Log.e("ProductFragment", "선택된 카테고리가 존재하지 않습니다.")
@@ -166,7 +165,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // 아무 것도 선택하지 않았을 때 처리할 로직
-                productViewModel.getProductList()
+
             }
         }
     }

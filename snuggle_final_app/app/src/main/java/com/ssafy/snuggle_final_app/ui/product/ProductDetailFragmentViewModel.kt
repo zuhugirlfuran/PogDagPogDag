@@ -21,11 +21,6 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
             fetchProductInfo(value)
         }
 
-    fun clearData() {
-        _productInfo.value = null
-        productId = 0
-    }
-
     private fun fetchProductInfo(productId: Int) {
         if (productId > 0) {
             viewModelScope.launch {
@@ -63,17 +58,23 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
         get() = _productInfo
 
     // 상품의 좋아요가 눌려있는 지
-    private val _isProductLiked = MutableLiveData<Boolean>()
+    private val _isProductLiked = MutableLiveData<Boolean>(false)
     val isProductLiked: LiveData<Boolean> get() = _isProductLiked
+
+    // 데이터
+    private val _isSuccess = MutableLiveData(false)
+    val isSuccess: LiveData<Boolean> get() = _isSuccess
+
+    fun setIsSucess() {
+        _isSuccess.value = false
+    }
 
     // 스피너 정렬 데이터 부분
     val sortedProductList = MutableLiveData<List<Product>>() // 정렬된 데이터
 
-
-    private var isProductListFetched = false
     // 전체 상품 리스트 불러오기
     fun getProductList() {
-        if (isProductListFetched) return // 이미 호출된 경우
+      //  if (isProductListFetched) return // 이미 호출된 경우
         viewModelScope.launch {
             safeApiCall(
                 {
@@ -81,7 +82,8 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 }, { productList ->
                     if (productList.isNotEmpty()) {
                         _productList.value = productList
-                        isProductListFetched = true
+                     //   isProductListFetched = true
+                        _isSuccess.value = true
                         Log.d("Product", "상품 리스트 불러오기 성공")
                     } else {
                         Log.e("Product", "상품 리스트 불러오기 실패")
@@ -135,6 +137,13 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
         }
     }
 
+    private val _isProductInfo = MutableLiveData<Boolean>(false)
+    val isProductInfo: LiveData<Boolean> get() = _isProductInfo
+
+    fun setIsProductInfo() {
+        _isProductInfo.value = false
+    }
+
     // productId에 맞는 상품 정보 불러오기 + 댓글
     fun getProductWithComments(productId: Int) {
         viewModelScope.launch {
@@ -143,6 +152,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                     RetrofitUtil.productService.getProductWithComments(productId)
                 }, { productInfo ->
                     _productInfo.value = productInfo
+                    _isProductInfo.value = true
                     Log.d("ProductInfo", "상품 정보 불러오기 성공 $productInfo")
 
                 }, { exception ->
@@ -160,24 +170,28 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 {
                     RetrofitUtil.likeService.addLike(like)
                 }, { isLiked ->
-                    if (isLiked) {
-                        _isProductLiked.value = isLiked
-                        _productInfo.value?.likeCount = (_productInfo.value?.likeCount ?: 0) + 1
-                        Log.d("Like", "좋아요 등록")
+                    // 좋아요 상태
+                    _isProductLiked.value = isLiked
+                    // 현재 likeCount 가져오기
+                    val currentLikeCount = _productInfo.value?.likeCount ?: 0
+
+                    // 좋아요 상태에 따라 likeCount 변경
+                    val updatedLikeCount = if (isLiked) {
+                        currentLikeCount + 1
                     } else {
-                        _isProductLiked.value = isLiked
-                        _productInfo.value?.likeCount =
-                            (_productInfo.value?.likeCount?.minus(1)?.coerceAtLeast(0)!!)
-                        Log.d("Like", "좋아요 해제")
+                        (currentLikeCount - 1).coerceAtLeast(0) // 최소 0으로 제한
                     }
-                    _productInfo.value = _productInfo.value // MutableLiveData 갱신
+                    // productInfo 업데이트
+                    _productInfo.value = _productInfo.value?.apply {
+                        likeCount = updatedLikeCount
+                    }
+                    Log.d("Like", if (isLiked) "좋아요 등록" else "좋아요 해제")
                 }, { exception ->
                     Log.e("Like", "좋아요 상태 업데이트 오류: ${exception.message}")
                 }
             )
         }
     }
-
 
     fun isLikeStatus(userId: String, productId: Int) {
         viewModelScope.launch {
@@ -191,6 +205,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
                 },
                 { exception ->
                     Log.e("Like", "좋아요 상태 초기화 오류: ${exception.message}")
+                    _isProductLiked.value = false // 오류 시 기본값 설정
                 }
             )
         }

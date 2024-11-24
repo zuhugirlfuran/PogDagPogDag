@@ -15,5 +15,7 @@ interface LikeService {
     @GET("/snuggle/like/info/{userId}")
     suspend fun getLikeListByUser(@Path("userId") userId: String): List<Product>
 
+    @GET("/snuggle/like/status/{userId}/{productId}")
+    suspend fun isLiked(@Path("userId") userId: String, @Path("productId") productId: Int): Boolean
 
 }

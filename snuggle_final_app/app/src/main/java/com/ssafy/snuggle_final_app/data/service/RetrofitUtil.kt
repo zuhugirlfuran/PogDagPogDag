@@ -17,5 +17,7 @@ class RetrofitUtil {
         val notificationService = ApplicationClass.retrofit.create(NotificationService::class.java)
         val fcmService = ApplicationClass.retrofit.create(FirebaseTokenService::class.java)
 
+        val couponService = ApplicationClass.retrofit.create(CouponService::class.java)
+
     }
 }

@@ -25,7 +25,6 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 import com.ssafy.snuggle_final_app.data.model.dto.Like
 import com.ssafy.snuggle_final_app.databinding.FragmentProductDetailBinding
-
 import com.ssafy.snuggle_final_app.ui.order.OrderFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
@@ -43,12 +42,14 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     private val orderViewModel: OrderViewModel by activityViewModels()
     private val productDetailViewModel: ProductDetailFragmentViewModel by activityViewModels()
     private val commentViewModel: CommentViewModel by viewModels()
-
+    private var productId: Int = -1
+    private var userId: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivity = context as MainActivity
-
+        productId = productDetailViewModel.productId
+        userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -57,9 +58,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
         // 어댑터 초기화
         initAdapter()
-
-        val productId = productDetailViewModel.productId
-        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
 
         if (productId > 0) {
             productDetailViewModel.getProductWithComments(productId)
@@ -82,9 +80,8 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         // 좋아요 버튼
         binding.productDetailBtnLike.setOnClickListener {
             Log.d(TAG, "onViewCreated: 좋아요 버튼")
-            val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
             val today = CommonUtils.dateformatYMD(Date())
-            Log.d(TAG, "onViewCreated: userId ${userId} productId ${productId}")
+            Log.d(TAG, "onViewCreated: userId $userId productId $productId")
             productDetailViewModel.likeProduct(Like(userId, productId, today))
         }
 
@@ -221,34 +218,59 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
 
     /** 상품 상세 데이터 감시하기 위한 viewmodel observe **/
     private fun observeViewModel() {
+
         // 상품 정보 불러오기
-        productDetailViewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
+        productDetailViewModel.isProductInfo.observe(viewLifecycleOwner) { isProductInfo ->
+            if (isProductInfo) {
+                val productInfo = productDetailViewModel.productInfo.value
+                productInfo?.let {
+                    binding.apply {
+                        // 상품 정보 업데이트
+                        Glide.with(binding.productDetailIvImg)
+                            .load(it.productImg)
+                            .into(binding.productDetailIvImg)
 
-            Log.d(TAG, "observeViewModel: $productInfo")
-            productInfo?.let {
-                binding.apply {
-                    // 상품 정보 업데이트
-                    Glide.with(binding.productDetailIvImg)
-                        .load(it.productImg)
-                        .into(binding.productDetailIvImg)
+                        binding.productDetailTvName.text = it.productName
+                        binding.productDetailTvLikecount.text = it.likeCount.toString()
+                        binding.productDetailTvContent.text = it.content
+                        binding.productDetailTvPrice.text = makeComma(it.productPrice)
+                        Log.d(TAG, "observeViewModel: 좋아요 수 ${it.likeCount}")
+                        // 댓글 RecyclerView 업데이트
+                        adapter.submitList(it.comments)
 
-                    binding.productDetailTvName.text = it.productName
-                    binding.productDetailTvLikecount.text = it.likeCount.toString()
-                    binding.productDetailTvContent.text = it.content
-                    binding.productDetailTvPrice.text = makeComma(it.productPrice)
-
-                    // 댓글 RecyclerView 업데이트
-                    adapter.submitList(it.comments)
+                        productDetailViewModel.setIsProductInfo()
+                        productDetailViewModel.isLikeStatus(userId, productId)
+                    }
                 }
+            }
+
+        }
+
+        // productInfo 불러와졌는지 확인
+        productDetailViewModel.isSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
+//                Log.d(TAG, "observeViewModel: ${productDetailViewModel.productInfo}")
+
+                productDetailViewModel.getProductWithComments(productId)
+                productDetailViewModel.isLikeStatus(userId, productId)
+                productDetailViewModel.setIsSucess()
             }
         }
 
+        productDetailViewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
+            productInfo?.let {
+                binding.productDetailTvLikecount.text = it.likeCount.toString()
+                Log.d("UI Update", "Like count updated to: ${it.likeCount}")
+            }
+        }
+
+
         // 좋아요 눌렀을 때
         productDetailViewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
+            val currentLikeCount = productDetailViewModel.productInfo.value?.likeCount ?: 0
+            binding.productDetailTvLikecount.text = currentLikeCount.toString() // likeCount 업데이트
 
-            val likeCount = productDetailViewModel.productInfo.value?.likeCount ?: 0
-            binding.productDetailTvLikecount.text = likeCount.toString() // likeCount 업데이트
-            Log.d(TAG, "observ: ${likeCount}")
+            // Log.d(TAG, "좋아요 카운트: $likeCount 좋아요 상태: $isLiked")
             if (isLiked) {
                 binding.productDetailBtnLike.setImageResource(R.drawable.heart_fill)
             } else {
@@ -261,7 +283,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     private fun observeCommentViewModel() {
         // 댓글 기능
         commentViewModel.comments.observe(viewLifecycleOwner) { comments ->
-            Log.d(TAG, "observeCommentViewModel: ${comments}")
+            Log.d(TAG, "observeCommentViewModel: $comments")
             adapter.submitList(comments)
         }
     }
@@ -286,12 +308,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     override fun onInsertClick(comment: Comment, position: Int) {
         commentViewModel.addComment(comment)
         adapter.notifyItemInserted(position)
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        productDetailViewModel.clearData()
     }
 
 
