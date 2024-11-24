@@ -80,7 +80,6 @@ class ScannerViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
-
     // 실패 처리
     private fun handleFailure(message: String) {
         _bookmarkResponse.value = message

@@ -1,4 +1,4 @@
-package com.ssafy.snuggle_final_app.mypage
+package com.ssafy.snuggle_final_app.ui.mypage
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.model.dto.Favorite
+import com.ssafy.snuggle_final_app.data.model.dto.Tagging
 
 class BookmarkAdapter(
     private val context: Context,
-    private val dataList: List<Favorite>
+    private val dataList: MutableList<Tagging>
 ) : BaseAdapter() {
 
     override fun getCount(): Int = dataList.size
 
-    override fun getItem(position: Int): Favorite = dataList[position]
+    override fun getItem(position: Int): Tagging = dataList[position]
 
     override fun getItemId(position: Int): Long = position.toLong()
 
@@ -26,18 +27,24 @@ class BookmarkAdapter(
             .inflate(R.layout.item_bookmark, parent, false)
 
         val img = view.findViewById<ImageView>(R.id.bookmark_iv_img)
-
-
         val titleTextView = view.findViewById<TextView>(R.id.bookmark_tv_title)
         val contentsTextView = view.findViewById<TextView>(R.id.bookmark_tv_contents)
 
-        titleTextView.text = "푸딩을 만들어보자"
-        contentsTextView.text = "영상 설명입니다~~"
+        val taggingData = getItem(position)
+
+        titleTextView.text = taggingData.videoTitle
+        contentsTextView.text = taggingData.videoContent
 
         // 이미지 설정 (임시로 고정 이미지)
-        img.setImageResource(R.drawable.item03)
+        Glide.with(context).load(taggingData.videoSrc).into(img)
 
         return view
+    }
+
+    fun updateData(newData: List<Tagging>) {
+        dataList.clear()
+        dataList.addAll(newData)
+        notifyDataSetChanged()
     }
 
 

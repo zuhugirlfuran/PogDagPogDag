@@ -1,39 +1,40 @@
 package com.ssafy.snuggle_final_app.mypage
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.model.dto.Favorite
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentBookmarkBinding
+import com.ssafy.snuggle_final_app.ui.mypage.BookmarkAdapter
+import com.ssafy.snuggle_final_app.ui.mypage.BookmarkViewModel
 
-class BookmarkFragment : Fragment() {
-    private var _binding: FragmentBookmarkBinding? = null
-    private val binding get() = _binding!!
+class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
+    FragmentBookmarkBinding::bind,
+    R.layout.fragment_bookmark
+) {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val bookmarkViewModel: BookmarkViewModel by viewModels()
+    private lateinit var adapter: BookmarkAdapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
-
-        val dataList = listOf(
-            Favorite(1, "id 01", "taggin id 01", "Y"),
-            Favorite(1, "id 01", "taggin id 01", "Y"),
-            Favorite(1, "id 01", "taggin id 01", "Y")
-        )
-        val adapter = BookmarkAdapter(requireContext(), dataList)
+        adapter = BookmarkAdapter(requireContext(), mutableListOf())
         binding.bookmarkLv.adapter = adapter
 
-        return binding.root
+        // 사용자 ID 가져오기
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+
+        // ViewModel에서 데이터 요청
+        bookmarkViewModel.getBookmarkList(userId)
+// ViewModel 데이터 관찰
+        bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner) { bookmarks ->
+            adapter.updateData(bookmarks)
+        }
+
+
     }
 
     override fun onResume() {

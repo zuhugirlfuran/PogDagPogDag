@@ -59,7 +59,6 @@ class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
 
     }
 
-
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임

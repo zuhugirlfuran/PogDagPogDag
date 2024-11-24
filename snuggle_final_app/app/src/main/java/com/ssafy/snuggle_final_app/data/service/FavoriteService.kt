@@ -2,9 +2,9 @@ package com.ssafy.snuggle_final_app.data.service
 
 import com.ssafy.snuggle_final_app.data.model.dto.Favorite
 import com.ssafy.snuggle_final_app.data.model.dto.FavoriteRequest
+import com.ssafy.snuggle_final_app.data.model.dto.Tagging
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -18,5 +18,8 @@ interface FavoriteService {
 
     // 사용자 즐겨찾기 조회
     @GET("snuggle/favorite/info")
-    suspend fun getUserFavorites(@Query("userId") userId: String): Response<List<Favorite>>
+    suspend fun getFavoriteTaggingList(@Query("userId") userId: String): Response<List<Tagging>>
+
+    @GET("snuggle/favorite/{userId}")
+    suspend fun getUserFavorites(@Path("userId") userId: String): Response<List<Favorite>>
 }
