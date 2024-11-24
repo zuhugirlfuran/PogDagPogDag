@@ -1,5 +1,6 @@
 package com.ssafy.snuggle_final_app.ui.mypage
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,7 +11,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.ApplicationClass.Companion.sharedPreferencesUtil
 import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
 import com.ssafy.snuggle_final_app.mypage.BookmarkFragment
@@ -90,6 +93,22 @@ class MypageFragment : Fragment() {
             transaction.commit()
         }
 
+        //== 로그아웃 ==//
+        binding.mypageBtnLogout.setOnClickListener {
+            logout()
+        }
+    }
+
+    private fun logout() {
+        //preference 지우기
+        ApplicationClass.sharedPreferencesUtil.deleteUser()
+        ApplicationClass.sharedPreferencesUtil.deleteUserCookie()
+
+        //화면이동
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 현재 액티비티 스택을 모두 제거
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     private fun observeViewModel() {
