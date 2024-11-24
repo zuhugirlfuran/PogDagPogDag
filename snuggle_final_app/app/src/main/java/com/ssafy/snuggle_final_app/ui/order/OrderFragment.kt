@@ -1,10 +1,13 @@
 package com.ssafy.snuggle_final_app.ui.order
 
+import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
+
 import OrderViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -16,7 +19,14 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Order
 import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderBinding
+import com.ssafy.snuggle_final_app.ui.main.MainFragment
+import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
+import kr.co.bootpay.Bootpay
+import kr.co.bootpay.enums.PG
+import kr.co.bootpay.enums.UX
+import kr.co.bootpay.model.BootExtra
+import kr.co.bootpay.model.BootUser
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -32,6 +42,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     private lateinit var adapter: OrderAdapter
 
     private val orderViewModel: OrderViewModel by activityViewModels()
+    private val applicationId = "6741ef35cc5274a3ac3fc73f"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +53,12 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 //            this,
 //            OrderViewModelFactory(RetrofitUtil.orderService)
 //        )[OrderViewModel::class.java]
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         // 어댑터 초기화
         initAdapter()
@@ -55,7 +68,16 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 
 
         binding.orderBtn.setOnClickListener {
+            val shoppingList = orderViewModel.shoppingCart.value
+            if (shoppingList.isNullOrEmpty()) {
+                Toast.makeText(context, "장바구니가 비어 있습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
             makeOrder()
+
+            // 부트페이 결제창 열기            
+            openPayment(shoppingList)
         }
 
     }
@@ -155,6 +177,70 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 
     }
 
+    // 부트페이 결제
+    private fun openPayment(shoppingList: List<Cart>) {
+        val totalPrice = shoppingList.sumOf { it.productCnt * it.price }.toDouble()
+        val totalCount = shoppingList.sumOf { it.productCnt }.toInt()
+        val itemNames = shoppingList.map { it.title }
+        val itemName = if (totalCount > 1) {
+            "${itemNames[0]} 외 ${totalCount.toInt() - 1}개"
+        } else {
+            itemNames[0]
+        }
+
+        val bootUser = BootUser().setPhone("010-1234-5678")
+        val bootExtra = BootExtra().setQuotas(intArrayOf(0, 2, 3))
+
+        Bootpay.init(requireActivity())
+            .setApplicationId(applicationId) // 부트페이 Application ID
+            .setPG(PG.KCP) // PG사 선택
+            // .setMethod(Method.KAKAO) // 결제 수단 하나만 설정 가능. 지우면 선택지 중 선택 가능
+            .setContext(requireContext()) // requireContext()로 null 방지
+            .setBootUser(bootUser)
+            .setBootExtra(bootExtra)
+            .setUX(UX.PG_DIALOG) // 결제창 유형
+            .setName(itemName) // 결제할 상품명
+            .setOrderId("1234") // 주문 고유번호. 없으면 에러남
+            .setPrice(totalPrice) // 결제할 금액
+            .onConfirm { message ->
+                Log.d("Bootpay Confirm", message)
+                Bootpay.confirm(message)
+            }
+            .onDone { message ->
+                Log.d("Bootpay Done", "결제 완료: $message")
+//                completeOrderDetails() // 결제완료시 OrderDetail의 complete 상태 변경
+            }
+            .onCancel { message ->
+                Log.d("Bootpay Cancel", "결제 취소: $message")
+            }
+            .onError { message ->
+                Log.d("Bootpay Error", "결제 에러: $message")
+            }
+            .onClose {
+                Log.d("Bootpay Close", "결제창이 닫혔습니다.")
+            }
+            .request()
+    }
+
+//    private fun completeOrderDetails() {
+//        val shoppingList = orderViewModel.shoppingCart.value
+//        shoppingList?.forEach { cart ->
+//            orderViewModel.updateOrderDetail(
+//                OrderDetail(
+//                    orderId = cart.orderId,
+//                    productId = cart.productId,
+//                    quantity = cart.productCnt,
+//                    orderTime = SimpleDateFormat(
+//                        "yyyy-MM-dd HH:mm:ss",
+//                        Locale.getDefault()
+//                    ).format(Date()),
+//                    completed = "Y"
+//                )
+//            )
+//        }
+//    }
+
+
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
@@ -168,3 +254,4 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             View.VISIBLE
     }
 }
+

@@ -10,14 +10,20 @@ import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.chatbot.ChatMessage
 import com.ssafy.snuggle_final_app.databinding.FragmentChatBotBinding
-import okhttp3.*
+import okhttp3.Call
+import okhttp3.Callback
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class ChatBotFragment : Fragment() {
 
@@ -56,7 +62,9 @@ class ChatBotFragment : Fragment() {
             it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.GONE
         }
 
+
         // 여기에 채팅들이 주르륵
+
         adapter = ChatBotAdapter(messages)
         binding.recyclerViewChat.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewChat.adapter = adapter
@@ -70,6 +78,7 @@ class ChatBotFragment : Fragment() {
                 // OpenAI API 호춯
                 callAPI(messageText)
                 // TextView 입력값 지우기
+
                 binding.editTextChat.text.clear()
             }
         }
@@ -209,6 +218,7 @@ class ChatBotFragment : Fragment() {
 
         // Fragment를 벗어나면 메시지 삭제
         messages.clear()
+
         _binding = null
     }
 }

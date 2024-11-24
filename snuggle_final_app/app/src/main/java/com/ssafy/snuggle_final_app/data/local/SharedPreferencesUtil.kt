@@ -31,7 +31,18 @@ class SharedPreferencesUtil(context: Context) {
 
         // id와 name이 빈 문자열이 아닌 경우에만 User 객체를 반환
         return if (!id.isNullOrEmpty() && !name.isNullOrEmpty()) {
-            User(userId = id, password = "", nickname = name,  age = 0, gender = "", path = "", token = "", img = "", stamps = 0, stampList = ArrayList())
+            User(
+                userId = id,
+                password = "",
+                nickname = name,
+                age = 0,
+                gender = "",
+                path = "",
+                token = "",
+                img = "",
+                stamps = 0,
+                stampList = ArrayList()
+            )
         } else {
             User()  // 기본값을 가진 User 객체 반환
         }

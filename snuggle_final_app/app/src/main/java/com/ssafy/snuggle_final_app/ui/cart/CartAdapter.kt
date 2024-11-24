@@ -1,3 +1,6 @@
+
+package com.ssafy.snuggle_final_app.ui.cart
+
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -15,6 +18,7 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 
 class CartAdapter(
     private val context: Context, // 컨텍스트를 명시적으로 전달받음
@@ -88,6 +92,7 @@ class CartAdapter(
             notifyDataSetChanged() // 데이터 갱신
         }
 
+
         return view
     }
 
@@ -108,5 +113,6 @@ class CartAdapter(
         shoppingList.clear()
         shoppingList.addAll(newShoppingList)
         notifyDataSetChanged()
+
     }
 }

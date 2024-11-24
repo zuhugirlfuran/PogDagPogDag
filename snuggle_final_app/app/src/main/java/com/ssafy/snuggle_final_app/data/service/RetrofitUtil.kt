@@ -1,6 +1,7 @@
 package com.ssafy.snuggle_final_app.data.service
 
 import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.fcm.FirebaseTokenService
 
 class RetrofitUtil {
     companion object {
@@ -12,6 +13,9 @@ class RetrofitUtil {
         val taggingService = ApplicationClass.retrofit.create(TaggingService::class.java)
         val favoriteService = ApplicationClass.retrofit.create(FavoriteService::class.java)
         val categoryService = ApplicationClass.retrofit.create(CategoryService::class.java)
+
+        val notificationService = ApplicationClass.retrofit.create(NotificationService::class.java)
+        val fcmService = ApplicationClass.retrofit.create(FirebaseTokenService::class.java)
 
     }
 }

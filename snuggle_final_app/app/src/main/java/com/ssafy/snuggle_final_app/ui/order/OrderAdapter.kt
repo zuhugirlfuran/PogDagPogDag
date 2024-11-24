@@ -1,4 +1,5 @@
-package com.ssafy.snuggle_final_app.ui.order
+
+package com.ssafy.snuggle_final_app.ui.cart
 
 import android.content.Context
 import android.view.LayoutInflater
