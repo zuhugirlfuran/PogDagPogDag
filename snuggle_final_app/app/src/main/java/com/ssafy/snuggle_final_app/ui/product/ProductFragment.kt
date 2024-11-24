@@ -34,7 +34,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         }
     }
 
-    //    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,9 +43,10 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         observeViewModel()
         observeCategoryViewModel()
         observeSortedViewModel()
+        observeProductByCategory()
 
         // 상품 리스트 데이터 가져오기
-        productViewModel.getProductList()
+        //  productViewModel.getProductList()
         // 카테고리 데이터 가져오기
         categoryViewModel.getCategoryList()
 
@@ -80,18 +80,25 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             }
         }
 
-        // 상품 id에 따른 info 불러오기
-//        productViewModel.productInfo.observe(viewLifecycleOwner) { productInfo ->
-//           productInfo?.let {
-//                 mainActivity.addToStackFragment(ProductDetailFragment())
-//            }
-//        }
     }
 
     private fun observeSortedViewModel() {
         productViewModel.sortedProductList.observe(viewLifecycleOwner) { sortedProducts ->
             if (sortedProducts != null) {
                 adapter.submitList(sortedProducts) // RecyclerView 어댑터 갱신
+            }
+        }
+    }
+
+    private fun observeProductByCategory() {
+        categoryViewModel.filteredProductList.observe(viewLifecycleOwner) { productByCategory ->
+            if (productByCategory.isNullOrEmpty()) {
+                Log.d("ProductFragment", "No products found for selected category")
+                Toast.makeText(requireContext(), "선택된 카테고리의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
+//                adapter.submitList(emptyList())
+            } else {
+                Log.d("ProductFragment", "Updating product list: $productByCategory")
+                adapter.submitList(productByCategory)
             }
         }
     }
@@ -138,13 +145,22 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             ) {
                 if (position == 0) {
                     // 카테고리 선택 안했을 때
+                    productViewModel.getProductList()
                 } else {
                     // 카테고리 선택 시 처리 로직
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 카테고리: ${categoryNames[position]}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    val selectedCategoryName = categoryNames[position - 1]
+                    // 카테고리 리스트에서 해당 이름으로 매칭되는 카테고리 찾기
+                    val selectedCategory = categoryViewModel.categoryList.value?.find {
+                        it.categoryName == selectedCategoryName
+                    }
+
+                    // 매칭된 카테고리의 cId로 상품 필터링
+                    if (selectedCategory != null) {
+                        // Toast.makeText(requireContext(), "선택된 카테고리: $position $selectedCategoryName", Toast.LENGTH_SHORT).show()
+                        categoryViewModel.getProductByCategory(selectedCategory.cId)
+                    } else {
+                        Log.e("ProductFragment", "선택된 카테고리가 존재하지 않습니다.")
+                    }
                 }
             }
 
@@ -180,13 +196,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                 id: Long
             ) {
                 if (position > 0) {
-
                     // 선택된 항목 처리 로직
-                    Toast.makeText(
-                        requireContext(),
-                        "선택된 항목: ${fixedItems[position]}",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     applySortOption(fixedItems[position])
                 }
             }
