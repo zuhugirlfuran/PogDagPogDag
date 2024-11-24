@@ -1,40 +1,35 @@
 package com.ssafy.snuggle_final_app.mypage
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
-import com.ssafy.snuggle_final_app.data.model.dto.Like
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentLikedListBinding
+import com.ssafy.snuggle_final_app.ui.mypage.LikeListViewModel
+import com.ssafy.snuggle_final_app.ui.mypage.LikedListAdapter
+import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragment
+import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragmentViewModel
 
 
-class LikedListFragment : Fragment() {
-    private var _binding: FragmentLikedListBinding? = null
-    private val binding get() = _binding!!
+class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
+    FragmentLikedListBinding::bind,
+    R.layout.fragment_liked_list
+) {
+
+    private val likeListViewModel: LikeListViewModel by viewModels()
+    private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
+    private lateinit var adapter: LikedListAdapter
+    private lateinit var mainActivity: MainActivity
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentLikedListBinding.inflate(inflater, container, false)
-
-        val dataList = listOf(
-            Like("id 01", 1, System.currentTimeMillis().toString()),
-            Like("id 01", 1, System.currentTimeMillis().toString()),
-            Like("id 01", 1, System.currentTimeMillis().toString())
-        )
-
-        val adapter = LikedListAdapter(requireContext(), dataList)
-        binding.likeLv.adapter = adapter
-
-        return binding.root
+        mainActivity = context as MainActivity
     }
 
     override fun onResume() {
@@ -42,6 +37,28 @@ class LikedListFragment : Fragment() {
         // Activity의 BottomNavigationView를 숨김
         activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+        likeListViewModel.getLikeProductList(userId)
+
+        likeListViewModel.likeProductList.observe(viewLifecycleOwner) { likeList ->
+            adapter = LikedListAdapter(requireContext(), likeList) { product ->
+                val productId = product.productId
+                Log.d("AdapterClick", "Clicked productId: $productId")
+                if (productId >= 0) { // 유효한 productId만 설정
+                    productViewModel.productId = productId
+                    mainActivity.addToStackFragment(ProductDetailFragment())
+                }
+            }
+            binding.likeLv.adapter = adapter
+        }
+
+    }
+
 
     override fun onStop() {
         super.onStop()
