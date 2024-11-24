@@ -46,7 +46,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         observeProductByCategory()
 
         // 상품 리스트 데이터 가져오기
-        //  productViewModel.getProductList()
+        productViewModel.getProductList()
         // 카테고리 데이터 가져오기
         categoryViewModel.getCategoryList()
 
@@ -94,7 +94,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         categoryViewModel.filteredProductList.observe(viewLifecycleOwner) { productByCategory ->
             if (productByCategory.isNullOrEmpty()) {
                 Log.d("ProductFragment", "No products found for selected category")
-                Toast.makeText(requireContext(), "선택된 카테고리의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
 //                adapter.submitList(emptyList())
             } else {
                 Log.d("ProductFragment", "Updating product list: $productByCategory")
@@ -145,6 +144,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             ) {
                 if (position == 0) {
                     // 카테고리 선택 안했을 때
+                    categoryViewModel.clearFilteredProductList()
                     productViewModel.getProductList()
                 } else {
                     // 카테고리 선택 시 처리 로직
@@ -166,6 +166,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // 아무 것도 선택하지 않았을 때 처리할 로직
+                productViewModel.getProductList()
             }
         }
     }
@@ -208,8 +209,10 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
     }
 
     fun applySortOption(option: String) {
-        val currentProducts = productViewModel.productList.value ?: return
-
+        // 필터링된 상품 리스트 또는 전체 상품 리스트 가져오기
+        val currentProducts = categoryViewModel.filteredProductList.value
+            ?: productViewModel.productList.value
+            ?: return
         val sortedProducts = when (option) {
             "인기순" -> currentProducts.sortedByDescending { it.likeCount } // `popularity`는 가정된 속성
             "신규순" -> currentProducts.sortedByDescending { it.productId }  // `dateAdded`는 가정된 속성
@@ -218,8 +221,12 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             else -> currentProducts
         }
 
-        // 정렬된 데이터 업데이트
-        productViewModel.sortedProductList.value = sortedProducts
+        // 필터링된 상품 데이터 또는 전체 데이터에 따라 업데이트
+        if (categoryViewModel.filteredProductList.value != null) {
+            categoryViewModel.setFilteredProductList(sortedProducts)
+        } else {
+            productViewModel.sortedProductList.value = sortedProducts
+        }
     }
 
 

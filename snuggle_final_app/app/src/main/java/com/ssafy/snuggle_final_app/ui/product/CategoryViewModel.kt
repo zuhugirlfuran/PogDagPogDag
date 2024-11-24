@@ -37,6 +37,14 @@ class CategoryViewModel : ViewModel() {
     private val _filteredProductList = MutableLiveData<List<Product>>()
     val filteredProductList: LiveData<List<Product>> get() = _filteredProductList
 
+    fun setFilteredProductList(products: List<Product>) {
+        _filteredProductList.value = products // 값을 변경할 때 setter 사용
+    }
+
+    fun clearFilteredProductList() {
+        _filteredProductList.value = emptyList() // 필터링을 초기화할 때
+    }
+
     // 카테고리별 상품 불러오기
     fun getProductByCategory(categoryId: Int) {
         viewModelScope.launch {
