@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.snuggle_final_app.data.model.dto.Category
+import com.ssafy.snuggle_final_app.data.model.dto.Product
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
+private const val TAG = "CategoryViewModel"
 class CategoryViewModel : ViewModel() {
 
     private val _categoryList = MutableLiveData<List<Category>>()
     val categoryList: LiveData<List<Category>> = _categoryList
 
+    // 전체 카테고리 목록 불러오기
     fun getCategoryList() {
         viewModelScope.launch {
             safeApiCall({
@@ -26,6 +29,28 @@ class CategoryViewModel : ViewModel() {
                 }
             }, { exception ->
                 Log.e("CategoryList", "모든 카테고리 불러오기 오류: ${exception.message}")
+                _categoryList.value = emptyList()
+            })
+        }
+    }
+
+    private val _filteredProductList = MutableLiveData<List<Product>>()
+    val filteredProductList: LiveData<List<Product>> get() = _filteredProductList
+
+    // 카테고리별 상품 불러오기
+    fun getProductByCategory(categoryId: Int) {
+        viewModelScope.launch {
+            safeApiCall({
+                RetrofitUtil.categoryService.getProductByCategoryId(categoryId)
+            }, { productlist ->
+                Log.d(TAG, "getProductByCategory: $categoryId $productlist")
+                if (productlist.isNotEmpty()) {
+                    _filteredProductList.value = productlist
+                } else {
+                    _filteredProductList.value = emptyList()
+                }
+            }, {exception ->
+                Log.e("Category", "카테고리별 상품 리스트 불러오기 오류: ${exception.message}")
                 _categoryList.value = emptyList()
             })
         }
