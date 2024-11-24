@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderCompleteBinding
 import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
@@ -25,11 +26,14 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
 
         setupObserver()
 
-        // Fragment가 전달받은 인자를 바인딩에 반영
-        binding.orderCompleteAddr.text = arguments?.getString("address") ?: "주소 정보 없음"
-        binding.orderCompleteUserName.text = arguments?.getString("name") ?: "이름 없음"
-        binding.orderCompletePhone.text = arguments?.getString("phone") ?: "연락처 없음"
 
+        // Fragment가 전달받은 인자를 바인딩에 반영
+        val userName = ApplicationClass.sharedPreferencesUtil.getUser().nickname
+        binding.orderCompleteAddr.text = "사용자 주소"
+        binding.orderCompleteUserName.text = userName
+        binding.orderCompletePhone.text = "010-1111-1111"
+
+        // 주문 완료 버튼
         binding.orderCompleteBtn.setOnClickListener {
             // 주문 완료 후 어댑터 리스트 초기화
             adapter.updateData(emptyList())

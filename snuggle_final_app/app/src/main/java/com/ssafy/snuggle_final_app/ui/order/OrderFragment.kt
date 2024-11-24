@@ -1,13 +1,10 @@
 package com.ssafy.snuggle_final_app.ui.order
 
-import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
-
 import OrderViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -19,8 +16,7 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Order
 import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderBinding
-import com.ssafy.snuggle_final_app.ui.main.MainFragment
-import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 import kr.co.bootpay.Bootpay
 import kr.co.bootpay.enums.PG
@@ -47,12 +43,6 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainActivity = context as MainActivity
-
-        // OrderViewModel 초기화
-//        orderViewModel = ViewModelProvider(
-//            this,
-//            OrderViewModelFactory(RetrofitUtil.orderService)
-//        )[OrderViewModel::class.java]
 
     }
 

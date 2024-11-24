@@ -1,31 +1,30 @@
 package com.ssafy.snuggle_final_app.ui.mypage
 
+import OrderListFragment
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.ApplicationClass.Companion.sharedPreferencesUtil
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentMypageBinding
 import com.ssafy.snuggle_final_app.mypage.BookmarkFragment
 import com.ssafy.snuggle_final_app.mypage.LikedListFragment
-import com.ssafy.snuggle_final_app.mypage.OrderListFragment
 
 private const val TAG = "MypageFragment_싸피"
 
-class MypageFragment : Fragment() {
-    private var _binding: FragmentMypageBinding? = null
-    private val binding get() = _binding!!
+class MypageFragment : BaseFragment<FragmentMypageBinding>(
+    FragmentMypageBinding::bind,
+    R.layout.fragment_mypage
+) {
 
     private lateinit var mainActivity: MainActivity
 
@@ -38,13 +37,6 @@ class MypageFragment : Fragment() {
         mainActivity = context as MainActivity
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentMypageBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,7 +113,8 @@ class MypageFragment : Fragment() {
 
         //화면이동
         val intent = Intent(requireContext(), LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 현재 액티비티 스택을 모두 제거
+        intent.flags =
+            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // 현재 액티비티 스택을 모두 제거
         startActivity(intent)
         requireActivity().finish()
     }
@@ -182,9 +175,4 @@ class MypageFragment : Fragment() {
         menuNotification.setBackgroundColor(Color.parseColor("#FFFAE6"))
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.snuggle_final_app.data.model.dto.User
 import com.ssafy.snuggle_final_app.data.model.response.UserResponse
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
@@ -23,13 +22,8 @@ class MyPageViewModel : ViewModel() {
             safeApiCall({
                 RetrofitUtil.userService.getUserInfo(userId)
             }, { userRes ->
-                if (userRes != null) {
-                    Log.d(TAG, "getUserInfo: userRes=${userRes.user}")
-                    _userInfo.value = userRes
-                } else {
-                    Log.d(TAG, "getUserInfo: userRes is null")
-                    _userInfo.value = UserResponse(User())
-                }
+                Log.d(TAG, "getUserInfo: userRes=${userRes.user}")
+                _userInfo.value = userRes
             }, { exception ->
                 Log.e(TAG, "Error in getUserInfo: ${exception.message}")
             })

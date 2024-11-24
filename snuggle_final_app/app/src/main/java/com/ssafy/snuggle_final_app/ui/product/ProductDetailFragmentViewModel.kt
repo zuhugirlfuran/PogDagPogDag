@@ -163,6 +163,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
         }
     }
 
+    // 좋아요 추가
     fun likeProduct(like: Like) {
         Log.d("LikeRequest", "Sending Like object: $like")
         viewModelScope.launch {
@@ -193,6 +194,7 @@ class ProductDetailFragmentViewModel(private val handle: SavedStateHandle) : Vie
         }
     }
 
+    // 좋아요 여부 확인
     fun isLikeStatus(userId: String, productId: Int) {
         viewModelScope.launch {
             safeApiCall(
