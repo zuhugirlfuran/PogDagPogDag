@@ -95,7 +95,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             if (productByCategory.isNullOrEmpty()) {
                 Log.d("ProductFragment", "No products found for selected category")
                 Toast.makeText(requireContext(), "선택된 카테고리의 상품이 없습니다.", Toast.LENGTH_SHORT).show()
-                adapter.submitList(emptyList())
+//                adapter.submitList(emptyList())
             } else {
                 Log.d("ProductFragment", "Updating product list: $productByCategory")
                 adapter.submitList(productByCategory)
@@ -149,8 +149,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                 } else {
                     // 카테고리 선택 시 처리 로직
                     val selectedCategoryName = categoryNames[position - 1]
-                    Toast.makeText(requireContext(), "$selectedCategoryName", Toast.LENGTH_SHORT)
-                        .show()
                     // 카테고리 리스트에서 해당 이름으로 매칭되는 카테고리 찾기
                     val selectedCategory = categoryViewModel.categoryList.value?.find {
                         it.categoryName == selectedCategoryName
@@ -158,7 +156,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
                     // 매칭된 카테고리의 cId로 상품 필터링
                     if (selectedCategory != null) {
-                        Toast.makeText(requireContext(), "선택된 카테고리: $position $selectedCategoryName", Toast.LENGTH_SHORT).show()
+                        // Toast.makeText(requireContext(), "선택된 카테고리: $position $selectedCategoryName", Toast.LENGTH_SHORT).show()
                         categoryViewModel.getProductByCategory(selectedCategory.cId)
                     } else {
                         Log.e("ProductFragment", "선택된 카테고리가 존재하지 않습니다.")
