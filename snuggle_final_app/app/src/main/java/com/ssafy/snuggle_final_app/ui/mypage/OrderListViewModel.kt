@@ -24,10 +24,10 @@ class OrderListViewModel : ViewModel() {
                 RetrofitUtil.userService.getUserInfo(userId)
             }, { userResponse ->
                 userResponse.let {
-                    // userResonse의 order 리스트 저장
                     _orderList.value = it.order
                     Log.e(TAG, "유저 객체의 주문 리스트 불러오기 : ${it.order}")
-                }
+                } ?: Log.e(TAG, "유저 객체의 주문 리스트가 비어 있습니다.")
+
             }, { exception ->
                 Log.e(TAG, "유저 객체의 주문 리스트 불러오기 오류: ${exception.message}")
             })

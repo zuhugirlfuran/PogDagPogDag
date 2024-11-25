@@ -1,4 +1,4 @@
-package com.ssafy.smartstore_jetpack.base
+package com.ssafy.snuggle_final_app.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

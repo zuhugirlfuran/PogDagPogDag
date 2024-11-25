@@ -21,14 +21,11 @@ class MyPageViewModel : ViewModel() {
         viewModelScope.launch {
             safeApiCall({
                 RetrofitUtil.userService.getUserInfo(userId)
-            }, { response ->
-                if (response.isSuccessful) {
-                    val userRes = response.body()
-                    Log.d(TAG, "API Success: $userRes")
-                    _userInfo.value = userRes
-                } else {
-                    Log.e(TAG, "API Error: ${response.errorBody()?.string()}")
-                }
+            }, { userRes ->
+
+                Log.d(TAG, "API Success: $userRes")
+                _userInfo.value = userRes
+
             }, { exception ->
                 Log.e(TAG, "API Exception: ${exception.message}")
             })
