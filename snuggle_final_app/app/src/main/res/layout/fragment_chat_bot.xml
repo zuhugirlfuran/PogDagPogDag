@@ -37,6 +37,7 @@
         android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal"
+        android:layout_marginBottom="30dp"
         android:padding="10dp">
 
         <ImageButton
