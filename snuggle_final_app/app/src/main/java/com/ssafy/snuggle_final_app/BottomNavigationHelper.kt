@@ -1,5 +1,3 @@
-package com.ssafy.snuggle_final_app.ui.navigation
-
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -12,6 +10,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.animation.AnimatorSetCompat.playTogether
 import com.ssafy.snuggle_final_app.R
 
 class BottomNavigationHelper(
@@ -19,6 +18,8 @@ class BottomNavigationHelper(
     private val fragmentManager: FragmentManager,
     private val mainFrameId: Int
 ) {
+    // 현재 활성화된 탭을 추적하기 위한 변수
+    private var activeTab: LinearLayout? = null
 
     fun setup(
         backIndicator: View,
@@ -29,7 +30,7 @@ class BottomNavigationHelper(
         val defaultTabConfig = tabs.find { it.first == defaultTab }
         defaultTabConfig?.let { (tabLayout, indicator, content) ->
             val (icon, label, fragment) = content
-            activateTab(indicator, icon, label, backIndicator, tabLayout)
+            activateTab(indicator, icon, label, backIndicator, tabLayout, isFirstClick = true)
             // ViewTreeObserver를 사용해 레이아웃이 준비된 후 위치 이동
             backIndicator.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -38,6 +39,7 @@ class BottomNavigationHelper(
                 }
             })
             replaceFragment(fragment)
+            activeTab = tabLayout
         }
 
         // 클릭 리스너 설정
@@ -46,9 +48,12 @@ class BottomNavigationHelper(
             val (icon, label, fragment) = content
 
             tabLayout.setOnClickListener {
-                activateTab(indicator, icon, label, backIndicator, tabLayout)
-                deactivateAllExcept(indicator, icon, label, tabs)
-                replaceFragment(fragment)
+                if (activeTab != tabLayout) { // 활성화된 탭이 변경될 때만 동작
+                    activateTab(indicator, icon, label, backIndicator, tabLayout, isFirstClick = true)
+                    deactivateAllExcept(indicator, icon, label, tabs)
+                    replaceFragment(fragment)
+                    activeTab = tabLayout
+                }
             }
         }
     }
@@ -58,7 +63,8 @@ class BottomNavigationHelper(
         icon: ImageView,
         label: TextView,
         backIndicator: View,
-        targetTab: View
+        targetTab: View,
+        isFirstClick: Boolean
     ) {
         indicator.visibility = View.VISIBLE
         backIndicator.visibility = View.VISIBLE
@@ -72,33 +78,15 @@ class BottomNavigationHelper(
             R.id.mypageIcon2 -> icon.setImageResource(R.drawable.mypage_active_icon)
         }
 
-        // 애니메이션
-        moveBackIndicator(backIndicator, targetTab)
-        applyAnimations(indicator, icon)
-        moveIndicatorUp(indicator)
-        label.setTextColor(ContextCompat.getColor(context, R.color.black))
-    }
-
-    private fun moveIndicatorUp(indicator: View) {
-        // 목표 Y 위치 (위로 30dp 이동)
-        val targetY = indicator.translationY - 37f
-        val targetX=indicator.translationX - 20f
-
-        // Y 위치 애니메이션
-        val animatorY = ObjectAnimator.ofFloat(indicator, "translationY", targetY)
-        // X 위치 애니메이션
-        val animatorX = ObjectAnimator.ofFloat(indicator, "translationX", targetX)
-
-        // 애니메이션 병합
-        AnimatorSet().apply {
-            playTogether(animatorY, animatorX) // X와 Y 이동 애니메이션 함께 실행
-            duration = 300 // 애니메이션 지속 시간
-            start()
+        // 애니메이션: 첫 번째 클릭일 때만 실행
+        if (isFirstClick) {
+            moveBackIndicator(backIndicator, targetTab)
+            applyAnimations(indicator, icon)
+            moveIndicatorUp(indicator)
         }
 
-        Log.d("IndicatorAnimation", "Moving indicator up to Y: $targetY")
+        label.setTextColor(ContextCompat.getColor(context, R.color.black))
     }
-
 
     private fun deactivateTab(indicator: View, icon: ImageView, label: TextView) {
         indicator.visibility = View.INVISIBLE
@@ -160,6 +148,29 @@ class BottomNavigationHelper(
             start()
         }
     }
+
+    private fun moveIndicatorUp(indicator: View) {
+        // 목표 Y 위치 (위로 37f 이동)
+        val targetY = indicator.translationY - 37f
+        // 목표 X 위치 (X축으로 20f 이동)
+        val targetX = indicator.translationX - 20f
+
+        // Y 위치 애니메이션
+        val animatorY = ObjectAnimator.ofFloat(indicator, "translationY", targetY)
+        // X 위치 애니메이션
+        val animatorX = ObjectAnimator.ofFloat(indicator, "translationX", targetX)
+
+        // 애니메이션 병합
+        AnimatorSet().apply {
+            playTogether(animatorY, animatorX) // X와 Y 이동 애니메이션 함께 실행
+            duration = 300 // 애니메이션 지속 시간
+            start()
+        }
+
+        // 디버깅 로그
+        Log.d("IndicatorAnimation", "Moving indicator to X: $targetX, Y: $targetY")
+    }
+
 
     private fun replaceFragment(fragment: Fragment) {
         fragmentManager.beginTransaction()
