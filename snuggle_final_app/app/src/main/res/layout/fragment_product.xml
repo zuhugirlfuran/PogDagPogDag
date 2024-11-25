@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
-    android:layout_marginBottom="30dp">
+    android:paddingBottom="80dp">
 
     <EditText
         android:id="@+id/product_et_search"
@@ -62,13 +62,15 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp"
         android:horizontalSpacing="10dp"
         android:numColumns="3"
         android:verticalSpacing="28dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/product_dropdown_menu">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/product_dropdown_menu"
+        tools:layout_editor_absoluteX="16dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
