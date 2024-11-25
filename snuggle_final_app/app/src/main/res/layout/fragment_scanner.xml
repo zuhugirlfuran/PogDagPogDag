@@ -8,8 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingLeft="33dp"
-    android:paddingRight="33dp"
-    tools:context=".scanner.ScannerFragment">
+    android:paddingRight="33dp">
 
 
     <pl.droidsonroids.gif.GifImageView

@@ -8,16 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import com.ssafy.snuggle_final_app.databinding.FragmentScannerVideoBinding
 
-class ScannerVideoFragment : Fragment() {
-    private var _binding: FragmentScannerVideoBinding? = null
-    private val binding get() = _binding!!
+class ScannerVideoFragment : BaseFragment<FragmentScannerVideoBinding>(
+    FragmentScannerVideoBinding::bind,
+    R.layout.fragment_scanner_video
+) {
+
     private val viewModel: ScannerViewModel by viewModels()
 
     private lateinit var videoSrc: String
@@ -58,11 +62,8 @@ class ScannerVideoFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentScannerVideoBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         //== Video 설정 ==//
         setupVideoPlayer()
@@ -87,8 +88,6 @@ class ScannerVideoFragment : Fragment() {
                 Log.e("BOOKMARK", "사용자 ID가 비어있습니다.")
             }
         }
-
-        return binding.root
     }
 
     private fun setupVideoPlayer() {
@@ -131,9 +130,4 @@ class ScannerVideoFragment : Fragment() {
         }
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

@@ -33,6 +33,7 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
         binding.orderCompleteUserName.text = userName
         binding.orderCompletePhone.text = "010-1111-1111"
 
+
         // 주문 완료 버튼
         binding.orderCompleteBtn.setOnClickListener {
             // 주문 완료 후 어댑터 리스트 초기화
@@ -40,7 +41,7 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
 
             // ViewModel의 쇼핑카트도 초기화
             orderViewModel.resetOrderState()
-            Toast.makeText(requireContext(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             // 메인 화면으로 이동
             parentFragmentManager.beginTransaction()
                 .replace(R.id.main_frameLayout, MypageFragment())

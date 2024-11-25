@@ -2,6 +2,7 @@ package com.ssafy.snuggle_final_app.mypage
 
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
@@ -57,13 +58,13 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
 }

@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.model.dto.Tagging
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import com.ssafy.snuggle_final_app.data.service.TaggingService
@@ -22,19 +23,10 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 
 
-class ScannerFragment : Fragment() {
-    private var _binding: FragmentScannerBinding? = null
-    private val binding get() = _binding!!
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentScannerBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
+class ScannerFragment : BaseFragment<FragmentScannerBinding>(
+    FragmentScannerBinding::bind,
+    R.layout.fragment_scanner
+) {
 
     //== tag 데이터에 따라서 fragment 전환하기 ==//
     fun handleNfcTag(payload: String) {

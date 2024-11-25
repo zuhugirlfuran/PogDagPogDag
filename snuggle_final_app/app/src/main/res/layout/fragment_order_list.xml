@@ -3,13 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:orientation="vertical"
     android:paddingLeft="25dp"
     android:paddingTop="10dp"
-    android:paddingRight="25dp"
-    tools:context=".mypage.OrderListFragment">
+    android:paddingRight="25dp">
 
     <TextView
         android:id="@+id/orderlist_tv_title"
@@ -20,12 +17,24 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-    <ListView
-        android:id="@+id/orderlist_lv"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipChildren="false"
         android:clipToPadding="false"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="20dp" />
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/orderlist_lv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:divider="@android:color/transparent"
+            android:layout_marginBottom="20dp"
+            android:dividerHeight="20dp" />
+    </LinearLayout>
+
+
 </LinearLayout>

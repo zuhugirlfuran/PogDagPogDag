@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.chatbot.ChatMessage
 import com.ssafy.snuggle_final_app.databinding.FragmentChatBotBinding
 import okhttp3.Call
@@ -28,10 +29,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ChatBotFragment : Fragment() {
-
-    private var _binding: FragmentChatBotBinding? = null
-    private val binding get() = _binding!!
+class ChatBotFragment : BaseFragment<FragmentChatBotBinding>(
+    FragmentChatBotBinding::bind,
+    R.layout.fragment_chat_bot
+) {
 
     private lateinit var adapter: ChatBotAdapter
     private val messages: MutableList<ChatMessage> = mutableListOf()
@@ -47,13 +48,6 @@ class ChatBotFragment : Fragment() {
     private val apiKey =
         "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"
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentChatBotBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +56,7 @@ class ChatBotFragment : Fragment() {
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.GONE
-            it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.GONE
+            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.GONE
         }
 
 
@@ -228,12 +222,11 @@ class ChatBotFragment : Fragment() {
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.VISIBLE
-            it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.VISIBLE
+            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.VISIBLE
         }
 
         // Fragment를 벗어나면 메시지 삭제
         messages.clear()
 
-        _binding = null
     }
 }
