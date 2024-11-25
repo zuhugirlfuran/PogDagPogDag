@@ -58,7 +58,7 @@
                         android:id="@+id/mypage_tv_rank"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lv.1"
+                        android:text="Lv.0"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -82,6 +82,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/mypage_tv_coupon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
@@ -109,7 +110,7 @@
                         android:id="@+id/mypage_tv_stamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="5"
+                        android:text="0"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

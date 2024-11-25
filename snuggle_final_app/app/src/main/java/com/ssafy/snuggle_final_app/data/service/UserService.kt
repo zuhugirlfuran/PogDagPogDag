@@ -15,7 +15,7 @@ interface UserService {
     suspend fun insert(@Body body: User): Boolean
 
     @GET("snuggle/user/info")
-    suspend fun getUserInfo(@Query("userId") id: String): UserResponse
+    suspend fun getUserInfo(@Query("userId", encoded = true) id: String): UserResponse
 
     @GET("snuggle/user/isUsed")
     suspend fun isUsedId(@Query("userId") id: String): Boolean
