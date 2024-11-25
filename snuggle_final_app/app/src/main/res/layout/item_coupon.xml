@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:paddingTop="21dp"
+        android:paddingBottom="21dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:layout_width="340dp"
+        android:layout_height="120dp"
+        android:background="@drawable/coupon_form"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coupon_tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="첫 방문 이벤트 쿠폰"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사용 기한 | "
+                android:textColor="#959595"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/coupon_tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2024.12.25 23:59 까지"
+                android:textColor="#959595"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="할인 금액 | "
+                android:textColor="#959595"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/coupon_tv_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10% 할인"
+                android:textColor="#959595"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

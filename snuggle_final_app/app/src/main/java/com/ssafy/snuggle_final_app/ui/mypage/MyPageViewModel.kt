@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.data.model.dto.Coupon
 import com.ssafy.snuggle_final_app.data.model.response.UserResponse
+import com.ssafy.snuggle_final_app.data.service.CouponService
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil
 import kotlinx.coroutines.launch
 
@@ -32,6 +35,21 @@ class MyPageViewModel : ViewModel() {
         }
     }
 
+    // 쿠폰 정보 가져오기
+    private val _coupons = MutableLiveData<List<Coupon>>()
+    val coupons: LiveData<List<Coupon>> get() = _coupons
+
+    fun getCoupons(userId: String) {
+        viewModelScope.launch {
+            try {
+                // ApplicationClass의 couponService를 통해 API 호출
+                val couponList = ApplicationClass.couponService.getCouponByUserId(userId)
+                _coupons.value = couponList
+            } catch (e: Exception) {
+                Log.e(TAG, "Error fetching coupons: ${e.message}")
+            }
+        }
+    }
 
 
     // 공통으로 API 호출을 안전하게 처리하는 함수
