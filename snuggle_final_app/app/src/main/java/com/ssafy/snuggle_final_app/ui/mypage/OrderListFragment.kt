@@ -1,5 +1,6 @@
 import android.os.Bundle
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
@@ -15,6 +16,12 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(
 
     private lateinit var adapter: OrderListAdapter
     private val orderListViewModel: OrderListViewModel by viewModels()
+
+    override fun onResume() {
+        super.onResume()
+        // Activity의 BottomNavigationView를 숨김
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
