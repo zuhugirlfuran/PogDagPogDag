@@ -3,8 +3,8 @@ package com.ssafy.snuggle_final_app.data.model.dto
 import java.io.Serializable
 
 data class Comment(
-    val commentId: Int = 0,
+    val comment: String,
     val productId: Int,
     val userId: String,
-    val comment: String
-)
+    val commentId: Int = -1
+) : Serializable

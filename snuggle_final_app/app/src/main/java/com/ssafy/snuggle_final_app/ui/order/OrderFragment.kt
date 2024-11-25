@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
@@ -162,11 +161,30 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
         // 주문 완료 화면으로 이동
         val orderCompleteFragment = OrderCompleteFragment().apply {
             arguments = Bundle().apply {
-                putString("address", binding.orderEtAddr.text.toString())
-                putString("name", binding.orderEtName.text.toString())
-                putString("phone", binding.orderEtPhone.text.toString())
+                putString(
+                    "address",
+                    if (binding.orderTvAddr.visibility == View.VISIBLE)
+                        binding.orderTvAddr.text.toString()
+                    else
+                        binding.orderEtAddr.text.toString()
+                )
+                putString(
+                    "name",
+                    if (binding.orderTvName.visibility == View.VISIBLE)
+                        binding.orderTvName.text.toString()
+                    else
+                        binding.orderEtName.text.toString()
+                )
+                putString(
+                    "phone",
+                    if (binding.orderTvPhone.visibility == View.VISIBLE)
+                        binding.orderTvPhone.text.toString()
+                    else
+                        binding.orderEtPhone.text.toString()
+                )
             }
         }
+
         mainActivity.replaceFragment(orderCompleteFragment)
     }
 
@@ -227,23 +245,15 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     }
 
     private fun makeAddress() {
-        val address = if (binding.orderTvAddr.visibility == View.VISIBLE) {
-            binding.orderTvAddr.text.toString()
-        } else {
-            binding.orderEtAddr.text.toString()
+        // 이미 주소가 있는 경우 새 주소를 생성하지 않음
+        if (binding.orderTvAddr.visibility == View.VISIBLE) {
+            Log.d(TAG, "makeAddress: 이미 주소가 존재함, 새 주소 생성 안 함")
+            return
         }
 
-        val name = if (binding.orderTvName.visibility == View.VISIBLE) {
-            binding.orderTvName.text.toString()
-        } else {
-            binding.orderEtName.text.toString()
-        }
-
-        val phone = if (binding.orderTvPhone.visibility == View.VISIBLE) {
-            binding.orderTvPhone.text.toString()
-        } else {
-            binding.orderEtPhone.text.toString()
-        }
+        val address = binding.orderEtAddr.text.toString()
+        val name = binding.orderEtName.text.toString()
+        val phone = binding.orderEtPhone.text.toString()
 
         // 주소 데이터 검증
         if (address.isEmpty() || name.isEmpty() || phone.isEmpty()) {
@@ -264,6 +274,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
         // 주소 삽입
         addressViewModel.insertAddress(newAddress)
     }
+
 
     // 부트페이 결제
     private fun openPayment(shoppingList: List<Cart>) {

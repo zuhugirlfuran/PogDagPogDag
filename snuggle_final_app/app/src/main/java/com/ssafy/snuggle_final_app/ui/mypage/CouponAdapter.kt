@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.snuggle_final_app.data.model.dto.Coupon
 import com.ssafy.snuggle_final_app.databinding.ItemCouponBinding
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
 
 class CouponAdapter(private val coupons: List<Coupon>) :
     RecyclerView.Adapter<CouponAdapter.CouponViewHolder>() {
@@ -21,7 +21,7 @@ class CouponAdapter(private val coupons: List<Coupon>) :
             val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault())
             try {
                 val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                    .parse(coupon.couponEnd)
+                    .parse(coupon.couponEnd.toString())
                 val formattedDate = dateFormat.format(date!!)
                 binding.couponTvDate.text = "$formattedDate 까지"
             } catch (e: Exception) {

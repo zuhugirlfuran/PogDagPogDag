@@ -113,8 +113,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
     private fun setupBanner() {
         val bannerAdapter = BannerAdapter(this)
-        bannerAdapter.addBannerFragment(Banner1Fragment())
-        bannerAdapter.addBannerFragment(Banner2Fragment())
+        bannerAdapter.addBannerFragment(Banner1Fragment())  // 배너 1
+        bannerAdapter.addBannerFragment(Banner2Fragment())  // 배너 2
 
         viewPager2 = binding.viewPagerBanner
         viewPager2.adapter = bannerAdapter

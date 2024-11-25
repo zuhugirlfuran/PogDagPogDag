@@ -16,7 +16,7 @@
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="푸딩거북이"
+        android:text="푸딩거북이인데요 길이가 너무 길어서 내려갈거야"
         android:textColor="#000"
         android:textStyle="bold"
         android:textSize="15sp"
