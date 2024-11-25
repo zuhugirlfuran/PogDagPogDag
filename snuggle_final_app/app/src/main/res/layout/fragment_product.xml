@@ -33,6 +33,7 @@
         android:src="@drawable/product_btn_search"
         app:layout_constraintBottom_toBottomOf="@id/product_et_search"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="5dp"
         app:layout_constraintStart_toEndOf="@+id/product_et_search"
         app:layout_constraintTop_toTopOf="@id/product_et_search" />
 
