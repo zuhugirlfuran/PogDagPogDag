@@ -5,6 +5,7 @@ import android.app.Application
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.data.service.CouponService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -24,6 +25,7 @@ class ApplicationClass : Application() {
         // 전역변수 문법을 통해 Retrofit 인스턴스를 앱 실행시 1번만 생성하여 사용 (Singleton)
         lateinit var retrofit: Retrofit
         lateinit var sharedPreferencesUtil: SharedPreferencesUtil
+        lateinit var couponService:CouponService
     }
 
     override fun onCreate() {
@@ -49,6 +51,10 @@ class ApplicationClass : Application() {
         // 초기화
         sharedPreferencesUtil = SharedPreferencesUtil(applicationContext)
 
+    }
+
+    val couponService: CouponService by lazy {
+        retrofit.create(CouponService::class.java)
     }
 
     //GSon은 엄격한 json type을 요구하는데, 느슨하게 하기 위한 설정.
