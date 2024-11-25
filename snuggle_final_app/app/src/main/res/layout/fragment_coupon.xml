@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingTop="30dp"
+    android:paddingBottom="30dp"
+    android:background="@drawable/coupon_background"
     tools:context=".ui.mypage.CouponFragment">
 
     <TextView
@@ -12,28 +15,14 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:layout_marginLeft="20dp"
+        android:layout_marginBottom="30dp"
         android:text="쿠폰"
         android:textSize="35sp"/>
     
-    <ImageView
-        android:layout_marginTop="15dp"
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/coupon_list"
         android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="120dp"
-        android:src="@drawable/coupon_first_visit"/>
-
-    <ImageView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="120dp"
-        android:src="@drawable/coupon_first_visit"/>
-
-    <ImageView
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_height="120dp"
-        android:src="@drawable/coupon_first_visit"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

@@ -63,13 +63,10 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
         Log.d(TAG, "onViewCreated: ${userId}")
 
 
-        if (userId.isEmpty()) {
-            Log.e(TAG, "로그인된 사용자 ID를 찾을 수 없습니다.")
-            return
-        } else {
-
+        if (userId.isNotEmpty()) {
+            // 쿠폰 데이터 가져오기
+            viewModel.getCoupons(userId)
         }
-
 
         //=== 주문 내역으로 이동==//
         binding.mypageLlOrderlist.setOnClickListener {
@@ -102,8 +99,12 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
 
         //== 쿠폰 ==//
         binding.mypageBtnCoupon.setOnClickListener {
-            mainActivity.replaceFragment(CouponFragment())
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.replace(R.id.main_frameLayout, CouponFragment())
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
+
     }
 
     private fun logout() {
@@ -133,7 +134,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
                 var rank = stampNum / 10 + 1
                 binding.mypageTvRank.text = "Lv." + rank.toString()
             }
+        }
 
+        // 쿠폰 데이터 관찰
+        viewModel.coupons.observe(viewLifecycleOwner) { coupons ->
+            if (coupons != null) {
+                val availableCoupons = coupons.count { !it.couponUse }
+                binding.mypageTvCoupon.text = availableCoupons.toString()
+            } else {
+                binding.mypageTvCoupon.text = "0"
+            }
         }
     }
 
