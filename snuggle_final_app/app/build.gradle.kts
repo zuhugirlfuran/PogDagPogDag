@@ -94,4 +94,6 @@ dependencies {
     // Beacon 관련
     implementation ("org.altbeacon:android-beacon-library:2.19")
 
+
+
 }

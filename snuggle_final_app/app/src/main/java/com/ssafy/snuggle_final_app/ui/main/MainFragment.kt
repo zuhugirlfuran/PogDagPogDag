@@ -1,25 +1,26 @@
 package com.ssafy.snuggle_final_app.ui.main
 
-import android.annotation.SuppressLint
+import BannerAdapter
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.snuggle_final_app.base.BaseFragment
+import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
+import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentMainBinding
+import com.ssafy.snuggle_final_app.ui.banner.Banner1Fragment
 import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragment
 import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragmentViewModel
 import com.ssafy.snuggle_final_app.ui.search.SearchFragment
 
 private const val TAG = "MainFragment"
+
 class MainFragment : BaseFragment<FragmentMainBinding>(
     FragmentMainBinding::bind,
     R.layout.fragment_main
@@ -36,6 +37,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
     private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
 //    private val searchViewModel: SearchViewModel by activityViewModels()
 
+    // ViewPager2 배너
+    private lateinit var viewPager2: ViewPager2
+    private val handler = Handler(Looper.getMainLooper())
+    private val pagerRunnable = object : Runnable {
+        override fun run() {
+            val currentItem = viewPager2.currentItem
+            val nextItem = (currentItem + 1) % (viewPager2.adapter?.itemCount ?: 1)
+            viewPager2.setCurrentItem(nextItem, true)
+            handler.postDelayed(this, 2000)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,12 +72,23 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             bannerTransaction.commit()
         }
 
-        binding.bannerLayout.setOnClickListener {
-            val bannerTransaction = parentFragmentManager.beginTransaction()
-            bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
-            bannerTransaction.addToBackStack(null)
-            bannerTransaction.commit()
-        }
+        // 배너 설정
+        setupBanner()
+
+
+//        binding.bannerLayout.setOnClickListener {
+//            val bannerTransaction = parentFragmentManager.beginTransaction()
+//            bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
+//            bannerTransaction.addToBackStack(null)
+//            bannerTransaction.commit()
+//        }
+
+//        val carouselView = findViewById<CarouselView>(R.id.carouselView)
+//        carouselView.pageCount = images.size // 이미지 배열 크기
+//        carouselView.setImageListener { position, imageView ->
+//            imageView.setImageResource(images[position])
+//        }
+
 
         // 어댑터 초기화
         bestProductAdapter()
@@ -87,11 +110,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
     }
 
+
+    private fun setupBanner() {
+        val bannerAdapter = BannerAdapter(this)
+        bannerAdapter.addBannerFragment(Banner1Fragment())
+        bannerAdapter.addBannerFragment(Banner2Fragment())
+
+        viewPager2 = binding.viewPagerBanner
+        viewPager2.adapter = bannerAdapter
+
+        // 배너 자동 스크롤 시작
+        handler.postDelayed(pagerRunnable, 3000)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacks(pagerRunnable)  // 리소스 누수 방지
+    }
+
+
     private fun observeViewModel() {
         productViewModel.bestProductList.observe(viewLifecycleOwner) { bestProducts ->
             if (bestProducts != null) {
                 // 데이터 3개 제한
-                val limitedBestProducts = if (bestProducts.size > 3) bestProducts.subList(0, 3) else bestProducts
+                val limitedBestProducts =
+                    if (bestProducts.size > 3) bestProducts.subList(0, 3) else bestProducts
                 bestAdapter.submitList(limitedBestProducts)
             }
         }
@@ -99,7 +142,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         productViewModel.newProductList.observe(viewLifecycleOwner) { newProducts ->
             if (newProducts != null) {
                 // 데이터 3개 제한
-                val limitedNewProducts = if (newProducts.size > 3) newProducts.subList(0, 3) else newProducts
+                val limitedNewProducts =
+                    if (newProducts.size > 3) newProducts.subList(0, 3) else newProducts
                 newAdapter.submitList(limitedNewProducts)
             }
         }
