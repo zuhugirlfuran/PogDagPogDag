@@ -7,8 +7,10 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.ssafy.snuggle_final_app.LoginActivity
 import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
@@ -133,6 +135,16 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
                 // 10개 모으면 rank up 하는걸로 설정 - 기본 레벨은 1
                 var rank = stampNum / 10 + 1
                 binding.mypageTvRank.text = "Lv." + rank.toString()
+
+                // 프로필 이미지 설정
+                val profileImageView = binding.root.findViewById<ImageView>(R.id.mypage_iv_profile)
+                Glide.with(this)
+                    .load(userInfo.user.img) // 이미지 URL
+                    .placeholder(R.drawable.chat_chatbot_profile) // 로드 중 표시할 기본 이미지
+                    .error(R.drawable.chat_chatbot_profile) // 로드 실패 시 표시할 이미지
+                    .into(profileImageView)
+
+                Log.d(TAG, "Profile Image URL: ${userInfo.user.img}")
             }
         }
 
