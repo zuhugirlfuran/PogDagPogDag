@@ -1,9 +1,12 @@
 package com.ssafy.snuggle_final_app.ui.chatbot
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
@@ -205,6 +208,18 @@ class ChatBotFragment : Fragment() {
     private fun getCurrentTime(): String {
         val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
         return sdf.format(Date())
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().window.statusBarColor = Color.WHITE
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        requireActivity().window.statusBarColor = Color.parseColor("#FFFAE6")
     }
 
     override fun onDestroyView() {
