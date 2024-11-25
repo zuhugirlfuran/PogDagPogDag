@@ -1,5 +1,6 @@
 package com.ssafy.snuggle.model.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderInfo {
@@ -10,7 +11,7 @@ public class OrderInfo {
     private String address;      // 배송 주소
     private String phone;        // 연락처
     private String userName;     // 사용자 이름 (추가 정보)
-    private List<OrderDetail> details; // 주문 상세 목록
+    private List<OrderDetail> details = new ArrayList<>();; // 주문 상세 목록
 
     // 기본 생성자
     public OrderInfo() {}

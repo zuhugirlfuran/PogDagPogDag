@@ -12,7 +12,7 @@
 	</insert>
 
 	<!-- 좋아요가 존재하는지 체크 (중복 좋아요 체크) -->
-	<select id="isLike" resultType="boolean">
+	<select id="countLike" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM t_like
 		WHERE
@@ -31,7 +31,7 @@
 	<!-- 사용자가 좋아요한 상품 목록 조회 -->
 	<select id="selectByUser" parameterType="String"
 		resultType="Product">
-		SELECT p.product_id, p.product_name, p.price, p.img,
+		SELECT p.product_id, p.product_name, p.price, p.content, p.img,
 		p.like_count
 		FROM t_like l
 		JOIN t_product p ON l.product_id =

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,15 @@ public class FavoriteController {
 		return result == 1;
 
 	}
+	
+	@GetMapping("/{userId}")
+	@Operation(summary = "userId로 user가 좋아요 누른 favorite 리스트 조회한다.")
+	public List<Favorite> getUserFavorites(@PathVariable String userId) {
+		return fService.getUserFavorites(userId);
+	}
 
 	@GetMapping("/info")
-	@Operation(summary = "user가 좋아요 누른 favorite 리스트 조회한다.")
+	@Operation(summary = "userId로 user가 Tagging 데이터에서 좋아요 누른 favorite 리스트 조회한다.")
 	public List<Tagging> getFavoriteTaggingList(String userId) {
 		return fService.getFavoriteTaggingList(userId);
 	}

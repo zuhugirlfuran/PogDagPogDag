@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.snuggle.model.dto.Order;
+import com.ssafy.snuggle.model.dto.OrderDetail;
 import com.ssafy.snuggle.model.dto.User;
 import com.ssafy.snuggle.model.service.OrderService;
 import com.ssafy.snuggle.model.service.UserService;
@@ -87,7 +88,7 @@ public class UserController {
 	// 이 id와 쿠키에 있는 id가 같은지 확인해서 로그인 사용자를 조회해서 리턴함.
 	@GetMapping("/info")
 	@Operation(summary = "사용자의 정보와 함께 사용자의 주문 내역, 사용자 등급 정보를 반환한다.")
-	public Map<String, Object> getInfo(HttpServletRequest request, String id) {
+	public Map<String, Object> getInfo(HttpServletRequest request, String userId) {
 		String idInCookie = "";
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -104,13 +105,13 @@ public class UserController {
 			}
 		}
 
-		User selected = uService.selectUser(id);
+		User selected = uService.selectUser(userId);
 
-		if (!id.equals(idInCookie)) {
-			logger.info("different cookie value : inputValue : {}, inCookie:{}", id, idInCookie);
+		if (!userId.equals(idInCookie)) {
+			logger.info("different cookie value : inputValue : {}, inCookie:{}", userId, idInCookie);
 			selected = null; // 사용자 정보 삭제.
 		} else {
-			logger.info("valid cookie value : inputValue : {}, inCookie:{}", id, idInCookie);
+			logger.info("valid cookie value : inputValue : {}, inCookie:{}", userId, idInCookie);
 		}
 
 		if (selected == null) {

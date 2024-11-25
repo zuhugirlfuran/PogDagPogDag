@@ -13,17 +13,12 @@ import com.ssafy.snuggle.model.dto.Notification;
 public class NotificationServiceImpl implements NotificationService {
 
 	@Autowired
-	private UserDao uDao;
-	
-	@Autowired
 	private NotificationDao nDao;
 	
+	// userId로 알림 내역 불러오기
 	@Override
-	public List<Notification> getNotificationByToken(String token) {
-		
-		// token으로 userId 찾음
-		String userId = uDao.findUserIdByToken(token);
-		
+	public List<Notification> getNotificationByUserId(String userId) {
+
 		if (userId != null) {
 			return nDao.select(userId);
 		}
@@ -32,6 +27,13 @@ public class NotificationServiceImpl implements NotificationService {
 		return null;
 		
 	}
-
+	
+	// notice 저장
+	public int addNotification(Notification notice) {
+		if (notice != null ) {
+			return nDao.insert(notice);
+		}
+		return -1;
+	}
 
 }

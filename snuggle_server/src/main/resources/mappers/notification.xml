@@ -13,11 +13,19 @@
             n.user_id AS userId,
             n.title,
             n.content,
+            n.channel,
             n.time
         FROM t_notification n
         WHERE n.user_id = #{userId}
+        ORDER BY n_id desc
 	</select>
 	
+	<insert id="insert" parameterType="Notification">
+	    INSERT INTO t_notification (user_id, title, content, channel, time)
+	    VALUES (#{userId}, #{title}, #{content}, #{channel}, NOW())
+	</insert>
+
+
 
 
 </mapper>

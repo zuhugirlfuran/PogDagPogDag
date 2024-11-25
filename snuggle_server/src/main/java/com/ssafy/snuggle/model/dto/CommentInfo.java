@@ -3,7 +3,7 @@ package com.ssafy.snuggle.model.dto;
 // 댓글에 대한 기본 정보와 추가 정보를 효율적으로 관리
 public class CommentInfo {
 
-	private int commentId; // 댓글 ID (Primary Key)
+	private int cId; // 댓글 ID (Primary Key)
 	private int productId; // 상품 ID (Foreign Key)
 	private String userId; // 사용자 ID (Foreign Key)
 	private String comment; // 댓글 내용
@@ -14,20 +14,21 @@ public class CommentInfo {
 	}
 
 	// 매개변수 생성자 (모든 필드 초기화)
-	public CommentInfo(int commentId, int productId, String userId, String comment, String nickname) {
-		this.commentId = commentId;
+	public CommentInfo(int cId, int productId, String userId, String comment, String nickname) {
+		this.cId = cId;
 		this.productId = productId;
 		this.userId = userId;
 		this.comment = comment;
 		this.nickname = nickname;
 	}
 
-	public int getCommentId() {
-		return commentId;
+	
+	public int getcId() {
+		return cId;
 	}
 
-	public void setCommentId(int commentId) {
-		this.commentId = commentId;
+	public void setcId(int cId) {
+		this.cId = cId;
 	}
 
 	public int getProductId() {
@@ -64,7 +65,7 @@ public class CommentInfo {
 
 	@Override
 	public String toString() {
-		return "CommentWithInfo{" + "commentId=" + commentId + ", productId=" + productId + ", userId=" + userId
+		return "CommentWithInfo{" + "commentId=" + cId + ", productId=" + productId + ", userId=" + userId
 				+ ", comment='" + comment + '\'' + ", nickname='" + nickname + '\'' + '}';
 	}
 }

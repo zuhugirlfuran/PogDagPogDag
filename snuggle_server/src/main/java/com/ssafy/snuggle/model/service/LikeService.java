@@ -21,4 +21,12 @@ public interface LikeService {
 	 */
 	List<Product> getLikeProductList(String userId);
 
+	/**
+	 * 유저와 상품의 좋아요 상태를 확인
+	 * 
+	 * @param userId
+	 */
+	boolean isLiked(String userId, int productId);
+	
+
 }

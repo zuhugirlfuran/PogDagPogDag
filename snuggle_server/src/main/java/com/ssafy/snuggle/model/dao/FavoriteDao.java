@@ -69,5 +69,13 @@ public interface FavoriteDao {
 	 * @return
 	 */
 	Favorite selectByFavoriteId(Integer favoriteId);
+	
+	/**
+	 * userId로 좋아요한 Favorite 리스트 조회한다.
+	 * @param userId
+	 * @return
+	 */
+	List<Favorite> selectUserFavorites(String userId);
+
 
 }

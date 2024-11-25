@@ -1,5 +1,7 @@
 package com.ssafy.snuggle.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.snuggle.model.dto.Order;
+import com.ssafy.snuggle.model.dto.OrderDetail;
+import com.ssafy.snuggle.model.dto.OrderDetailInfo;
 import com.ssafy.snuggle.model.dto.OrderInfo;
 import com.ssafy.snuggle.model.service.OrderService;
 
@@ -42,8 +46,9 @@ public class OrderController {
 	@GetMapping("/{orderId}")
 	@Operation(summary = "{orderId}에 해당하는 주문의 상세 내역을 목록 형태로 반환한다." + "이 정보는 사용자 정보 화면의 주문 내역 조회에서 사용된다.")
 	public OrderInfo getOrderDetail(@PathVariable Integer orderId) {
+
 		return oService.getOrderWithInfo(orderId);
 	}
-	
+
 
 }

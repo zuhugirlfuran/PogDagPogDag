@@ -17,10 +17,10 @@ public interface NotificationDao {
 	/**
      * 사용자 userId에 해당하는 리스트에 알림 데이터를 저장한다.
   	 *
-     * @param userId
+     * @param Notification
      * @return
      */
-	// UserWithNotification dto를 따로 만들어야할까..?
+	int insert(Notification notice);
 	
 	
 }

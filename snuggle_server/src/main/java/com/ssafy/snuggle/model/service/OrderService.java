@@ -3,6 +3,8 @@ package com.ssafy.snuggle.model.service;
 import java.util.List;
 
 import com.ssafy.snuggle.model.dto.Order;
+import com.ssafy.snuggle.model.dto.OrderDetail;
+import com.ssafy.snuggle.model.dto.OrderDetailInfo;
 import com.ssafy.snuggle.model.dto.OrderInfo;
 
 
@@ -25,7 +27,7 @@ public interface OrderService {
      * @param orderId
      * @return
      */
-    public Order getOrderWithDetails(int orderId);
+    public List<OrderDetail> getOrderWithDetails(int orderId);
     
     /**
      * id에 해당하는 사용자의 Order 목록을 주문 번호의 내림차순으로 반환한다.

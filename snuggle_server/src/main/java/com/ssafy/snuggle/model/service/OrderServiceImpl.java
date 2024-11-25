@@ -60,25 +60,37 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> getOrderByUser(String userId) {
-		return oDao.selectByUser(userId);
+	//	return oDao.selectByUser(userId);
+		 List<Order> orders = oDao.selectByUser(userId);
+		    
+		    // 각 Order에 대한 Details를 설정
+		    for (Order order : orders) {
+		        List<OrderDetail> details = oDao.getOrderDetailInfo(order.getOrderId());
+		        order.setDetails(details); // details를 설정
+		    }
+		    return orders;
 	}
 
 	@Override
 	public void updateOrder(Order order) {
-		
+
 		oDao.update(order);
 	}
 
 	@Override
-	public OrderInfo getOrderWithInfo(int order_id) {
-		
-		return oDao.selectOrderInfo(order_id);
+	public OrderInfo getOrderWithInfo(int orderId) {
+		OrderInfo orderInfo = oDao.selectOrderInfo(orderId); // Order와 기본 정보 가져오기
+		if (orderInfo != null) {
+			List<OrderDetail> details = oDao.getOrderDetailInfo(orderId); // OrderDetail 가져오기
+			orderInfo.setDetails(details); // OrderInfo에 세팅
+		}
+		return orderInfo;
+//		return oDao.selectOrderInfo(order_id);
 	}
 
 	@Override
-	public Order getOrderWithDetails(int orderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<OrderDetail> getOrderWithDetails(int orderId) {
+		return oDao.getOrderDetailInfo(orderId);
 	}
 
 }

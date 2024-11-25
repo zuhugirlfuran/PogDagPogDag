@@ -15,7 +15,7 @@ public interface LikeDao {
 	/**
 	 * userId와 productId로 중복 좋아요 체크 (이미 유효한 좋아요가 있는지 확인)
 	 */
-	boolean isLike(String userId, int productId);
+	int countLike(String userId, int productId);
 
 	/**
 	 * 좋아요 삭제 삭제 시 해당 상품의 likeCount를 1 감소시킨다.

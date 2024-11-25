@@ -4,38 +4,45 @@ import java.sql.Timestamp;
 
 public class Notification {
 
-	private int n_id;
-	private String user_id;
+	private int nId;
+	private String userId;
 	private String title;
 	private String content;
+	private String channel;
+	private Boolean isSubscribed;
 	private Timestamp time;
 
 	public Notification() {
 	}
 
-	public Notification(int n_id, String user_id, String title, String content, Timestamp time) {
+	
+	public Notification(int nId, String userId, String title, String content, String channel, Boolean isSubscribed,
+			Timestamp time) {
 		super();
-		this.n_id = n_id;
-		this.user_id = user_id;
+		this.nId = nId;
+		this.userId = userId;
 		this.title = title;
 		this.content = content;
+		this.channel = channel;
+		this.isSubscribed = isSubscribed;
 		this.time = time;
 	}
 
-	public int getN_id() {
-		return n_id;
+
+	public int getnId() {
+		return nId;
 	}
 
-	public void setN_id(int n_id) {
-		this.n_id = n_id;
+	public void setnId(int nId) {
+		this.nId = nId;
 	}
 
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getTitle() {
@@ -54,6 +61,22 @@ public class Notification {
 		this.content = content;
 	}
 
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
+
+	public Boolean getIsSubscribed() {
+		return isSubscribed;
+	}
+
+	public void setIsSubscribed(Boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
+
 	public Timestamp getTime() {
 		return time;
 	}
@@ -62,10 +85,13 @@ public class Notification {
 		this.time = time;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Notification [n_id=" + n_id + ", user_id=" + user_id + ", title=" + title + ", content=" + content
-				+ ", time=" + time + "]";
+		return "Notification [nId=" + nId + ", userId=" + userId + ", title=" + title + ", content=" + content
+				+ ", channel=" + channel + ", isSubscribed=" + isSubscribed + ", time=" + time + "]";
 	}
+
+	
 
 }

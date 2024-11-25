@@ -33,7 +33,7 @@ public class CommentController {
 		System.out.println(comment.getComment());
 		result = commentService.updateComment(comment);
 		if (result == 1) {
-			return new ResponseEntity<Integer>(comment.getCommentId(), HttpStatus.OK);
+			return new ResponseEntity<Integer>(comment.getcId(), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
@@ -46,7 +46,7 @@ public class CommentController {
 
 		int result = commentService.addComment(comment);
 		if (result == 1) {
-			return new ResponseEntity<Integer>(comment.getCommentId(), HttpStatus.CREATED);
+			return new ResponseEntity<Integer>(comment.getcId(), HttpStatus.CREATED);
 		} else {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}

@@ -55,15 +55,15 @@
 	<select id="selectById" parameterType="string"
 		resultMap="userResultMap">
 		SELECT
-		user_id,
-		password,
-		nickname,
-		age,
-		gender,
-		path,
-		token,
-		img,
-		stamps
+			user_id,
+			password,
+			nickname,
+			age,
+			gender,
+			path,
+			token,
+			img,
+			stamps
 		FROM t_user
 		WHERE user_id = #{userId}
 	</select>
@@ -72,15 +72,15 @@
 	<select id="selectByUser" parameterType="User"
 		resultMap="userResultMap">
 		SELECT
-		user_id,
-		password,
-		nickname,
-		age,
-		gender,
-		path,
-		token,
-		img,
-		stamps
+			user_id,
+			password,
+			nickname,
+			age,
+			gender,
+			path,
+			token,
+			img,
+			stamps
 		FROM t_user
 		WHERE user_id = #{userId}
 		AND password = #{password}

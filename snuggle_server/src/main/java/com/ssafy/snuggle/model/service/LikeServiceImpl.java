@@ -24,7 +24,7 @@ public class LikeServiceImpl implements LikeService {
 		int result = 0;
 
 		// userId와 productId로 중복 좋아요 체크
-		boolean exists = lDao.isLike(userId, productId);
+		boolean exists = lDao.countLike(userId, productId) > 0;
 
 		if (exists) { // 이미 좋아요가 존재하면 삭제
 			lDao.delete(userId, productId); // 좋아요 삭제
@@ -47,5 +47,12 @@ public class LikeServiceImpl implements LikeService {
 
 		return lDao.selectByUser(userId);
 	}
+
+	@Override
+	public boolean isLiked(String userId, int productId) {
+		
+		return lDao.countLike(userId, productId) > 0;
+	}
+
 
 }

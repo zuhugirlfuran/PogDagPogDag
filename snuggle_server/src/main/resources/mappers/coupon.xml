@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.snuggle.model.dao.CouponDao">
+
+	 <!-- 사용 가능한 쿠폰 조회 -->
+    <select id="select" parameterType="String" resultType="Coupon">
+        SELECT 
+            coupon_id AS couponId,
+            user_id AS userId,
+            coupon_name AS couponName,
+            coupon_start AS couponStart,
+            coupon_end AS couponEnd,
+            coupon_discount AS couponDiscount,
+            coupon_use AS couponUse
+        FROM t_coupon
+        WHERE 
+            user_id = #{userId} 
+            AND coupon_use = 'N'
+            AND NOW() BETWEEN coupon_start AND coupon_end
+    </select>
+	
+	<!-- 쿠폰 사용 상태 업데이트 -->
+    <update id="update" parameterType="Coupon">
+        UPDATE t_coupon
+        SET coupon_use = #{couponUse}
+        WHERE coupon_id = #{couponId}
+    </update>
+    
+</mapper>
+	

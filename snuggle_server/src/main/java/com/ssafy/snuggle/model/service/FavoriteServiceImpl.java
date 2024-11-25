@@ -55,4 +55,10 @@ public class FavoriteServiceImpl implements FavoriteService {
 	public List<Tagging> getFavoriteTaggingList(String userId) {
 		return fDao.selectByUser(userId);
 	}
+
+
+	@Override
+	public List<Favorite> getUserFavorites(String userId) {
+		return fDao.selectUserFavorites(userId);
+	}
 }

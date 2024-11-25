@@ -1,7 +1,5 @@
 package com.ssafy.snuggle.model.dao;
 
-import java.util.List;
-
 import com.ssafy.snuggle.model.dto.OrderDetail;
 import com.ssafy.snuggle.model.dto.OrderDetailInfo;
 

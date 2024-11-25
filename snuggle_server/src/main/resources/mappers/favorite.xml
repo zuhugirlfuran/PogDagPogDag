@@ -68,4 +68,10 @@
 		WHERE tagging_id = #{taggingId};
 	</update>
 	
+	<select id="selectUserFavorites" resultType="Favorite">
+		SELECT * 
+		FROM t_favorite
+		WHERE user_id = #{userId}
+	</select>
+	
 </mapper>

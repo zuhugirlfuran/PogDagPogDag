@@ -1,7 +1,7 @@
 package com.ssafy.snuggle.model.dto;
 
 public class Comment {
-    private int commentId;      // 댓글 ID (Primary Key)
+    private int cId;      // 댓글 ID (Primary Key)
     private int productId;      // 상품 ID (Foreign Key)
     private String userId;         // 사용자 ID (Foreign Key)
     private String comment;     // 댓글 내용
@@ -10,8 +10,8 @@ public class Comment {
     public Comment() {}
 
     // 매개변수 생성자
-    public Comment(int commentId, int productId, String userId, String comment) {
-        this.commentId = commentId;
+    public Comment(int cId, int productId, String userId, String comment) {
+        this.cId = cId;
         this.productId = productId;
         this.userId = userId;
         this.comment = comment;
@@ -19,19 +19,19 @@ public class Comment {
 
     // Getter and Setter methods
 
-    public int getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(int commentId) {
-        this.commentId = commentId;
-    }
-
     public int getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public int getcId() {
+		return cId;
+	}
+
+	public void setcId(int cId) {
+		this.cId = cId;
+	}
+
+	public void setProductId(int productId) {
         this.productId = productId;
     }
 
@@ -55,7 +55,7 @@ public class Comment {
     @Override
     public String toString() {
         return "Comment{" +
-                "commentId=" + commentId +
+                "cId=" + cId +
                 ", productId=" + productId +
                 ", userId=" + userId +
                 ", comment='" + comment + '\'' +

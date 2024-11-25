@@ -1,5 +1,6 @@
 package com.ssafy.snuggle.model.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -9,7 +10,7 @@ public class Order {
 	private int addressId;
 	private double totalPrice; // 총 가격
 	
-	private List<OrderDetail> details;
+	private List<OrderDetail> details = new ArrayList<>();;
 
 	// 기본 생성자
 	public Order() {

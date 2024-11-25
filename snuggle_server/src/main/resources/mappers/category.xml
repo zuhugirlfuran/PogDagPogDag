@@ -16,7 +16,9 @@
 
 	<!-- 모든 카테고리 조회 -->
 	<select id="selectAll" resultType="Category">
-		SELECT category_name
+		SELECT 
+		c_id AS cId, 
+		category_name AS categoryName
 		FROM t_category
 	</select>
 
