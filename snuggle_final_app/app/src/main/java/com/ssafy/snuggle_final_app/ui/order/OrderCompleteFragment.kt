@@ -2,17 +2,22 @@ package com.ssafy.snuggle_final_app.ui.order
 
 import OrderViewModel
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
+import com.ssafy.snuggle_final_app.data.model.dto.Address
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderCompleteBinding
 import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
+
+private const val TAG = "OrderCompleteFragment"
 
 class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
     FragmentOrderCompleteBinding::bind,
@@ -20,18 +25,23 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
 ) {
 
     private val orderViewModel: OrderViewModel by activityViewModels()
+
     private lateinit var adapter: OrderAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupObserver()
 
+        // 전달받은 데이터 읽기
+        val address = arguments?.getString("address")
+        val name = arguments?.getString("name")
+        val phone = arguments?.getString("phone")
+        Log.d(TAG, "onViewCreated: ${address} ${name} ${phone}")
 
         // Fragment가 전달받은 인자를 바인딩에 반영
-        val userName = ApplicationClass.sharedPreferencesUtil.getUser().nickname
-        binding.orderCompleteAddr.text = "사용자 주소"
-        binding.orderCompleteUserName.text = userName
-        binding.orderCompletePhone.text = "010-1111-1111"
+        binding.orderCompleteAddr.text = address
+        binding.orderCompleteUserName.text = name
+        binding.orderCompletePhone.text = phone
 
 
         // 주문 완료 버튼
