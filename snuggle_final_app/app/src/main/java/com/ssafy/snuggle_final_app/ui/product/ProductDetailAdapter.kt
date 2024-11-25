@@ -11,7 +11,7 @@ import com.ssafy.snuggle_final_app.databinding.ItemProductDetailListBinding
 
 class ProductDetailAdapter
     (
-    private var commentList: List<Comment>,
+    var commentList: List<Comment>,
     private val listener: OnCommentClickListener
 ) :
     RecyclerView.Adapter<ProductDetailAdapter.ProductDetailViewHolder>() {
@@ -73,18 +73,10 @@ class ProductDetailAdapter
     }
 
     fun submitList(list: List<Comment>) {
-        commentList = list
+        commentList = list.toList()
         notifyDataSetChanged()
     }
 
-//    fun removeComment(position: Int) {
-//        if (position >= 0 && position < commentList.size) {
-//            commentList = commentList.toMutableList().apply {
-//                removeAt(position)
-//            }
-//            notifyItemRemoved(position)
-//        }
-//    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

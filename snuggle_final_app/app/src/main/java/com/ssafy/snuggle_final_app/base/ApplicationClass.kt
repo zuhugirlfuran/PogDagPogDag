@@ -18,7 +18,7 @@ class ApplicationClass : Application() {
     //val SERVER_URL = "http://192.168.33.118:8080/"
 //    val SERVER_URL = "http://192.168.0.3:8080/"
 
-    val SERVER_URL = "http://192.168.33.118:8080/"
+    val SERVER_URL = "http://172.30.1.29:8080/"
 
 
     companion object {

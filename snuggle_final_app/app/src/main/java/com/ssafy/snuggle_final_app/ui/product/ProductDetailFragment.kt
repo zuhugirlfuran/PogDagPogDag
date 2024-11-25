@@ -266,7 +266,6 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
             }
         }
 
-
         // 좋아요 눌렀을 때
         productDetailViewModel.isProductLiked.observe(viewLifecycleOwner) { isLiked ->
             val currentLikeCount = productDetailViewModel.productInfo.value?.likeCount ?: 0
@@ -303,14 +302,14 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     override fun onDeleteClick(comment: Comment, position: Int) {
-//        commentViewModel.deleteComment(comment.commentId)
         commentViewModel.deleteComment(comment.commentId, productId)
         Log.d("comment", "onDeleteClick: $position ${comment.commentId}")
-        // adapter.removeComment(position)
-         adapter.notifyItemRemoved(position)
+        val updatedList = adapter.commentList.toMutableList().apply {
+            removeAt(position)
+        }
+        adapter.submitList(updatedList)
+//        adapter.notifyItemRemoved(updatedList)
     }
-
-
 
     override fun onInsertClick(comment: Comment, position: Int) {
         commentViewModel.addComment(comment)
