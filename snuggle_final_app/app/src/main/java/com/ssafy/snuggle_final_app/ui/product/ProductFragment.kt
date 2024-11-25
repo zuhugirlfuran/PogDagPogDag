@@ -158,7 +158,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                     }
                     // 매칭된 카테고리의 cId로 상품 필터링
                     if (selectedCategory != null) {
-                        categoryViewModel.getProductByCategory(selectedCategory.cId)
+                        categoryViewModel.getProductByCategory(selectedCategory.commentId)
                     } else {
                         Log.e("ProductFragment", "선택된 카테고리가 존재하지 않습니다.")
                     }

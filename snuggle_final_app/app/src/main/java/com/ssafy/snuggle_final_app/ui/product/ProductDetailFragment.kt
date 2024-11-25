@@ -200,6 +200,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
                 )
 
                 commentViewModel.addComment(newComment)
+                binding.productDetailRecyclerview.scrollToPosition(0) // 리스트 맨 위로 스크롤
                 dialog.dismiss()
             } else {
                 showToast("댓글을 입력해주세요.")
@@ -292,9 +293,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     /** 댓글 상태 변화감지를 위한 click 리스너 **/
     override fun onUpdateClick(comment: Comment, position: Int, updatedComment: String) {
 
-        if (comment.cId > 0) {
+        if (comment.commentId > 0) {
             val updated = comment.copy(comment = updatedComment)
-            Log.d(TAG, "onUpdateClick: $updated $position ${comment.cId}")
+            Log.d(TAG, "onUpdateClick: $updated $position ${comment.commentId}")
             commentViewModel.updateComment(updated)
             adapter.notifyItemChanged(position) // position 값을 사용
         }
@@ -302,9 +303,14 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     override fun onDeleteClick(comment: Comment, position: Int) {
-        commentViewModel.deleteComment(comment.cId)
-        adapter.notifyItemRemoved(position)
+//        commentViewModel.deleteComment(comment.commentId)
+        commentViewModel.deleteComment(comment.commentId, productId)
+        Log.d("comment", "onDeleteClick: $position ${comment.commentId}")
+        // adapter.removeComment(position)
+         adapter.notifyItemRemoved(position)
     }
+
+
 
     override fun onInsertClick(comment: Comment, position: Int) {
         commentViewModel.addComment(comment)
