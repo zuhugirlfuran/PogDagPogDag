@@ -28,7 +28,11 @@ class ProductDetailAdapter
 
             binding.commentTvContent.text = comment.comment
             val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
-            if (userId != comment.userId) {
+            // 상태 초기화: 항상 버튼 상태를 명확히 설정
+            if (userId == comment.userId) {
+                binding.commentIbModify.visibility = View.VISIBLE
+                binding.commentIbDelete.visibility = View.VISIBLE
+            } else {
                 binding.commentIbModify.visibility = View.GONE
                 binding.commentIbDelete.visibility = View.GONE
             }
@@ -72,6 +76,15 @@ class ProductDetailAdapter
         commentList = list
         notifyDataSetChanged()
     }
+
+//    fun removeComment(position: Int) {
+//        if (position >= 0 && position < commentList.size) {
+//            commentList = commentList.toMutableList().apply {
+//                removeAt(position)
+//            }
+//            notifyItemRemoved(position)
+//        }
+//    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

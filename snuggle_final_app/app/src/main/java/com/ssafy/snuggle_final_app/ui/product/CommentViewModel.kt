@@ -20,6 +20,7 @@ class CommentViewModel : ViewModel() {
             safeApiCall({
                 RetrofitUtil.productService.getProductWithComments(productId)
             }, { commentlist ->
+                Log.d("comment", "deleteComment: $commentlist")
                 _comments.value = commentlist.comments
             }, { exception ->
                 Log.e("Comment", "댓글 불러오기 서버 오류: ${exception.message}")
@@ -47,16 +48,18 @@ class CommentViewModel : ViewModel() {
     }
 
     // 댓글 삭제
-    fun deleteComment(commentId: Int) {
+    fun deleteComment(commentId: Int, productId: Int) {
         viewModelScope.launch {
             safeApiCall({
                 RetrofitUtil.commentService.deleteCommemt(commentId)
             }, { result ->
+                Log.d("comment", "deleteComment: $result")
                 if (result > 0) {
-                    _comments.value = _comments.value!!.filter { it.cId != commentId }
+                    _comments.value = _comments.value!!.filter { it.commentId != commentId }
+                    fetchComments(productId)
                 }
             }, { exception ->
-                Log.e("Comment", "댓글 불러오기 서버 오류: ${exception.message}")
+                Log.e("Comment", "댓글 삭제하기 서버 오류: ${exception.message}")
             })
         }
     }
@@ -69,7 +72,7 @@ class CommentViewModel : ViewModel() {
             }, { updatedCommentId ->
                 if (updatedCommentId > 0) {
                     _comments.value = _comments.value?.map {
-                        if (it.cId == updatedCommentId) comment else it
+                        if (it.commentId == updatedCommentId) comment else it
                     }
                 } else {
                     Log.e("Comment", "댓글 수정 실패. 반환된 ID: $updatedCommentId")
