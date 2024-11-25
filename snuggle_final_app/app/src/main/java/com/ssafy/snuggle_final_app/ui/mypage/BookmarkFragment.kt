@@ -10,6 +10,7 @@ import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentBookmarkBinding
 import com.ssafy.snuggle_final_app.ui.mypage.BookmarkAdapter
 import com.ssafy.snuggle_final_app.ui.mypage.BookmarkViewModel
+import com.ssafy.snuggle_final_app.ui.scanner.ScannerVideoFragment
 
 class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
     FragmentBookmarkBinding::bind,
@@ -29,11 +30,27 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
 
         // ViewModel에서 데이터 요청
         bookmarkViewModel.getBookmarkList(userId)
-// ViewModel 데이터 관찰
+        // ViewModel 데이터 관찰
         bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner) { bookmarks ->
             adapter.updateData(bookmarks)
         }
 
+        binding.bookmarkLv.setOnItemClickListener{parent, view, position, id ->
+            val selectedItem = adapter.getItem(position)
+
+            val fragment = ScannerVideoFragment.newInstance( //선택된 북마크 정보 받아오기
+                videoSrc = selectedItem.videoSrc,
+                videoTitle = selectedItem.videoTitle,
+                videoContent = selectedItem.videoContent,
+                videoLike = selectedItem.videoLike,
+                taggingId = selectedItem.taggingId
+            )
+            
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.main_frameLayout, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
 
     }
 

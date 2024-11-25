@@ -44,6 +44,7 @@ class BookmarkAdapter(
     fun updateData(newData: List<Tagging>) {
         dataList.clear()
         dataList.addAll(newData)
+
         notifyDataSetChanged()
     }
 
