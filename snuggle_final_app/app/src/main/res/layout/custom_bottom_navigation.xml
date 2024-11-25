@@ -5,24 +5,16 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eee"
-    tools:context=".MainActivity">
-
-    <!-- Main Content Area -->
-    <FrameLayout
-        android:id="@+id/main_frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_frame2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <!-- Bottom Frame -->
     <FrameLayout
         android:id="@+id/bottom_frame2"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="65dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +34,7 @@
             android:id="@+id/backIndicator2"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/bottom_circle_background2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -50,17 +42,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Navigation Bar -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottom_navigation2"
-        android:layout_width="0dp"
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/bottom_navigation2"-->
+<!--        android:layout_width="0dp"-->
 
-        android:layout_height="120dp"
-        android:background="@android:color/transparent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_frame2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+<!--        android:layout_height="120dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:clipChildren="false"-->
+<!--        android:clipToPadding="false"-->
+<!--        app:layout_constraintBottom_toBottomOf="@id/bottom_frame2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
 
         <!-- 제품 Tab -->
         <LinearLayout
@@ -293,4 +285,4 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

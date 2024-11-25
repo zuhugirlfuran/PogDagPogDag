@@ -14,10 +14,10 @@ class ApplicationClass : Application() {
     // ipconfig를 통해 IP확인하기
     // 핸드폰으로 접속은 같은 인터넷으로 연결 되어있어야함 (유,무선)
 //    val SERVER_URL = "http://192.168.33.117:8080/"
-    //val SERVER_URL = "http://192.168.33.118:8080/"
+    val SERVER_URL = "http://192.168.33.118:8080/"
 //    val SERVER_URL = "http://192.168.0.3:8080/"
 
-    val SERVER_URL = "http://172.30.1.53:8080/"
+//    val SERVER_URL = "http://172.30.1.53:8080/"
 
 
     companion object {

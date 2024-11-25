@@ -62,7 +62,7 @@ class ChatBotFragment : Fragment() {
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.GONE
-            it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.GONE
+            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.GONE
         }
 
 
@@ -228,7 +228,7 @@ class ChatBotFragment : Fragment() {
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.VISIBLE
-            it.findViewById<View>(R.id.bottomNavigation)?.visibility = View.VISIBLE
+            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.VISIBLE
         }
 
         // Fragment를 벗어나면 메시지 삭제
