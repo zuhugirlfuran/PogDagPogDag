@@ -38,7 +38,7 @@ class BookmarkFragment : BaseFragment<FragmentBookmarkBinding>(
         binding.bookmarkLv.setOnItemClickListener{parent, view, position, id ->
             val selectedItem = adapter.getItem(position)
 
-            val fragment = ScannerVideoFragment.newInstance( //선택된 북마크 정보 받아오기
+            val fragment = ScannerVideoFragment.newInstance( // 선택된 북마크 정보 받아오기
                 videoSrc = selectedItem.videoSrc,
                 videoTitle = selectedItem.videoTitle,
                 videoContent = selectedItem.videoContent,
