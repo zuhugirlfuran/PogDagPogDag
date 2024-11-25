@@ -291,9 +291,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     /** 댓글 상태 변화감지를 위한 click 리스너 **/
     override fun onUpdateClick(comment: Comment, position: Int, updatedComment: String) {
 
-        if (comment.commentId > 0) {
+        if (comment.cId > 0) {
             val updated = comment.copy(comment = updatedComment)
-            Log.d(TAG, "onUpdateClick: $updated $position ${comment.commentId}")
+            Log.d(TAG, "onUpdateClick: $updated $position ${comment.cId}")
             commentViewModel.updateComment(updated)
             adapter.notifyItemChanged(position) // position 값을 사용
         }
@@ -301,7 +301,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     override fun onDeleteClick(comment: Comment, position: Int) {
-        commentViewModel.deleteComment(comment.commentId)
+        commentViewModel.deleteComment(comment.cId)
         adapter.notifyItemRemoved(position)
     }
 

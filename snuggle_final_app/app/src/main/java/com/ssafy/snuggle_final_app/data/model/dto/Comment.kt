@@ -5,6 +5,17 @@ import java.io.Serializable
 data class Comment(
     val comment: String,
     val productId: Int,
-    val userId: String,
-    val commentId: Int = -1
-) : Serializable
+    val userId: String
+) {
+
+    var cId = -1
+
+    constructor(
+        cId: Int,
+        comment: String,
+        productId: Int,
+        userId: String
+    ) : this(comment, productId, userId) {
+        this.cId = cId
+    }
+}

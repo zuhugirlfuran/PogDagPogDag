@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.Snuggle_final_app" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Snuggle_final_app" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
@@ -8,6 +8,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <!-- 상태바 없애기 -->
         <item name="android:statusBarColor">@color/basic_backgound</item>
+        <item name="android:textColor">@android:color/black</item>
 
     </style>
 
@@ -16,5 +17,7 @@
     <style name="CustomCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="buttonTint">#795A0C</item>
     </style>
+
+
 
 </resources>
