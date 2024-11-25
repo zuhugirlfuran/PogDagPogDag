@@ -181,10 +181,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frameLayout, fragment)
-            .commit()
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_frameLayout, fragment)
+        transaction.addToBackStack(null) // 백스택에 추가
+        transaction.commit()
     }
+
 
     fun addToStackFragment(fragment: Fragment) {
         val fragmentTag = fragment.javaClass.simpleName
