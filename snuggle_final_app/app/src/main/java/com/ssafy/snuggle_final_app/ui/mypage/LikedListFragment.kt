@@ -35,7 +35,7 @@ class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility = View.GONE
+        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +62,7 @@ class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임
-        activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.visibility =
+        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
 }

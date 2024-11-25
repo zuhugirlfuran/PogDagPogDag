@@ -20,11 +20,13 @@ import android.os.Looper
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
@@ -36,6 +38,7 @@ import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.CouponFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.ui.navigation.BottomNavigationHelper
 import com.ssafy.snuggle_final_app.ui.notification.NotificationActivity
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
 import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
@@ -86,39 +89,69 @@ class MainActivity : AppCompatActivity() {
         // 초기 프래그먼트 설정 (MainFragment)
         addToStackFragment(MainFragment())
 
-        val bottomNavigation = binding.bottomNavigation
-        bottomNavigation.selectedItemId = R.id.home
+        // BottomNavigationHelper 초기화 및 설정
+        val bottomNavigationHelper = BottomNavigationHelper(
+            this,
+            supportFragmentManager,
+            R.id.main_frameLayout
+        )
 
-        bottomNavigation.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.home -> {
-                    replaceFragment(MainFragment())
-                    true
-                }
+        val backIndicator = binding.customBottomNavigation.backIndicator2
+        val homeTab = binding.customBottomNavigation.home
 
-                R.id.product -> {
-                    replaceFragment(ProductFragment())
-                    true
-                }
+        val tabs = listOf(
+            Triple(
+                binding.customBottomNavigation.product,
+                binding.customBottomNavigation.productIndicator2,
+                Triple(
+                    binding.customBottomNavigation.productIcon2,
+                    binding.customBottomNavigation.productLabel2,
+                    ProductFragment()
+                )
+            ),
+            Triple(
+                binding.customBottomNavigation.scanner,
+                binding.customBottomNavigation.scannerIndicator2,
+                Triple(
+                    binding.customBottomNavigation.scannerIcon2,
+                    binding.customBottomNavigation.scannerLabel2,
+                    ScannerFragment()
+                )
+            ),
+            Triple(
+                binding.customBottomNavigation.home,
+                binding.customBottomNavigation.homeIndicator2,
+                Triple(
+                    binding.customBottomNavigation.homeIcon2,
+                    binding.customBottomNavigation.homeLabel2,
+                    MainFragment()
+                )
+            ),
+            Triple(
+                binding.customBottomNavigation.chatbot,
+                binding.customBottomNavigation.chatbotIndicator2,
+                Triple(
+                    binding.customBottomNavigation.chatbotIcon2,
+                    binding.customBottomNavigation.chatbotLabel2,
+                    ChatBotFragment()
+                )
+            ),
+            Triple(
+                binding.customBottomNavigation.mypage,
+                binding.customBottomNavigation.mypageIndicator2,
+                Triple(
+                    binding.customBottomNavigation.mypageIcon2,
+                    binding.customBottomNavigation.mypageLabel2,
+                    MypageFragment()
+                )
+            )
+        )
 
-                R.id.mypage -> {
-                    replaceFragment(MypageFragment())
-                    true
-                }
-
-                R.id.chatbot -> {
-                    addToStackFragment(ChatBotFragment())
-                    true
-                }
-
-                R.id.scanner -> {
-                    replaceFragment(ScannerFragment())
-                    true
-                }
-
-                else -> false
-            }
-        }
+        bottomNavigationHelper.setup(
+            backIndicator = binding.customBottomNavigation.backIndicator2,
+            tabs = tabs,
+            defaultTab = binding.customBottomNavigation.home
+        )
 
         //== nfc 설정 ==//
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
@@ -147,7 +180,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frameLayout, fragment)
@@ -163,17 +195,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 권한
-//    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-//    private fun checkPermission() {
-//        if (!checker.checkPermission(this, runtimePermissions)) {
-//            checker.setOnGrantedListener { //퍼미션 획득 성공일때
-//                init()
-//            }
-//            checker.requestPermissionLauncher.launch(runtimePermissions) // 권한없으면 창 띄움
-//        } else { //이미 전체 권한이 있는 경우
-//            init()
-//        }
-//    }
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkPermission() {
         // Post Notifications 권한 체크
