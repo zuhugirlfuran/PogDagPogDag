@@ -1,5 +1,7 @@
 package com.ssafy.snuggle_final_app.data.service
 
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.fcm.FirebaseTokenService
 
@@ -18,6 +20,4 @@ class RetrofitUtil {
         val fcmService = ApplicationClass.retrofit.create(FirebaseTokenService::class.java)
 
         val couponService = ApplicationClass.retrofit.create(CouponService::class.java)
-
-    }
-}
+}}

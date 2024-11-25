@@ -10,49 +10,39 @@ import com.ssafy.snuggle.model.dao.FavoriteDao;
 import com.ssafy.snuggle.model.dto.Favorite;
 import com.ssafy.snuggle.model.dto.Tagging;
 
-@Service
+@Service // Spring Bean 등록
 public class FavoriteServiceImpl implements FavoriteService {
 
-	@Autowired
-	private FavoriteDao fDao;
+    @Autowired
+    private FavoriteDao fDao; // DAO 클래스 주입
 
-	@Override
-	@Transactional
-	public int addFavorite(Favorite favorite) {
+    @Override
+    @Transactional
+    public int addFavorite(Favorite favorite) {
+        String userId = favorite.getUserId();
+        String taggingId = favorite.getTaggingId();
+        String isValid = favorite.getIsValid() != null ? favorite.getIsValid() : "N";
 
-		String userId = favorite.getUserId();
-		String taggingId = favorite.getTaggingId();
-		String isValid = favorite.getIsValid();
-		int result = 0;
+        boolean exists = fDao.isFavorite(userId, taggingId); // 이미 존재 여부 확인
+        int result = 0;
 
-		// userId와 taggingId로 중복 확인 + 이미 Y인지
-		boolean exists = fDao.isFavorite(userId, taggingId);
-		if (exists) {
-			// 이미 유효한 좋아요가 존재하면 제거
-			fDao.delete(userId, taggingId);
-			fDao.decreaseLikeCount(taggingId); // 삭제 시 likeCount -1
+        if (exists) {
+            fDao.delete(userId, taggingId);
+            fDao.decreaseLikeCount(taggingId); // 좋아요 제거 시 카운트 감소
+        } else {
+            if ("N".equals(isValid)) {
+                isValid = "Y";
+            }
+            result = fDao.insert(userId, taggingId, isValid);
+            fDao.increaseLikeCount(taggingId); // 좋아요 추가 시 카운트 증가
+        }
 
-		} else {
-			// 'isValid'가 'N'이면 'Y'로 설정하여 좋아요 추가
-			if (isValid.equals("N")) {
-				isValid = "Y"; // 'N'이면 'Y'로 변경
-			}
-			result = fDao.insert(userId, taggingId, isValid);
-		}
+        fDao.updateLikeCount(taggingId); // 최종 카운트 업데이트
+        return result;
+    }
 
-		// 좋아요가 추가되면 Tagging의 likeCount 증가
-		if (result > 0) {
-			fDao.increaseLikeCount(taggingId); // Tagging의 likeCount 증가
-		}
-		
-		fDao.updateLikeCount(taggingId);
-
-		return result;
-	}
-
-	
-	@Override
-	public List<Tagging> getFavoriteTaggingList(String userId) {
-		return fDao.selectByUser(userId);
-	}
+    @Override
+    public List<Tagging> getFavoriteTaggingList(String userId) {
+        return fDao.selectByUser(userId); // 좋아요 리스트 반환
+    }
 }
