@@ -3,6 +3,7 @@ package com.ssafy.snuggle_final_app.mypage
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -35,7 +36,7 @@ class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,7 +63,7 @@ class LikedListFragment : BaseFragment<FragmentLikedListBinding>(
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility =
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
 }
