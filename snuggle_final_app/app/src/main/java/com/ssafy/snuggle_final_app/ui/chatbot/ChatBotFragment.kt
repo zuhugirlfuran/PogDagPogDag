@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
@@ -56,7 +57,7 @@ class ChatBotFragment : BaseFragment<FragmentChatBotBinding>(
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.GONE
-            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.GONE
+            it.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
         }
 
 
@@ -222,7 +223,7 @@ class ChatBotFragment : BaseFragment<FragmentChatBotBinding>(
         val mainActivity = activity as? MainActivity
         mainActivity?.let {
             it.findViewById<View>(R.id.app_bar)?.visibility = View.VISIBLE
-            it.findViewById<View>(R.id.bottom_navigation)?.visibility = View.VISIBLE
+            it.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.VISIBLE
         }
 
         // Fragment를 벗어나면 메시지 삭제

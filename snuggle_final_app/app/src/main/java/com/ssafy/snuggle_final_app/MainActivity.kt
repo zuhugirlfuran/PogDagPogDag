@@ -1,5 +1,6 @@
 package com.ssafy.snuggle_final_app
 
+import BottomNavigationHelper
 import android.Manifest
 import android.app.AlertDialog
 import android.app.NotificationChannel
@@ -38,7 +39,6 @@ import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.CouponFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
-import com.ssafy.snuggle_final_app.ui.navigation.BottomNavigationHelper
 import com.ssafy.snuggle_final_app.ui.notification.NotificationActivity
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
 import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             R.id.main_frameLayout
         )
 
-        val backIndicator = binding.customBottomNavigation.backIndicator2
+        val backIndicator = binding.backIndicator2
         val homeTab = binding.customBottomNavigation.home
 
         val tabs = listOf(
@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         bottomNavigationHelper.setup(
-            backIndicator = binding.customBottomNavigation.backIndicator2,
+            backIndicator = binding.backIndicator2,
             tabs = tabs,
             defaultTab = binding.customBottomNavigation.home
         )
