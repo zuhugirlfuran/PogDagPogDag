@@ -53,7 +53,7 @@ class CommentViewModel : ViewModel() {
                 RetrofitUtil.commentService.deleteCommemt(commentId)
             }, { result ->
                 if (result > 0) {
-                    _comments.value = _comments.value!!.filter { it.commentId != commentId }
+                    _comments.value = _comments.value!!.filter { it.cId != commentId }
                 }
             }, { exception ->
                 Log.e("Comment", "댓글 불러오기 서버 오류: ${exception.message}")
@@ -69,7 +69,7 @@ class CommentViewModel : ViewModel() {
             }, { updatedCommentId ->
                 if (updatedCommentId > 0) {
                     _comments.value = _comments.value?.map {
-                        if (it.commentId == updatedCommentId) comment else it
+                        if (it.cId == updatedCommentId) comment else it
                     }
                 } else {
                     Log.e("Comment", "댓글 수정 실패. 반환된 ID: $updatedCommentId")

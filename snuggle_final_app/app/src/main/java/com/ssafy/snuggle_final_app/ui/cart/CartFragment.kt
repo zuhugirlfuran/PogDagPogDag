@@ -102,9 +102,10 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
 
     override fun onResume() {
         super.onResume()
-        // Activity의 BottomNavigationView를 숨김
+
         activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
     }
+
 
     override fun onStop() {
         super.onStop()

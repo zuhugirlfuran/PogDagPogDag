@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -291,9 +292,9 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     /** 댓글 상태 변화감지를 위한 click 리스너 **/
     override fun onUpdateClick(comment: Comment, position: Int, updatedComment: String) {
 
-        if (comment.commentId > 0) {
+        if (comment.cId > 0) {
             val updated = comment.copy(comment = updatedComment)
-            Log.d(TAG, "onUpdateClick: $updated $position ${comment.commentId}")
+            Log.d(TAG, "onUpdateClick: $updated $position ${comment.cId}")
             commentViewModel.updateComment(updated)
             adapter.notifyItemChanged(position) // position 값을 사용
         }
@@ -301,7 +302,7 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     }
 
     override fun onDeleteClick(comment: Comment, position: Int) {
-        commentViewModel.deleteComment(comment.commentId)
+        commentViewModel.deleteComment(comment.cId)
         adapter.notifyItemRemoved(position)
     }
 
@@ -310,6 +311,19 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
         adapter.notifyItemInserted(position)
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        // Activity의 BottomNavigationView를 숨김
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Activity의 BottomNavigationView를 다시 보임
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
+            View.VISIBLE
+    }
 
 //    private fun showDeleteDialog(comment: Comment, onCommentDeleted: (Comment) -> Unit) {
 //        // 다이얼로그 또는 다른 UI로 수정 입력받기
