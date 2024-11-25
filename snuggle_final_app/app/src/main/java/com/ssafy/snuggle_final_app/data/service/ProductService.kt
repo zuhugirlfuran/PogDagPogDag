@@ -5,7 +5,6 @@ import com.ssafy.snuggle_final_app.data.model.response.ProductWithCommentRespons
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
-import java.util.Locale.Category
 
 interface ProductService {
 

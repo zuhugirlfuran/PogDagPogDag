@@ -16,6 +16,8 @@ import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentProductBinding
 import com.ssafy.snuggle_final_app.ui.search.SearchFragment
 
+private const val TAG = "ProductFragment"
+
 class ProductFragment : BaseFragment<FragmentProductBinding>(
     FragmentProductBinding::bind,
     R.layout.fragment_product
@@ -63,6 +65,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             if (categories.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "카테고리 목록이 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
+                Log.d(TAG, "Category list updated: $categories")
                 updateCategorySpinner(categories.map { it.categoryName })
             }
         }
@@ -75,7 +78,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             if (products.isNullOrEmpty()) {
                 Toast.makeText(requireContext(), "상품 목록이 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
-                Log.d("TAG", "observeViewModel: ${products}")
+                Log.d("TAG", "observeViewModel: $products")
                 adapter.submitList(products)
             }
         }
@@ -84,6 +87,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
     private fun observeSortedViewModel() {
         productViewModel.sortedProductList.observe(viewLifecycleOwner) { sortedProducts ->
+            Log.d("ProductFragment", "$sortedProducts")
             if (sortedProducts != null) {
                 adapter.submitList(sortedProducts) // RecyclerView 어댑터 갱신
             }
@@ -94,7 +98,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         categoryViewModel.filteredProductList.observe(viewLifecycleOwner) { productByCategory ->
             if (productByCategory.isNullOrEmpty()) {
                 Log.d("ProductFragment", "No products found for selected category")
-//                adapter.submitList(emptyList())
             } else {
                 Log.d("ProductFragment", "Updating product list: $productByCategory")
                 adapter.submitList(productByCategory)
@@ -106,7 +109,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
 
         adapter = ProductAdapter(emptyList()) { productId ->
             Log.d("AdapterClick", "Clicked productId: $productId")
-            if (productId >= 0) { // 유효한 productId만 설정
+            if (productId > 0) { // 유효한 productId만 설정
                 productViewModel.productId = productId
                 mainActivity.addToStackFragment(ProductDetailFragment())
             }
@@ -144,7 +147,7 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             ) {
                 if (position == 0) {
                     // 카테고리 선택 안했을 때
-                    categoryViewModel.clearFilteredProductList()
+                    // categoryViewModel.clearFilteredProductList()
                     productViewModel.getProductList()
                 } else {
                     // 카테고리 선택 시 처리 로직
@@ -153,7 +156,6 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
                     val selectedCategory = categoryViewModel.categoryList.value?.find {
                         it.categoryName == selectedCategoryName
                     }
-
                     // 매칭된 카테고리의 cId로 상품 필터링
                     if (selectedCategory != null) {
                         categoryViewModel.getProductByCategory(selectedCategory.cId)
@@ -197,6 +199,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
             ) {
                 if (position > 0) {
                     // 선택된 항목 처리 로직
+                    Log.d(
+                        TAG, "onItemSelected: ${fixedItems[position]}"
+                    )
                     applySortOption(fixedItems[position])
                 }
             }
@@ -211,7 +216,9 @@ class ProductFragment : BaseFragment<FragmentProductBinding>(
         // 필터링된 상품 리스트 또는 전체 상품 리스트 가져오기
         val currentProducts = categoryViewModel.filteredProductList.value
             ?: productViewModel.productList.value
-            ?: return
+            ?: emptyList()
+
+        Log.d(TAG, "applySortOption: $currentProducts")
         val sortedProducts = when (option) {
             "인기순" -> currentProducts.sortedByDescending { it.likeCount } // `popularity`는 가정된 속성
             "신규순" -> currentProducts.sortedByDescending { it.productId }  // `dateAdded`는 가정된 속성
