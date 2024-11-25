@@ -4,6 +4,7 @@ import OrderViewModel
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.MainActivity
@@ -102,13 +103,13 @@ class CartFragment : BaseFragment<FragmentCartBinding>(
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility =
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
 

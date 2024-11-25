@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
@@ -12,6 +13,7 @@ import com.ssafy.snuggle_final_app.MainActivity
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
+import com.ssafy.snuggle_final_app.data.model.dto.Address
 import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Order
 import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
@@ -38,6 +40,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     private lateinit var adapter: OrderAdapter
 
     private val orderViewModel: OrderViewModel by activityViewModels()
+    private val addressViewModel: AddressViewModel by activityViewModels()
     private val applicationId = "6741ef35cc5274a3ac3fc73f"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,10 +55,12 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 
         // 어댑터 초기화
         initAdapter()
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+
 
         // viewModel 관찰
         observeOrderViewModel()
-
+        checkAddress(userId)
 
         binding.orderBtn.setOnClickListener {
             val shoppingList = orderViewModel.shoppingCart.value
@@ -66,11 +71,60 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
 
             makeOrder()
 
-            // 부트페이 결제창 열기            
+            // 부트페이 결제창 열기
             openPayment(shoppingList)
         }
 
     }
+
+    private fun checkAddress(userId: String) {
+        // 주소 존재 여부 확인
+        addressViewModel.isExist(userId)
+
+        // 주소 존재 여부 관찰
+        addressViewModel.isAddressExists.observe(viewLifecycleOwner) { exists ->
+            if (exists) {  // 주소 데이터 이미 있을때
+                addressViewModel.getAddress(userId)
+            } else {
+                enableAddressEditMode()
+            }
+        }
+
+        // 주소 데이터 관찰
+        addressViewModel.address.observe(viewLifecycleOwner) { address ->
+
+            if (address != null) {
+                Log.d(TAG, "checkAddress: 주소 데이터 업데이트됨 - $address")
+                updateAddressUI(address)
+            }
+        }
+    }
+
+    private fun updateAddressUI(address: Address) {
+        binding.orderTvAddr.text = address.address
+        binding.orderTvAddr.visibility = View.VISIBLE
+        binding.orderEtAddr.visibility = View.GONE
+
+        binding.orderTvName.text = address.userName
+        binding.orderTvName.visibility = View.VISIBLE
+        binding.orderEtName.visibility = View.GONE
+
+        binding.orderTvPhone.text = address.phone
+        binding.orderTvPhone.visibility = View.VISIBLE
+        binding.orderEtPhone.visibility = View.GONE
+    }
+
+    private fun enableAddressEditMode() {
+        binding.orderTvAddr.visibility = View.GONE
+        binding.orderEtAddr.visibility = View.VISIBLE
+
+        binding.orderTvName.visibility = View.GONE
+        binding.orderEtName.visibility = View.VISIBLE
+
+        binding.orderTvPhone.visibility = View.GONE
+        binding.orderEtPhone.visibility = View.VISIBLE
+    }
+
 
     private fun initAdapter() {
         // Adapter 초기화
@@ -101,6 +155,9 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
     private fun handleOrderSuccess() {
 
         Log.d("OrderFragment", "Order Success")
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+        // 주문 성공 후 주소 데이터 다시 가져오기
+        addressViewModel.getAddress(userId)
 
         // 주문 완료 화면으로 이동
         val orderCompleteFragment = OrderCompleteFragment().apply {
@@ -134,6 +191,8 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             Toast.makeText(context, "장바구니가 비어 있습니다.", Toast.LENGTH_SHORT).show()
             return
         }
+        // 주소 생성
+        makeAddress()
 
         // 총 가격 계산
         val totalPrice = shoppingList.sumOf { it.productCnt * it.price }
@@ -165,6 +224,45 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
         Log.d("OrderFragment", "Sending Order Data: ${Gson().toJson(order)}")
         orderViewModel.makeOrder(order)
 
+    }
+
+    private fun makeAddress() {
+        val address = if (binding.orderTvAddr.visibility == View.VISIBLE) {
+            binding.orderTvAddr.text.toString()
+        } else {
+            binding.orderEtAddr.text.toString()
+        }
+
+        val name = if (binding.orderTvName.visibility == View.VISIBLE) {
+            binding.orderTvName.text.toString()
+        } else {
+            binding.orderEtName.text.toString()
+        }
+
+        val phone = if (binding.orderTvPhone.visibility == View.VISIBLE) {
+            binding.orderTvPhone.text.toString()
+        } else {
+            binding.orderEtPhone.text.toString()
+        }
+
+        // 주소 데이터 검증
+        if (address.isEmpty() || name.isEmpty() || phone.isEmpty()) {
+            Toast.makeText(context, "주소, 이름, 전화번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+
+        // Address 객체 생성
+        val newAddress = Address(
+            userId = userId,
+            userName = name,
+            address = address,
+            phone = phone
+        )
+
+        // 주소 삽입
+        addressViewModel.insertAddress(newAddress)
     }
 
     // 부트페이 결제
@@ -212,35 +310,17 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             .request()
     }
 
-//    private fun completeOrderDetails() {
-//        val shoppingList = orderViewModel.shoppingCart.value
-//        shoppingList?.forEach { cart ->
-//            orderViewModel.updateOrderDetail(
-//                OrderDetail(
-//                    orderId = cart.orderId,
-//                    productId = cart.productId,
-//                    quantity = cart.productCnt,
-//                    orderTime = SimpleDateFormat(
-//                        "yyyy-MM-dd HH:mm:ss",
-//                        Locale.getDefault()
-//                    ).format(Date()),
-//                    completed = "Y"
-//                )
-//            )
-//        }
-//    }
-
 
     override fun onResume() {
         super.onResume()
         // Activity의 BottomNavigationView를 숨김
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility = View.GONE
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
     }
 
     override fun onStop() {
         super.onStop()
         // Activity의 BottomNavigationView를 다시 보임
-        activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)?.visibility =
+        activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
 }
