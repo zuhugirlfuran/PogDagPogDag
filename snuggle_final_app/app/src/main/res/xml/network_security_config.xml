@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Cleartext traffic 허용 -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- IP 주소나 도메인 추가 -->
+        <domain includeSubdomains="true">192.168.33.118</domain>
+    </domain-config>
+</network-security-config>

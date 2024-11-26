@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false">
+
+    <!-- Bottom Frame -->
+    <FrameLayout
+        android:id="@+id/bottom_frame2"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tabs Wrapper Layout -->
+    <LinearLayout
+        android:layout_marginBottom="5dp"
+        android:id="@+id/tabs_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 제품 Tab -->
+        <LinearLayout
+            android:id="@+id/product"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:id="@+id/productIndicator2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/bottom_navigation_active_btn"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/productIcon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/product_icon" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/productLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제품"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 스캐너 Tab -->
+        <LinearLayout
+            android:id="@+id/scanner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:id="@+id/scannerIndicator2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/bottom_navigation_active_btn"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/scannerIcon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/scanner_icon" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/scannerLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="스캐너"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 홈 Tab -->
+        <LinearLayout
+            android:id="@+id/home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:id="@+id/homeIndicator2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/bottom_navigation_active_btn"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/homeIcon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/home_icon" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/homeLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="홈"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 챗봇 Tab -->
+        <LinearLayout
+            android:id="@+id/chatbot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:id="@+id/chatbotIndicator2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/bottom_navigation_active_btn"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/chatbotIcon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/chatbot_icon" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/chatbotLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="챗봇"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 마이페이지 Tab -->
+        <LinearLayout
+            android:id="@+id/mypage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+
+                <View
+                    android:id="@+id/mypageIndicator2"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:background="@drawable/bottom_navigation_active_btn"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/mypageIcon2"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/mypage_icon" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/mypageLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="마이페이지"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

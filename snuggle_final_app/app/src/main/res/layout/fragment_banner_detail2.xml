@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="80dp"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="15dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="15dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@drawable/banner2_detail" />
+
+        <TextView
+            android:id="@+id/main_tv_title1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="🏞 NEW! 피크민 도안 입고 안내"
+            android:textSize="23sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/main_tv_title2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="드디어 많은 분들이 기다리시던 피크민 도안이 새롭게 입고되었습니다! 🎉\n이번 피크민 도안은 귀엽고 아기자기한 디자인으로, 다양한 제품에 적용되어 여러분의 일상에 특별함을 더해줄 준비가 되어 있습니다." />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="🛒 구매 및 이벤트 안내"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/main_tv_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:lineSpacingExtra="3dp"
+
+            android:text="판매 시작: 11월 28일 (화) 오전 10시\n
+한정 수량으로 제작되어 빠른 품절이 예상됩니다.\n
+피크민 도안 구매 이벤트\n
+피크민 도안 포함 제품 2개 이상 구매 시, 특별 굿즈 피크민 스티커 세트 증정!\n" />
+
+        <TextView
+            android:id="@+id/main_tv_contents2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:lineSpacingExtra="3dp"
+            android:text="📞 문의 사항"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/main_tv_contents3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:lineSpacingExtra="3dp"
+            android:text="상품 관련 문의는 Snuggle 고객센터 또는 앱 내 1:1 채팅을 통해 연락해 주세요.\n
+
+여러분의 피크민과 함께하는 행복한 순간을 기대합니다!\n
+지금 바로 Snuggle에서 만나보세요! 💖\n" />
+
+    </LinearLayout>
+
+
+</ScrollView>

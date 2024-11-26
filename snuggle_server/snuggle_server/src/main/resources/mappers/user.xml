@@ -7,7 +7,7 @@
 	<!-- INSERT -->
 	<insert id="insert" parameterType="User">
 		INSERT INTO t_user (
-		user_id,
+		user_id AS userId,
 		password,
 		nickname,
 		age,

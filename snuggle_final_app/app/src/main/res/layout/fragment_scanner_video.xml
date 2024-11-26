@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".scanner.ScannerVideoFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="349dp"
+            android:background="@color/black"
+            android:gravity="center">
+
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="292dp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="25dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/scanner_tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="11dp"
+                android:text="왕초보 뜨개질 기초 강의"
+                android:textSize="22dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/scanner_ll_bookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/scanner_bookmark_background"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/scanner_iv_bookmark"
+                    android:layout_width="10dp"
+                    android:layout_height="13.33dp"
+                    android:layout_marginRight="6dp"
+                    android:src="@drawable/scanner_bookmark_icon" />
+
+                <TextView
+                    android:id="@+id/scanner_tv_bookmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="19"
+                    android:textColor="#7D7D7D"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/scanner_tv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginRight="25dp"
+            android:text="달콤한 푸딩을 닮은 아기자기한 소품으로, 공간에 따뜻한 감성을 더해줍니다. 초보자도 쉽게 따라 할 수 있어 직접 만드는 즐거움을 느껴보세요! 🍮"
+            android:textColor="#7D7D7D"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:src="@drawable/scanner_line" />
+    </LinearLayout>
+
+
+</ScrollView>

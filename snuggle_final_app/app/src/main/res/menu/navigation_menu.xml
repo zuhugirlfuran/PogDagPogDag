@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/product"-->
+<!--        android:icon="@drawable/product_icon"-->
+<!--        android:title="제품" />-->
+<!--    <item-->
+<!--        android:id="@+id/scanner"-->
+<!--        android:icon="@drawable/scanner_icon"-->
+<!--        android:title="스캐너" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/home"-->
+<!--        android:icon="@drawable/home_icon"-->
+<!--        android:title="홈" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/chatbot"-->
+<!--        android:icon="@drawable/chatbot_icon"-->
+<!--        android:title="챗봇" />-->
+
+<!--    <item-->
+<!--        android:id="@+id/mypage"-->
+<!--        android:icon="@drawable/mypage_icon"-->
+<!--        android:title="마이페이지" />-->
+
+
+</menu>

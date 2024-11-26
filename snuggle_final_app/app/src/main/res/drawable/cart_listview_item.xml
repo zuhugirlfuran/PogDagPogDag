@@ -1,0 +1,27 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 배경색 설정 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+
+    <!-- 벡터 이미지 -->
+    <item>
+        <vector xmlns:android="http://schemas.android.com/apk/res/android"
+            android:width="345dp"
+            android:height="109dp"
+            android:viewportWidth="345"
+            android:viewportHeight="109">
+            <group>
+                <clip-path android:pathData="M20 0H325C336.046 0 345 8.95431 345 20V89C345 100.046 336.046 109 325 109H20C8.95431 109 0 100.046 0 89V20C0 8.95431 8.95431 0 20 0Z" />
+                <path
+                    android:fillColor="#FFFFFF"
+                    android:pathData="M0 0V109H345V0" />
+            </group>
+        </vector>
+    </item>
+</layer-list>
+
+

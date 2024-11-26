@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="25dp"
+    tools:context=".ui.main.NotificationActivity">
+
+    <TextView
+        android:id="@+id/notification_tv_main_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="25dp"
+        android:text="알림"
+
+        android:textSize="35sp"
+        android:textStyle="bold" />
+
+    <ListView
+        android:id="@+id/notification_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="20dp"
+        android:paddingStart="25dp"
+        android:paddingTop="36dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="25dp"
+        android:scrollbars="none" />
+
+
+</LinearLayout>

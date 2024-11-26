@@ -37,6 +37,7 @@
 		JOIN t_product p ON l.product_id =
 		p.product_id
 		WHERE l.user_id = #{userId}
+		ORDER BY like_id desc
 	</select>
 
 	<!-- 상품의 likeCount 증가 -->
