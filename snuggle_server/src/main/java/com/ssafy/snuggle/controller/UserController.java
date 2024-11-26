@@ -56,6 +56,7 @@ public class UserController {
         try {
             result = uService.join(user);
         } catch (Exception e) {
+        	logger.error("Error occurred while inserting user: {}", e.getMessage(), e);
             result = -1;
         }
 
