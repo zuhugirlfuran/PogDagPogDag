@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/41ba9024a33e1f45acfc295dc82e6039524f67ba/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/5f79f1b94a630911c87abaa1cf4c5081c75121f8/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/a2c3095c1484fbaf2916e2d64eb1aea314d64996/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/caaf889fb4211c2dbd2bcacbf81031299ac3fd9b/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/ccf4e301f6a3e4290a009c4907816574324336e7/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/d1b806773946e7e5bde69d80faae8a9f0b4eb268/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/e60667fcace20e3154849ee4641f581c5d71cc64/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/e8b70e3a2f0d0a32f1680b4bd04f2dd92908afb1/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/fc4287122c467054db97cb22c71d8a8de47a28d2/sources"/>
+	<classpathentry kind="src" path="snuggle_final_app/app/build/generated/ap_generated_sources/debug/out"/>
+	<classpathentry kind="src" path="snuggle_final_app/app/build/generated/data_binding_base_class_source_out/debug/out"/>
+	<classpathentry kind="src" path="snuggle_final_app/app/build/generated/data_binding_trigger/debug"/>
+	<classpathentry kind="src" path="snuggle_server/src/main/java"/>
+	<classpathentry kind="src" path="snuggle_server/src/test/java"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/processDebugResources/R.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/processDebugAndroidTestResources/R.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/merged_java_res/debug/mergeDebugJavaResource/base.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/project_dex_archive/debug/dexBuilderDebug/out/cb494e97bb27c8506245132b3388fab1fd9e3a720add5fa14302be633ff030a5_0.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/project_dex_archive/debug/dexBuilderDebug/out/cb494e97bb27c8506245132b3388fab1fd9e3a720add5fa14302be633ff030a5_1.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/project_dex_archive/debug/dexBuilderDebug/out/cb494e97bb27c8506245132b3388fab1fd9e3a720add5fa14302be633ff030a5_2.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/app/build/intermediates/project_dex_archive/debug/dexBuilderDebug/out/cb494e97bb27c8506245132b3388fab1fd9e3a720add5fa14302be633ff030a5_3.jar"/>
+	<classpathentry kind="lib" path="snuggle_final_app/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="snuggle_final_app/.gradle/8.7/dependencies-accessors/41ba9024a33e1f45acfc295dc82e6039524f67ba/classes"/>
+</classpath>

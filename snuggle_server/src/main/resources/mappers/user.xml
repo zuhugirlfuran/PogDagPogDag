@@ -6,30 +6,29 @@
 
 	<!-- INSERT -->
 	<insert id="insert" parameterType="User">
-    INSERT INTO t_user (
-        user_id,
-        password,
-        nickname,
-        age,
-        gender,
-        path,
-        token,
-        img,
-        stamps
-    )
-    VALUES (
-        #{userId},
-        #{password},
-        #{nickname},
-        #{age},
-        #{gender},
-        #{path},
-        #{token},
-        #{img},
-        #{stamps}
-    )
-</insert>
-
+		INSERT INTO t_user (
+		user_id,
+		password,
+		nickname,
+		age,
+		gender,
+		path,
+		token,
+		img,
+		stamps
+		)
+		VALUES (
+		#{userId},
+		#{password},
+		#{nickname},
+		#{age},
+		#{gender},
+		#{path},
+		#{token},
+		#{img},
+		#{stamps}
+		)
+	</insert>
 
 	<!-- UPDATE -->
 	<update id="updateStamp" parameterType="User">

@@ -15,7 +15,6 @@
 	<select id="selectWithInfo" parameterType="int"
 		resultMap="productResult">
 		SELECT p.product_id AS productId,
-			p.c_id AS cId,
            p.product_name AS productName,
            p.price AS price,
            p.content AS content,

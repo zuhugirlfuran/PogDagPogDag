@@ -6,15 +6,15 @@ public class Coupon {
 	private int couponId;
 	private String userId;
 	private String couponName;
-	private String couponStart;
-	private String couponEnd;
+	private Timestamp couponStart;
+	private Timestamp couponEnd;
 	private double couponDiscount;
 	private boolean couponUse;
 	
 	public Coupon() {}
 
 	
-	public Coupon(int couponId, String userId, String couponName, String couponStart, String couponEnd,
+	public Coupon(int couponId, String userId, String couponName, Timestamp couponStart, Timestamp couponEnd,
 			double couponDiscount, boolean couponUse) {
 		super();
 		this.couponId = couponId;
@@ -57,22 +57,22 @@ public class Coupon {
 	}
 
 
-	public String getCouponStart() {
+	public Timestamp getCouponStart() {
 		return couponStart;
 	}
 
 
-	public void setCouponStart(String couponStart) {
+	public void setCouponStart(Timestamp couponStart) {
 		this.couponStart = couponStart;
 	}
 
 
-	public String getCouponEnd() {
+	public Timestamp getCouponEnd() {
 		return couponEnd;
 	}
 
 
-	public void setCouponEnd(String couponEnd) {
+	public void setCouponEnd(Timestamp couponEnd) {
 		this.couponEnd = couponEnd;
 	}
 
