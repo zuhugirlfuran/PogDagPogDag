@@ -5,20 +5,17 @@ import OrderViewModel
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
-import com.ssafy.snuggle_final_app.data.model.dto.Address
+import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderCompleteBinding
-import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
 import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
+import com.ssafy.snuggle_final_app.ui.product.ProductDetailFragmentViewModel
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
 import com.ssafy.snuggle_final_app.ui.scanner.ScannerFragment
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
@@ -29,34 +26,80 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
     FragmentOrderCompleteBinding::bind,
     R.layout.fragment_order_complete
 ) {
-
+    private val addressViewModel: AddressViewModel by activityViewModels()
     private val orderViewModel: OrderViewModel by activityViewModels()
-
+    private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
     private lateinit var adapter: OrderAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupObserver()
 
-        // 전달받은 데이터 읽기
-        val address = arguments?.getString("address")
-        val name = arguments?.getString("name")
-        val phone = arguments?.getString("phone")
-        Log.d(TAG, "onViewCreated: ${address} ${name} ${phone}")
+        // 주문 완료 주소 정보 출력
+        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+        addressViewModel.getAddress(userId)
+        addressViewModel.address.observe(viewLifecycleOwner) { data ->
+            if (data != null) {
+                Log.d(TAG, "checkAddress: 주소 데이터 업데이트됨 - $data")
+                val address = data.address
+                val name = data.userName
+                val phone = data.phone
+                Log.d(TAG, "onViewCreated: ${address} ${name} ${phone}")
+                binding.orderCompleteAddr.text = address
+                binding.orderCompleteUserName.text = name
+                binding.orderCompletePhone.text = phone
+            }
+        }
 
-        // Fragment가 전달받은 인자를 바인딩에 반영
-        binding.orderCompleteAddr.text = address
-        binding.orderCompleteUserName.text = name
-        binding.orderCompletePhone.text = phone
+
+        // 결제 정보 출력
+        val orderId = arguments?.getInt("orderId") ?: 0
+        Log.d(TAG, "onViewCreated: orderId $orderId")
+
+//        var totalCnt = 0
+//        orderViewModel.getOrderDetail(orderId)
+//        orderViewModel.orderDetail.observe(viewLifecycleOwner) { orderResponse ->
+//            Log.d(TAG, "onViewCreated: $orderResponse")
+//
+//            val cartList = orderResponse.details.mapNotNull { detail ->
+//                val product =
+//                    productViewModel.productList.value?.find { it.productId == detail.productId }
+//                if (product != null) {
+//                    totalCnt += detail.quantity
+//                    Cart(
+//                        productId = detail.productId,
+//                        img = "",
+//                        title = product.productName,
+//                        productCnt = detail.quantity,
+//                        price = product.price,
+//                        deliveryDate = ""
+//                    )
+//
+//                } else {
+//                    Log.e(TAG, "Product not found for ID: ${detail.productId}")
+//                    null // 상품이 없을 경우 null 반환
+//                }
+//            }
+//
+//            // ViewModel의 장바구니 데이터 업데이트
+//            orderViewModel.updateShoppingList(cartList)
+//            adapter.updateData(cartList)
+//
+//            // UI 업데이트
+//            binding.orderCompleteTotalPrice.text = makeComma(orderResponse.totalPrice.toInt())
+//            binding.orderCompleteTotalCount.text = totalCnt.toString()
+//        }
 
 
-        // 주문 완료 버튼
+        // 확인 버튼
         binding.orderCompleteBtn.setOnClickListener {
             // 주문 완료 후 어댑터 리스트 초기화
             adapter.updateData(emptyList())
 
             // ViewModel의 쇼핑카트도 초기화
             orderViewModel.resetOrderState()
+
             //Toast.makeText(requireContext(), "주문이 완료되었습니다.", Toast.LENGTH_SHORT).show()
             // 메인 화면으로 이동
             parentFragmentManager.beginTransaction()
@@ -123,6 +166,7 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
             )
 
         }
+
     }
 
     private fun setupObserver() {
@@ -153,6 +197,7 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
         activity?.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility =
             View.VISIBLE
     }
+
     private fun navigateToMainFragment() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.main_frameLayout, MainFragment())

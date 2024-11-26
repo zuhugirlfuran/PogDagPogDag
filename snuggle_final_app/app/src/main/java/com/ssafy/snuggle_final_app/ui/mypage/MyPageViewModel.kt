@@ -25,10 +25,8 @@ class MyPageViewModel : ViewModel() {
             safeApiCall({
                 RetrofitUtil.userService.getUserInfo(userId)
             }, { userRes ->
-
                 Log.d(TAG, "API Success: $userRes")
                 _userInfo.value = userRes
-
             }, { exception ->
                 Log.e(TAG, "API Exception: ${exception.message}")
             })

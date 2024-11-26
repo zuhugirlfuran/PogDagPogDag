@@ -24,7 +24,8 @@ class BottomNavigationHelper(
     fun setup(
         backIndicator: View,
         tabs: List<Triple<LinearLayout, View, Triple<ImageView, TextView, Fragment>>>,
-        defaultTab: LinearLayout
+        defaultTab: LinearLayout,
+        onTabChange: (Fragment) -> Unit = {}
     ) {
         // 초기 활성화할 탭 설정
         val defaultTabConfig = tabs.find { it.first == defaultTab }
@@ -32,7 +33,8 @@ class BottomNavigationHelper(
             val (icon, label, fragment) = content
             activateTab(indicator, icon, label, backIndicator, tabLayout, isFirstClick = true)
             // ViewTreeObserver를 사용해 레이아웃이 준비된 후 위치 이동
-            backIndicator.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            backIndicator.viewTreeObserver.addOnGlobalLayoutListener(object :
+                ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     moveBackIndicator(backIndicator, tabLayout)
                     backIndicator.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -49,13 +51,22 @@ class BottomNavigationHelper(
 
             tabLayout.setOnClickListener {
                 if (activeTab != tabLayout) { // 활성화된 탭이 변경될 때만 동작
-                    activateTab(indicator, icon, label, backIndicator, tabLayout, isFirstClick = true)
+                    activateTab(
+                        indicator,
+                        icon,
+                        label,
+                        backIndicator,
+                        tabLayout,
+                        isFirstClick = true
+                    )
                     deactivateAllExcept(indicator, icon, label, tabs)
                     replaceFragment(fragment)
                     activeTab = tabLayout
+
                 }
             }
         }
+
     }
 
     private fun activateTab(

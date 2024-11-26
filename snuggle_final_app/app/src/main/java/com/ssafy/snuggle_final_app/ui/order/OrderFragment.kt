@@ -17,7 +17,6 @@ import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.data.model.dto.Order
 import com.ssafy.snuggle_final_app.data.model.dto.OrderDetail
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderBinding
-import com.ssafy.snuggle_final_app.ui.cart.OrderAdapter
 import com.ssafy.snuggle_final_app.util.CommonUtils.makeComma
 import kr.co.bootpay.Bootpay
 import kr.co.bootpay.enums.PG

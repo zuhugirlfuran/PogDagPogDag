@@ -19,6 +19,8 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -35,6 +37,7 @@ import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil.Companion.fcmService
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.fcm.NotificationViewModel
+import com.ssafy.snuggle_final_app.ui.cart.CartFragment
 import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.CouponFragment
@@ -95,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager,
             R.id.main_frameLayout
         )
-
         val backIndicator = binding.backIndicator2
         val homeTab = binding.customBottomNavigation.home
 
@@ -162,7 +164,7 @@ class MainActivity : AppCompatActivity() {
         // appBar_cart 버튼 클릭 리스너 설정
         val cartButton = findViewById<ImageButton>(R.id.app_bar_ib_cart)
         cartButton.setOnClickListener {
-            replaceFragment(com.ssafy.snuggle_final_app.ui.cart.CartFragment())
+            replaceFragment(CartFragment())
         }
 
         // appBar logo 클릭 시 메인 프레그먼트로 이동

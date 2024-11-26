@@ -11,10 +11,10 @@ data class OrderResponse(
 //    @SerializedName("completed") val orderCompleted: Char = 'N',
 //    @SerializedName("details") var details: List<OrderDetailResponse> = emptyList()
 
-    @SerializedName("order_id") val orderId: Int,
-    @SerializedName("user_id") val userId: String,
-    @SerializedName("total_price") val totalPrice: Double,
-    @SerializedName("name") val name: String,
+    val orderId: Int,
+    val userId: String,
+    val totalPrice: Double,
+    val name: String,
     @SerializedName("address") val address: String,
     @SerializedName("phone") val phone: String,
     @SerializedName("details") var details: List<OrderDetailResponse> = emptyList()
