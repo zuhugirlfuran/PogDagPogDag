@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFAE6">
+    android:background="#FFFAE6"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
 
         <!-- 검색창 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,23 +24,29 @@
             android:paddingRight="16dp"
             android:paddingBottom="16dp">
 
-
-            <ImageButton
+            <EditText
                 android:id="@+id/search_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
-                android:background="@drawable/btn_search"
-                android:fontFamily="sans-serif"
-                android:paddingStart="20dp"
-                android:paddingEnd="10dp"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/product_et_search"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint=" 제품 이름을 입력하세요"
+                android:inputType="none"
+                android:padding="8dp"
+                android:textColorHint="#D1D1D1"
+                android:textSize="15sp"
                 app:layout_constraintEnd_toStartOf="@+id/search_button"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.9" />
 
             <ImageButton
                 android:id="@+id/search_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
                 android:background="@drawable/product_btn_search"
                 android:scaleType="centerInside"
                 app:layout_constraintBottom_toBottomOf="@+id/search_edit_text"
@@ -52,7 +60,7 @@
         <LinearLayout
             android:id="@+id/main_ll_banner"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="3dp"
@@ -60,14 +68,15 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/main_banner1_background"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager_banner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-            <!-- FrameLayout을 사용하여 자식 뷰의 절대 위치 설정 -->
 
 
         </LinearLayout>
@@ -77,6 +86,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="5dp"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -95,7 +107,7 @@
                 android:id="@+id/best_product_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="30dp"
                 android:scrollbars="none" />
 
             <!-- NEW PRODUCT -->

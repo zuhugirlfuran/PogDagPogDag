@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/cart_listview_item"
+    android:background="@drawable/main_white_background"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="20dp">
@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="댓글 작성"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <EditText
@@ -22,14 +22,15 @@
         android:background="@drawable/comment_add_dialog_background"
         android:hint="40자 이내의 댓글을 남겨보세요!"
         android:padding="16dp"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_button"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/product_detail_btn_background"
+        android:background="@drawable/dialog_btn"
         android:text="확인"
+        android:textSize="12dp"
         android:textStyle="bold" />
 </LinearLayout>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="306dp"
+    android:layout_height="188dp"
     android:orientation="vertical"
     android:padding="35dp">
 
@@ -19,25 +19,25 @@
         android:id="@+id/linearMale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="true"
-        android:gravity="center"
         android:layout_marginTop="8dp"
-        android:focusable="true">
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_marginTop="3dp"
             android:id="@+id/radioMale"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/dialog_checkbox_blank" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:textSize="18sp"
-            android:text="남성" />
+            android:text="남성"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -45,23 +45,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
-        android:orientation="horizontal"
         android:clickable="true"
+        android:focusable="true"
         android:gravity="center"
-        android:focusable="true">
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_marginTop="3dp"
             android:id="@+id/radioFemale"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginTop="3dp"
             android:src="@drawable/dialog_checkbox_blank" />
 
         <TextView
-            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="여성" />
+            android:text="여성"
+            android:textSize="18sp" />
     </LinearLayout>
 </LinearLayout>

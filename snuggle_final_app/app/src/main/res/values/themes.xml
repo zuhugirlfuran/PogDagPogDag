@@ -18,6 +18,11 @@
         <item name="buttonTint">#795A0C</item>
     </style>
 
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@drawable/dialog_custom_background</item>
+        <item name="android:windowMinWidthMajor">80%</item> <!-- 다이얼로그 너비 설정 -->
+        <item name="android:windowMinWidthMinor">80%</item>
+    </style>
 
 
 </resources>

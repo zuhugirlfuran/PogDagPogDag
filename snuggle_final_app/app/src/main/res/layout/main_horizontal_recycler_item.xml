@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="125dp"
+    android:layout_width="110dp"
     android:layout_height="wrap_content"
     android:layout_marginRight="15dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
         android:src="@drawable/item01" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:maxLines="2"
         android:text="푸딩거북이인데요 길이가 너무 길어서 내려갈거야"
         android:textColor="#000"
-        android:textSize="15sp"
+        android:textSize="14.5sp"
         android:textStyle="bold" />
 
     <TextView
@@ -32,6 +32,6 @@
         android:layout_marginLeft="7dp"
         android:text="5,000원"
         android:textColor="#666"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>

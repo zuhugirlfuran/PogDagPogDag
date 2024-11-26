@@ -181,12 +181,13 @@ class ProductDetailFragment : BaseFragment<FragmentProductDetailBinding>(
     private fun showCommentDialog() {
 
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_comment, null)
-        val builder = AlertDialog.Builder(requireContext())
+        val builder = AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
         builder.setView(dialogView)
         val dialog = builder.create()
 
         val dialogButton = dialogView.findViewById<Button>(R.id.dialog_button)
         val dialogInput = dialogView.findViewById<EditText>(R.id.comment_dialog_input)
+        dialog.window?.setBackgroundDrawableResource(R.drawable.dialog_rounded_border)
 
         dialogButton.setOnClickListener {  // 확인 버튼
             val inputText = dialogInput.text.toString()

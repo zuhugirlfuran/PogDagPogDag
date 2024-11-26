@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".login.JoinFragment">
+    android:orientation="vertical">
 
     <ImageView
-        android:layout_marginLeft="27dp"
         android:layout_width="122dp"
         android:layout_height="68dp"
+        android:layout_marginLeft="27dp"
         android:src="@drawable/logo" />
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="38dp"
-        android:paddingRight="38dp"
+        android:layout_height="659dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/main_white_background"
+        android:elevation="20dp"
         android:orientation="vertical"
-        android:background="@drawable/join_white_background">
+        android:paddingLeft="38dp"
+        android:paddingRight="38dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,20 +34,20 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/login_et_id"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/join_et_id"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
                 android:hint="ID"
                 android:inputType="textEmailAddress"
                 android:paddingStart="60dp"
-                android:paddingEnd="16dp"
-                android:background="@android:color/transparent"
-                android:ellipsize="end" />
+                android:paddingEnd="16dp" />
 
             <ImageView
                 android:id="@+id/join_check_id"
@@ -56,8 +55,8 @@
                 android:layout_height="25dp"
                 android:layout_marginEnd="20dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/join_checkbox_id_blank"
-                android:contentDescription="Toggle password visibility" />
+                android:contentDescription="Toggle password visibility"
+                android:src="@drawable/join_checkbox_id_blank" />
 
         </LinearLayout>
 
@@ -66,30 +65,30 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/login_et_pw"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/join_et_pw"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ellipsize="end"
                 android:hint="PW"
                 android:inputType="textPassword"
                 android:paddingLeft="60dp"
-                android:paddingRight="16dp"
-                android:background="@android:color/transparent"
-                android:ellipsize="end" />
+                android:paddingRight="16dp" />
 
             <ImageView
-                android:visibility="gone"
                 android:id="@+id/join_uncheck_pw"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
+                android:contentDescription="Toggle password visibility"
                 android:src="@drawable/login_pw_check"
-                android:contentDescription="Toggle password visibility" />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/join_check_pw"
@@ -97,17 +96,17 @@
                 android:layout_height="25dp"
                 android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/login_pw_uncheck"
-                android:contentDescription="Toggle password visibility" />
+                android:contentDescription="Toggle password visibility"
+                android:src="@drawable/login_pw_uncheck" />
 
         </LinearLayout>
 
 
         <EditText
-            android:layout_marginTop="20dp"
             android:id="@+id/join_et_nickname"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/join_et_nickname"
             android:hint="NickName"
             android:inputType="text"
@@ -117,10 +116,10 @@
             android:paddingBottom="3dp" />
 
         <EditText
-            android:layout_marginTop="20dp"
             android:id="@+id/join_et_age"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/login_et_id"
             android:hint="Age"
             android:inputType="number"
@@ -131,13 +130,13 @@
 
         <EditText
             android:id="@+id/join_et_gender"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/login_et_pw"
-            android:hint="Gender"
-            android:focusable="false"
             android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="Gender"
             android:paddingLeft="60dp"
             android:paddingTop="3dp"
             android:paddingRight="16dp"
@@ -145,13 +144,13 @@
 
         <EditText
             android:id="@+id/join_et_path"
-            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/join_et_nickname"
-            android:hint="Sgin up path"
-            android:focusable="false"
             android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="Sgin up path"
             android:paddingLeft="60dp"
             android:paddingTop="3dp"
             android:paddingRight="16dp"
