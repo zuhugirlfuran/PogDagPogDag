@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFAE6">
+    android:background="#FFFAE6"
+    android:clipChildren="false"
+    android:clipToPadding="false">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingBottom="20dp">
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical">
 
         <!-- 검색창 -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,19 +23,6 @@
             android:paddingTop="8dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp">
-
-
-            <!--            <ImageButton-->
-            <!--                android:id="@+id/search_edit_text"-->
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="38dp"-->
-            <!--                android:background="@drawable/btn_search"-->
-            <!--                android:fontFamily="sans-serif"-->
-            <!--                android:paddingStart="20dp"-->
-            <!--                android:paddingEnd="10dp"-->
-            <!--                app:layout_constraintEnd_toStartOf="@+id/search_button"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
             <EditText
                 android:id="@+id/search_edit_text"
@@ -96,6 +86,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/main_white_background"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:elevation="5dp"
             android:orientation="vertical"
             android:padding="16dp">
 
