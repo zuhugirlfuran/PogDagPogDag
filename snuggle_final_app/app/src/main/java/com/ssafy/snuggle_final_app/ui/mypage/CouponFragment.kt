@@ -1,12 +1,14 @@
 package com.ssafy.snuggle_final_app.ui.mypage
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.snuggle_final_app.MainActivity
@@ -15,23 +17,35 @@ import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.databinding.FragmentCouponBinding
 
+private const val TAG = "CouponFragment"
 class CouponFragment : BaseFragment<FragmentCouponBinding>(
     FragmentCouponBinding::bind,
     R.layout.fragment_coupon
 ) {
 
-    private val viewModel: MyPageViewModel by viewModels()
+    private val couponViewModel: CouponViewModel by activityViewModels()
     private lateinit var couponAdapter: CouponAdapter
     private lateinit var mainActivity: MainActivity
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        mainActivity = context as MainActivity
+        mainActivity.let {
+            it.findViewById<View>(R.id.app_bar)?.visibility = View.GONE
+            it.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
+        }
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainActivity = context as MainActivity
-        mainActivity?.let {
-            it.findViewById<View>(R.id.app_bar)?.visibility = View.GONE
-            it.findViewById<ConstraintLayout>(R.id.bottom_navigation)?.visibility = View.GONE
-        }
 
         // RecyclerView 초기화
         setupRecyclerView()
@@ -41,7 +55,8 @@ class CouponFragment : BaseFragment<FragmentCouponBinding>(
 
         // UserId 가져오기
         val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
-        viewModel.getCoupons(userId)
+        couponViewModel.getCoupons(userId)  // 쿠폰 리스트 보여주기
+
     }
 
     private fun setupRecyclerView() {
@@ -51,20 +66,12 @@ class CouponFragment : BaseFragment<FragmentCouponBinding>(
     }
 
     private fun observeViewModel() {
-        viewModel.coupons.observe(viewLifecycleOwner) { coupons ->
+        couponViewModel.couponList.observe(viewLifecycleOwner) { coupons ->
             if (coupons != null) {
                 couponAdapter = CouponAdapter(coupons)
                 binding.couponList.adapter = couponAdapter
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     override fun onDestroyView() {

@@ -16,17 +16,7 @@ class CouponAdapter(private val coupons: List<Coupon>) :
 
         fun bind(coupon: Coupon) {
             binding.couponTvTitle.text = coupon.couponName
-
-            // 날짜 포맷 변경
-            val dateFormat = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault())
-            try {
-                val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
-                    .parse(coupon.couponEnd.toString())
-                val formattedDate = dateFormat.format(date!!)
-                binding.couponTvDate.text = "$formattedDate 까지"
-            } catch (e: Exception) {
-                binding.couponTvDate.text = "날짜 형식 오류"
-            }
+            binding.couponTvDate.text = "${coupon.couponEnd.substringBefore(" ")} 까지"
 
             // 할인 정보 표시
             binding.couponTvDiscount.text =

@@ -5,8 +5,8 @@ import java.sql.Timestamp
 data class Coupon(
     val userId: String,
     val couponName: String,
-    val couponStart: Timestamp,
-    val couponEnd: Timestamp,
+    val couponStart: String,
+    val couponEnd: String,
     val couponDiscount: Double,
     val couponUse: Boolean
 ) {
@@ -16,8 +16,8 @@ data class Coupon(
         couponId: Int,
         userId: String,
         couponName: String,
-        couponStart: Timestamp,
-        couponEnd: Timestamp,
+        couponStart: String,
+        couponEnd: String,
         couponDiscount: Double,
         couponUse: Boolean
     ) : this(userId, couponName, couponStart, couponEnd, couponDiscount, couponUse) {

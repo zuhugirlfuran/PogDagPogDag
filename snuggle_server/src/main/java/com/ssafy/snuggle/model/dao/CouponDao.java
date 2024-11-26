@@ -24,5 +24,12 @@ public interface CouponDao {
      */
 	int update(Coupon coupon);
 	
+	/**
+     * coupon 추가
+     * 사용자가 쿠폰을 얻으면 테이블에 추가하고 coupon id 반환
+     * @param Coupon
+     * @return CouponId
+     */
+	int insert(Coupon coupon);
 	
 }

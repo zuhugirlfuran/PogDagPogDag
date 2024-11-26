@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,17 @@ public class CouponController {
 		return -1;
 	}
 	
-	
+	@PostMapping("")
+	@Operation(summary="사용자가 쿠폰을 얻으면 리스트에 추가한다.")
+	public int insertCoupon(@RequestBody Coupon coupon) {
+		
+		int result = -1;
+		result = couponService.insert(coupon);
+		if (result > 0) {
+			return coupon.getCouponId();
+		}
+		return result;
+	}
 	
 	
 

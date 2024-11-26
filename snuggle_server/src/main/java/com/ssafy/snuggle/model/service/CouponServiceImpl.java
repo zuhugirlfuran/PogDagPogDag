@@ -25,4 +25,9 @@ public class CouponServiceImpl implements CouponService {
 		return cDao.update(coupon);
 	}
 
+	@Override
+	public int insert(Coupon coupon) {
+		return cDao.insert(coupon);
+	}
+
 }

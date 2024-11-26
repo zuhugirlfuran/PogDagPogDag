@@ -19,21 +19,19 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.View
-import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.ssafy.snuggle_final_app.base.ApplicationClass
+import com.ssafy.snuggle_final_app.base.BaseActivity
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
+import com.ssafy.snuggle_final_app.data.model.dto.Coupon
 import com.ssafy.snuggle_final_app.data.service.RetrofitUtil.Companion.fcmService
 import com.ssafy.snuggle_final_app.databinding.ActivityMainBinding
 import com.ssafy.snuggle_final_app.fcm.NotificationViewModel
@@ -41,6 +39,7 @@ import com.ssafy.snuggle_final_app.ui.cart.CartFragment
 import com.ssafy.snuggle_final_app.ui.chatbot.ChatBotFragment
 import com.ssafy.snuggle_final_app.ui.main.MainFragment
 import com.ssafy.snuggle_final_app.ui.mypage.CouponFragment
+import com.ssafy.snuggle_final_app.ui.mypage.CouponViewModel
 import com.ssafy.snuggle_final_app.ui.mypage.MypageFragment
 import com.ssafy.snuggle_final_app.ui.notification.NotificationActivity
 import com.ssafy.snuggle_final_app.ui.product.ProductFragment
@@ -55,15 +54,21 @@ import org.altbeacon.beacon.Region
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : BaseActivity<ActivityMainBinding>(
+    ActivityMainBinding::inflate
+) {
+
     private var nfcAdapter: NfcAdapter? = null
 
     private val notificationViewModel: NotificationViewModel by viewModels()
-
+    private val couponViewModel: CouponViewModel by viewModels()
     private lateinit var sharedPreferencesUtil: SharedPreferencesUtil
 
     /** permission check **/
@@ -77,9 +82,6 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         // Beacon관련
         setBeacon()
@@ -412,7 +414,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bluetoothManager: BluetoothManager
     private lateinit var bluetoothAdapter: BluetoothAdapter
 
-    private fun setBeacon(){
+    private fun setBeacon() {
         //BeaconManager 지정
         beaconManager = BeaconManager.getInstanceForApplication(this)
         beaconManager.beaconParsers.add(BeaconParser().setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24"))
@@ -468,13 +470,14 @@ class MainActivity : AppCompatActivity() {
                     if (isYourBeacon(beacon)) {
                         distance = beacon.distance
                         // 한번만 띄우기 위한 조건
-                        if(distance <= 5.0){
+                        if (distance <= 5.0) {
                             Log.d(TAG, "didRangeBeaconsInRegion: ${BLUETOOTH_ADDRESS}")
                             Log.d(TAG, "didRangeBeaconsInRegion: 비콘과의 거리 ${distance}")
 
                             if (sharedPreferencesUtil.isTodayEventDate()) {
-                                // 이미 이벤트가 실행된 기록이 있기 때문에 아무것도 하지 않음
+//                                // 이미 이벤트가 실행된 기록이 있기 때문에 아무것도 하지 않음
                             } else {
+                                // 이벤트 실행 기록없으면, 다이얼로그 호출
                                 // 오늘 날짜로 이벤트를 저장하고 이벤트 실행
                                 showEventDialog() // 이벤트 다이얼로그 1회만 호출
                                 sharedPreferencesUtil.saveCurrentDate()
@@ -484,7 +487,9 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     }
-                    Log.d(TAG, "distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3
+                    Log.d(
+                        TAG,
+                        "distance: " + beacon.distance + " id:" + beacon.id1 + "/" + beacon.id2 + "/" + beacon.id3
                     )
                 }
 
@@ -506,6 +511,20 @@ class MainActivity : AppCompatActivity() {
                     setMessage("쿠폰이 있습니다. 확인하시겠습니까?") // 다이얼로그 메시지
                     setCancelable(true) // 뒤로가기나 터치로 취소 가능 여부
                     setPositiveButton("확인") { dialog, _ ->
+
+                        // 쿠폰 정보 추가
+                        val userId = ApplicationClass.sharedPreferencesUtil.getUser().userId
+                        val (today, endDay) = getNowDate()
+                        val coupon = Coupon(userId, "2000원 할인쿠폰", today, endDay, 2000.0, false)
+                        couponViewModel.insertCoupon(coupon)
+                        // 쿠폰 추가 성공 여부 관찰
+                        couponViewModel.isCouponAdded.observe(this@MainActivity) { isAdded ->
+                            if (!isAdded) {
+                                showToast("쿠폰이 추가되었습니다.")
+                                replaceFragment(CouponFragment())
+                            }
+                        }
+
                         replaceFragment(CouponFragment())
                         dialog.dismiss() // 확인 버튼 클릭 시 다이얼로그 닫기
                     }
@@ -518,6 +537,20 @@ class MainActivity : AppCompatActivity() {
         } else {
             Log.d(TAG, "Activity is not valid for showing a dialog.")
         }
+    }
+
+    fun getNowDate(): Pair<String, String> {
+        val iso8601Format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
+        iso8601Format.timeZone = TimeZone.getTimeZone("UTC") // UTC 시간대 설정
+
+        val today = Date()
+        val sevenDaysLater = Date(today.time + 7 * 24 * 60 * 60 * 1000)
+
+        val todayFormatted = iso8601Format.format(today.time) // 오늘 날짜 ISO-8601 형식
+        val sevenDaysLaterFormatted =
+            iso8601Format.format(sevenDaysLater.time) // 7일 후 날짜 ISO-8601 형식
+
+        return Pair(todayFormatted, sevenDaysLaterFormatted)
     }
 
 

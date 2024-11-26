@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.ssafy.snuggle_final_app.LoginActivity
@@ -31,7 +32,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
     private lateinit var mainActivity: MainActivity
 
     private val viewModel: MyPageViewModel by viewModels()
-
+    private val couponViewModel: CouponViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +68,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
 
         if (userId.isNotEmpty()) {
             // 쿠폰 데이터 가져오기
-            viewModel.getCoupons(userId)
+            couponViewModel.getCoupons(userId)
         }
 
         //=== 주문 내역으로 이동==//
@@ -149,7 +150,7 @@ class MypageFragment : BaseFragment<FragmentMypageBinding>(
         }
 
         // 쿠폰 데이터 관찰
-        viewModel.coupons.observe(viewLifecycleOwner) { coupons ->
+        couponViewModel.couponList.observe(viewLifecycleOwner) { coupons ->
             if (coupons != null) {
                 val availableCoupons = coupons.count { !it.couponUse }
                 binding.mypageTvCoupon.text = availableCoupons.toString()

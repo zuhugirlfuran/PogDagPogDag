@@ -24,4 +24,11 @@ public interface CouponService {
      */
 	int update(Coupon coupon);
 	
+	/**
+     * coupon 추가
+     * 사용자가 쿠폰을 얻으면 추가하고 쿠폰 id 반환
+     * @param Coupon
+     * @return couponId
+     */
+	int insert(Coupon coupon);
 }

@@ -28,5 +28,19 @@
         WHERE coupon_id = #{couponId}
     </update>
     
+    <insert id="insert" parameterType="Coupon">
+        INSERT INTO t_coupon (
+        	user_id,
+        	coupon_name,
+        	coupon_start,
+        	coupon_end,
+        	coupon_discount,
+        	coupon_use
+        ) VALUES (
+        	#{userId}, #{couponName}, #{couponStart}, #{couponEnd}, #{couponDiscount}, #{couponUse}
+        )
+        
+    </insert>
+    
 </mapper>
 	
