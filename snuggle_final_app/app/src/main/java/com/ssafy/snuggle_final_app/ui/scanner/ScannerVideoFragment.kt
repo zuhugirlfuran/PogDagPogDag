@@ -4,14 +4,9 @@ import ScannerViewModel
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.MediaController
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.BaseFragment
 import com.ssafy.snuggle_final_app.data.local.SharedPreferencesUtil
@@ -54,7 +49,9 @@ class ScannerVideoFragment : BaseFragment<FragmentScannerVideoBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            videoSrc = it.getString("videoSrc") ?: ""
+
+            videoSrc = "android.resource://${requireContext().packageName}/${R.raw.videoplayback}"
+            // videoSrc = it.getString("videoSrc") ?: ""
             videoTitle = it.getString("videoTitle") ?: ""
             videoContent = it.getString("videoContent") ?: ""
             videoLike = it.getInt("videoLike", 0)
