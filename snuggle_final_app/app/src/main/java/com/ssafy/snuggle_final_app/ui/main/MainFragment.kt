@@ -65,30 +65,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
 
         /* ==== banner ==== */
         //배너 클릭 리스너
-        binding.mainLlBanner.setOnClickListener {
-            val bannerTransaction = parentFragmentManager.beginTransaction()
-            bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
-            bannerTransaction.addToBackStack(null)
-            bannerTransaction.commit()
-        }
+
 
         // 배너 설정
         setupBanner()
-
-
-//        binding.bannerLayout.setOnClickListener {
-//            val bannerTransaction = parentFragmentManager.beginTransaction()
-//            bannerTransaction.replace(R.id.main_frameLayout, BannerDetailFragment())
-//            bannerTransaction.addToBackStack(null)
-//            bannerTransaction.commit()
-//        }
-
-//        val carouselView = findViewById<CarouselView>(R.id.carouselView)
-//        carouselView.pageCount = images.size // 이미지 배열 크기
-//        carouselView.setImageListener { position, imageView ->
-//            imageView.setImageResource(images[position])
-//        }
-
 
         // 어댑터 초기화
         bestProductAdapter()
@@ -119,6 +99,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
         viewPager2 = binding.viewPagerBanner
         viewPager2.adapter = bannerAdapter
 
+
         // 배너 자동 스크롤 시작
         handler.postDelayed(pagerRunnable, 3000)
     }
@@ -134,7 +115,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             if (bestProducts != null) {
                 // 데이터 3개 제한
                 val limitedBestProducts =
-                    if (bestProducts.size > 3) bestProducts.subList(0, 3) else bestProducts
+                    if (bestProducts.size > 5) bestProducts.subList(0, 5) else bestProducts
                 bestAdapter.submitList(limitedBestProducts)
             }
         }
@@ -143,7 +124,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(
             if (newProducts != null) {
                 // 데이터 3개 제한
                 val limitedNewProducts =
-                    if (newProducts.size > 3) newProducts.subList(0, 3) else newProducts
+                    if (newProducts.size > 5) newProducts.subList(0, 5) else newProducts
                 newAdapter.submitList(limitedNewProducts)
             }
         }

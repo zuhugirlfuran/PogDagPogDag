@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFAE6">
@@ -52,7 +51,7 @@
         <LinearLayout
             android:id="@+id/main_ll_banner"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="3dp"
@@ -60,14 +59,15 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/main_banner1_background"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp">
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager_banner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-            <!-- FrameLayout을 사용하여 자식 뷰의 절대 위치 설정 -->
 
 
         </LinearLayout>
@@ -95,7 +95,7 @@
                 android:id="@+id/best_product_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="30dp"
                 android:scrollbars="none" />
 
             <!-- NEW PRODUCT -->

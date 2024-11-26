@@ -1,7 +1,9 @@
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class BannerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
+class BannerAdapter(
+    fragment: Fragment
+) : FragmentStateAdapter(fragment) {
 
     private val fragmentList: MutableList<Fragment> = mutableListOf()
 
@@ -14,6 +16,7 @@ class BannerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         fragmentList.add(fragment)
         notifyItemInserted(fragmentList.size - 1)
     }
+
 
     // 배너 여러 개 추가
     fun addBannerFragments(fragments: List<Fragment>) {
