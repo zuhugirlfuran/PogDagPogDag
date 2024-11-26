@@ -184,6 +184,7 @@ class OrderFragment : BaseFragment<FragmentOrderBinding>(
             }
         }
 
+        // 결제 완료 영수증으로 넘기기
         mainActivity.replaceFragment(orderCompleteFragment)
     }
 

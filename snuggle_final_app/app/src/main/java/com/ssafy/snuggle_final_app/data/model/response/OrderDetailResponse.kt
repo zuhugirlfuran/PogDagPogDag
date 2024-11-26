@@ -10,8 +10,4 @@ data class OrderDetailResponse(
     val orderTime: String,
     val completed: String,
 
-//    @SerializedName("name") val productName: String,
-//    @SerializedName("img") val productImg: String,
-//    @SerializedName("unitPrice") val unitPrice: Int,
-//    @SerializedName("sumPrice") val sumPrice: Int
 )

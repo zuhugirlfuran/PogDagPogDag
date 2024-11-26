@@ -1,11 +1,14 @@
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.viewModels
 import com.ssafy.snuggle_final_app.R
 import com.ssafy.snuggle_final_app.base.ApplicationClass
 import com.ssafy.snuggle_final_app.base.BaseFragment
+import com.ssafy.snuggle_final_app.data.model.dto.Cart
 import com.ssafy.snuggle_final_app.databinding.FragmentOrderListBinding
+import com.ssafy.snuggle_final_app.ui.mypage.OrderCompleteListFragment
 import com.ssafy.snuggle_final_app.ui.mypage.OrderListViewModel
 import com.ssafy.snuggle_final_app.ui.order.OrderCompleteFragment
 
@@ -54,9 +57,10 @@ class OrderListFragment : BaseFragment<FragmentOrderListBinding>(
 
 
     private fun navigateToOrderCompleteFragment(orderId: Int) {
-        val fragment = OrderCompleteFragment().apply {
+        // OrderCompleteFragment로 데이터 전달
+        val fragment = OrderCompleteListFragment().apply {
             arguments = Bundle().apply {
-                putInt("orderId", orderId) // orderId 전달
+                putInt("orderId", orderId)
             }
         }
         parentFragmentManager.beginTransaction()

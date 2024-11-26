@@ -28,7 +28,7 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
 ) {
     private val addressViewModel: AddressViewModel by activityViewModels()
     private val orderViewModel: OrderViewModel by activityViewModels()
-    private val productViewModel: ProductDetailFragmentViewModel by activityViewModels()
+
     private lateinit var adapter: OrderAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,45 +51,6 @@ class OrderCompleteFragment : BaseFragment<FragmentOrderCompleteBinding>(
                 binding.orderCompletePhone.text = phone
             }
         }
-
-
-        // 결제 정보 출력
-        val orderId = arguments?.getInt("orderId") ?: 0
-        Log.d(TAG, "onViewCreated: orderId $orderId")
-
-//        var totalCnt = 0
-//        orderViewModel.getOrderDetail(orderId)
-//        orderViewModel.orderDetail.observe(viewLifecycleOwner) { orderResponse ->
-//            Log.d(TAG, "onViewCreated: $orderResponse")
-//
-//            val cartList = orderResponse.details.mapNotNull { detail ->
-//                val product =
-//                    productViewModel.productList.value?.find { it.productId == detail.productId }
-//                if (product != null) {
-//                    totalCnt += detail.quantity
-//                    Cart(
-//                        productId = detail.productId,
-//                        img = "",
-//                        title = product.productName,
-//                        productCnt = detail.quantity,
-//                        price = product.price,
-//                        deliveryDate = ""
-//                    )
-//
-//                } else {
-//                    Log.e(TAG, "Product not found for ID: ${detail.productId}")
-//                    null // 상품이 없을 경우 null 반환
-//                }
-//            }
-//
-//            // ViewModel의 장바구니 데이터 업데이트
-//            orderViewModel.updateShoppingList(cartList)
-//            adapter.updateData(cartList)
-//
-//            // UI 업데이트
-//            binding.orderCompleteTotalPrice.text = makeComma(orderResponse.totalPrice.toInt())
-//            binding.orderCompleteTotalCount.text = totalCnt.toString()
-//        }
 
 
         // 확인 버튼

@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 import com.ssafy.snuggle_final_app.data.model.dto.Comment
 
 data class ProductWithCommentResponse(
-    @SerializedName("productId") val productId: Int = 0,              // 상품 ID
-    @SerializedName("cId") val cId: Int = 0,                   // 카테고리 ID
+    @SerializedName("product_id") val productId: Int = 0,              // 상품 ID
+    @SerializedName("c_id") val cId: Int = 0,                   // 카테고리 ID
     @SerializedName("productName") val productName: String = "",      // 상품 이름
     @SerializedName("price") val productPrice: Int = 0,          // 상품 가격
     @SerializedName("content") val content: String = "",              // 상품 설명
