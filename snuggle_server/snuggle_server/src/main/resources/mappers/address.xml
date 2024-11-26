@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.snuggle.model.dao.AddressDao">
+
+	<select id="select" parameterType="String" resultType="com.ssafy.snuggle.model.dto.Address">
+		SELECT *
+		FROM t_address
+		WHERE user_id = #{userId}
+	</select>
+	
+	<insert id="insert" parameterType="Address" useGeneratedKeys="true" keyProperty="addressId">
+		INSERT INTO t_address(user_id, user_name, address, phone)
+		VALUES (#{userId}, #{userName}, #{address}, #{phone})
+	</insert>
+	
+	<update id="update" parameterType="Address">
+	    UPDATE t_address
+	    SET user_name = #{userName}, 
+	        address = #{address}, 
+	        phone = #{phone}
+	    WHERE user_id = #{userId}
+	</update>
+
+	
+	<select id="isExist" parameterType="String" resultType="int">
+		SELECT COUNT(*)
+		FROM t_address
+		WHERE user_id = #{userId}
+	</select>
+</mapper>
+	
