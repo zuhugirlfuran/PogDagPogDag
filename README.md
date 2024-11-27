@@ -51,7 +51,7 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 ### 2. 구현기능(주요 서비스)
 
 ### UI/UX
-1.  ViewPager 활용한 이벤트 배너 화면
+1.  ViewPager2 활용한 이벤트 배너 화면
 2.  비콘을 통해 오프라인 매장 방문시 쿠폰 추가
 3.  인기순/최신순/가격순 및 카테고리별로 상품 필터링 조회
 4.  커스텀한 바텀 네비게이션
@@ -71,6 +71,7 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 
 ### 시연 영상
+- 클릭 시 유투브로 이동 가능
 
 [![시연 영상](http://img.youtube.com/vi/nk1NqiET128?si=lUORe3QOvnetR7YZ/0.jpg)](https://youtu.be/nk1NqiET128?si=lUORe3QOvnetR7YZ) 
 
@@ -94,7 +95,7 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 ### 2. 상품 페이지(상품 리스트/상품 상세/댓글(리뷰))
 - 홈 화면
-    - viewPager를 활용한 움직이는 배너 구현
+    - viewPager2를 활용한 움직이는 배너 구현
     - 검색 기능 구현
 - 상품 리스트
     - 카테고리별로 상품 조회 가능
@@ -155,7 +156,7 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 <img width=700 src="https://github.com/user-attachments/assets/1ce4549f-7a4c-4248-8ccd-e9962fb03768">
 
-### 5. FCM 알림 조회
+### 6. FCM 알림 조회
 - 알림을 채널별로 수신해, 특정 사용자에게만 알림 수신 가능하게 구현
     - delivery, broad 채널로 구분
     - 배달과 전체 알림으로 구별하여 수신할 수 있게함
@@ -171,7 +172,11 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 <br>
 <br>
+<br>
+<br>
 
+---
+## 설계 화면
 
 ### ERD 다이어그램
 <img width=500 src="https://github.com/user-attachments/assets/cce7e7df-07f8-4cc1-8148-44835a1b9918">
