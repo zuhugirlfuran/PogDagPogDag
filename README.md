@@ -1,27 +1,38 @@
 # final_project_2
 
+
+## 뜨개질 소품샵 어플(폭닥폭닥)
 O2O 기반 스마트 스토어 시스템 - 스토어
-- 뜨개질 소품샵 어플(폭닥폭닥)
 
 <br>
 
 
 <center>
 
+### 백엔드
 <img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
 
-<img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=fff&style=for-the-badge">
+
+
+### 안드로이드 
 <img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=fff&style=for-the-badge"> 
-<img src="https://img.shields.io/badge/SQLite-4479A1?style=for-the-badge&logo=SQLite&logoColor=white">
+
 <img src="https://img.shields.io/badge/NFC-002E5F?logo=nfc&logoColor=fff&style=for-the-badge"> 
+
+### 디자인
+
+<img src="https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=fff&style=for-the-badge">
+
+### 상태 관리
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 
 
 </center>
 
+<br>
 <br>
 
 # 📌팀원
@@ -93,6 +104,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 <img width=700 src="https://github.com/user-attachments/assets/66d80c3a-eaad-4188-a7a4-fcc67bfa4161">
 
+<br>
+
 ### 2. 상품 페이지(상품 리스트/상품 상세/댓글(리뷰))
 - 홈 화면
     - viewPager2를 활용한 움직이는 배너 구현
@@ -108,6 +121,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
     - 본인의 리뷰도 수정/삭제/추가 가능
 
 <img width=700 src="https://github.com/user-attachments/assets/24da8d90-3ef5-46a5-b8bd-838277c26c9c">
+
+<br>
 
 ### 3. 주문 관리(주문화면/장바구니/결제화면/결제완료)
 - 주문 화면
@@ -128,6 +143,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 <img width=700 src="https://github.com/user-attachments/assets/24da8d90-3ef5-46a5-b8bd-838277c26c9c">
 
+<br>
+
 ### 4. 마이페이지(주문내역/관심상품/영상 책갈피/회원정보)
 - 마이페이지
     - 회원 정보 조회 가능
@@ -146,6 +163,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 <img width=700 src="https://github.com/user-attachments/assets/1324df03-59e9-4e33-b0d4-75e0a7676368">
 
 
+<br>
+
 ### 5. nfc/비콘 활용
 - nfc 활용
     - nfc를 스캔해 해당 상품의 추가 정보를 띄움
@@ -156,6 +175,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 
 <img width=700 src="https://github.com/user-attachments/assets/1ce4549f-7a4c-4248-8ccd-e9962fb03768">
 
+<br>
+
 ### 6. FCM 알림 조회
 - 알림을 채널별로 수신해, 특정 사용자에게만 알림 수신 가능하게 구현
     - delivery, broad 채널로 구분
@@ -163,6 +184,8 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 - 사용자 별로 해당하는 서로 다른 알림 기록을 가지며 조회 가능
 
 <img height=400 src="https://github.com/user-attachments/assets/12d3c1f5-8a67-4aa2-9793-be1b6f61f28e">
+
+<br>
 
 ### 7. 후기
 
