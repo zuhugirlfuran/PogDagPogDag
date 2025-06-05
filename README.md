@@ -10,16 +10,13 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 <center>
 
 ### 백엔드
-<img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge">
-<img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge">
+<img src="https://img.shields.io/badge/MySQL-4479A1?logo=mysql&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?logo=springboot&logoColor=fff&style=for-the-badge">
 <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=white">
 
 
 
 ### 안드로이드 
-<img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge"> 
-<img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=fff&style=for-the-badge"> 
-
+<img src="https://img.shields.io/badge/Android%20Studio-3DDC84?logo=androidstudio&logoColor=fff&style=for-the-badge"> <img src="https://img.shields.io/badge/Kotlin-7F52FF?logo=kotlin&logoColor=fff&style=for-the-badge"> 
 <img src="https://img.shields.io/badge/NFC-002E5F?logo=nfc&logoColor=fff&style=for-the-badge"> 
 
 ### 디자인
@@ -38,11 +35,13 @@ O2O 기반 스마트 스토어 시스템 - 스토어
 # 📌팀원
 ## TEAM02 - 즈후걸프란
 
-| 이름   | 나이   | 출신 | 역할         | 특징 |
-| ------ | ------ | ---- | ------------ | ---- |
-| 서정후 | 00년생 | 대구 | 팀장, 풀스택, 디자인 |      |
-| 이승지 | 98년생 | 대구 | 팀원, 풀스택, 발표 |      |
-| 김미경 | 00년생 | 제주 | 팀원, 풀스택, 영상편집 |      |
+| <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">서정후</div> |  <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">이승지</div> | <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">김미경</div> |
+|:---------:|:---------:|:---------:|
+| [<img src="https://avatars.githubusercontent.com/bluemango0312" height=200 width=200> <br/> @bluemango0312](https://github.com/bluemango0312) | [<img src="https://avatars.githubusercontent.com/bmlsj" height=200 width=200> <br/> @bmlsj](https://github.com/bmlsj)  | [<img src="https://avatars.githubusercontent.com/Eunice991217" height=200 width=200> <br/> @Eunice991217](https://github.com/Eunice991217) |
+| 00년생 |  98년생 | 00년생 | 
+| 대구 |  대구 | 제주 | 
+| 팀장, 풀스택, 디자인 |  팀원, 풀스택, 발표 | 팀원, 풀스택, 영상편집 | 
+
 
 <br>
 
