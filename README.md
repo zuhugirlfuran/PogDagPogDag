@@ -38,7 +38,7 @@
 
 | <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">서정후</div> |  <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">이승지</div> | <div align="center" style="display: flex; align-items: center; justify-content: center; height: 100px;">김미경</div> |
 |:---------:|:---------:|:---------:|
-| [<img src="https://avatars.githubusercontent.com/bluemango0312" height=200 width=200> <br/> @bluemango0312](https://github.com/bluemango0312) | [<img src="https://avatars.githubusercontent.com/bmlsj" height=200 width=200> <br/> @bmlsj](https://github.com/bmlsj)  | [<img src="https://avatars.githubusercontent.com/Eunice991217" height=200 width=200> <br/> @Eunice991217](https://github.com/Eunice991217) |
+| [<img src="https://avatars.githubusercontent.com/bluemango0312" height=200 width=200> <br/> @bluemango0312](https://github.com/bluemango0312) | [<img src="https://avatars.githubusercontent.com/bmlsj" height=200 width=200> <br/> @bmlsj](https://github.com/bmlsj)  | [<img src="https://avatars.githubusercontent.com/rmfosem613" height=200 width=200> <br/> @rmfosem613](https://github.com/rmfosem613) |
 | 00년생 |  98년생 | 00년생 | 
 | 대구 |  대구 | 제주 | 
 | 팀장, 풀스택, 디자인 |  팀원, 풀스택, 발표 | 팀원, 풀스택, 영상편집 | 
